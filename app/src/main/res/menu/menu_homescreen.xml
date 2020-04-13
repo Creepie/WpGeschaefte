@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+        <item android:id="@+id/filter_item"
+            android:title="Filter"
+            app:showAsAction="ifRoom">
+        </item>
+        <item android:id="@+id/addAktie_item"
+            android:title ="Aktie hinzufügen"
+            app:showAsAction="ifRoom">
+        </item>
+</menu>

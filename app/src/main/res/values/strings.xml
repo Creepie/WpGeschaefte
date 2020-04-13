@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">WpGeschaefte</string>
+
+    <string-array name="sP_list_homescreen">
+        <item>Alle</item>
+        <item>Bestand</item>
+        <item>Verkauf</item>
+    </string-array>
 </resources>

@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:ignore="MissingDefaultResource">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar_neues_wertpapier"
+        app:title="@string/app_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme"
+        app:theme = "@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+    </androidx.appcompat.widget.Toolbar>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.93">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="5dp"
+                android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/tV_symbol"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.3"
+                    android:text="Symbol" />
+
+                <EditText
+                    android:id="@+id/eT_symbol"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.7"
+                    android:ems="10"
+                    android:inputType="textPersonName"
+                    android:text="Input Symbol" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:layout_margin="5dp">
+                <TextView
+                    android:id="@+id/tV_name"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.3"
+                    android:text="name" />
+
+                <EditText
+                    android:id="@+id/eT_name"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.7"
+                    android:ems="10"
+                    android:inputType="textPersonName"
+                    android:text="Input name" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:layout_margin="5dp">
+
+                <TextView
+                    android:id="@+id/tV_kaupfpreis"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.3"
+                    android:text="Kaufpreis" />
+
+                <EditText
+                    android:id="@+id/eT_kaufpreis"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.7"
+                    android:ems="10"
+                    android:inputType="textPersonName"
+                    android:text="Input Kaufpreis" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:layout_margin="5dp">
+
+                <TextView
+                    android:id="@+id/tV_kaufdatum"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.3"
+                    android:text="Kaufdatum" />
+
+                <EditText
+                    android:id="@+id/eT_kaufdatum"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.7"
+                    android:ems="10"
+                    android:inputType="textPersonName"
+                    android:text="Input Kaufdatum" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:layout_margin="5dp">
+                <TextView
+                    android:id="@+id/tV_spesen"
+                    android:layout_width="0dp"
+                    android:gravity="left"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.3"
+                    android:text="Spesen" />
+
+                <EditText
+                    android:id="@+id/eT_spesen"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.7"
+                    android:ems="10"
+                    android:inputType="textPersonName"
+                    android:text="Input Spesen" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="0.07"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/bT_cancel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Abbrechen" />
+
+                <Button
+                    android:id="@+id/bT_home"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Haus" />
+
+                <Button
+                    android:id="@+id/bT_save"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Speichern" />
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>
