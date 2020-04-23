@@ -17,7 +17,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-            android:id="@+id/textView5"
+            android:id="@+id/tV_wpSell_header"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="8dp"
@@ -49,83 +49,83 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/textView21"
+                android:id="@+id/tV_wpSell_date"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Datum:" />
 
             <EditText
-                android:id="@+id/editText"
+                android:id="@+id/eT_wpSell_date"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:inputType="date" />
 
             <TextView
-                android:id="@+id/textView22"
+                android:id="@+id/tV_wpSell_earning"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:text="Kurs: ( € pro Aktie )" />
 
             <EditText
-                android:id="@+id/editText2"
+                android:id="@+id/eT_wpSell_earning"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:inputType="numberDecimal" />
 
             <TextView
-                android:id="@+id/textView29"
+                android:id="@+id/tV_wpSell_volume"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:text="Volumen: (€ Brutto)" />
 
             <EditText
-                android:id="@+id/editText3"
+                android:id="@+id/eT_wpSell_volume"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:inputType="numberDecimal" />
 
             <TextView
-                android:id="@+id/textView31"
+                android:id="@+id/tV_wpSell_taxes"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:text="Steuern: ( € )" />
 
             <EditText
-                android:id="@+id/editText4"
+                android:id="@+id/eT_wpSell_taxes"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:inputType="numberDecimal" />
 
             <TextView
-                android:id="@+id/textView32"
+                android:id="@+id/tV_wpSell_expenses"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:text="Spesen: ( € )" />
 
             <EditText
-                android:id="@+id/editText5"
+                android:id="@+id/eT_wpSell_expenses"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:inputType="numberDecimal" />
 
             <TextView
-                android:id="@+id/textView33"
+                android:id="@+id/tV_wpSell_credit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:text="Gutschrift: (€ Netto)" />
 
             <EditText
-                android:id="@+id/editText6"
+                android:id="@+id/eT_wpSell_credit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
@@ -150,7 +150,7 @@
             android:orientation="horizontal">
 
             <Button
-                android:id="@+id/button5"
+                android:id="@+id/bT_wpSell_cancel"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
@@ -158,7 +158,7 @@
                 android:text="Abbrechen" />
 
             <Button
-                android:id="@+id/button4"
+                android:id="@+id/bT_wpSell_home"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
@@ -166,7 +166,7 @@
                 android:text="Home" />
 
             <Button
-                android:id="@+id/button3"
+                android:id="@+id/bT_wpSell_save"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"

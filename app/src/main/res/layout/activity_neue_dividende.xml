@@ -17,7 +17,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-            android:id="@+id/textView5"
+            android:id="@+id/tV_newDivi_header"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="8dp"
@@ -48,83 +48,83 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/textView21"
+                android:id="@+id/tV_newDivi_date"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Datum:" />
 
             <EditText
-                android:id="@+id/editText"
+                android:id="@+id/eT_newDivi_date"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:inputType="date" />
 
             <TextView
-                android:id="@+id/textView22"
+                android:id="@+id/tV_newDivi_earning"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:text="Ertrag: (Dividende pro Aktie)" />
 
             <EditText
-                android:id="@+id/editText2"
+                android:id="@+id/eT_newDivi_earning"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:inputType="numberDecimal" />
 
             <TextView
-                android:id="@+id/textView29"
+                android:id="@+id/tV_newDivi_volume"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:text="Volumen: (€ Brutto)" />
 
             <EditText
-                android:id="@+id/editText3"
+                android:id="@+id/eT_newDivi_volume"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:inputType="numberDecimal" />
 
             <TextView
-                android:id="@+id/textView31"
+                android:id="@+id/tV_newDivi_taxes"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:text="Steuern: ( € )" />
 
             <EditText
-                android:id="@+id/editText4"
+                android:id="@+id/eT_newDivi_taxes"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:inputType="numberDecimal" />
 
             <TextView
-                android:id="@+id/textView32"
+                android:id="@+id/tV_newDivi_expenses"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:text="Spesen: ( € )" />
 
             <EditText
-                android:id="@+id/editText5"
+                android:id="@+id/eT_newDivi_expenses"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:inputType="numberDecimal" />
 
             <TextView
-                android:id="@+id/textView33"
+                android:id="@+id/tV_newDivi_credit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:text="Gutschrift: (€ Netto)" />
 
             <EditText
-                android:id="@+id/editText6"
+                android:id="@+id/eT_newDivi_credit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
@@ -149,7 +149,7 @@
             android:orientation="horizontal">
 
             <Button
-                android:id="@+id/button5"
+                android:id="@+id/bT_newDivi_cancel"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
@@ -157,7 +157,7 @@
                 android:text="Abbrechen" />
 
             <Button
-                android:id="@+id/button4"
+                android:id="@+id/bT_newDivi_home"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
@@ -165,7 +165,7 @@
                 android:text="Home" />
 
             <Button
-                android:id="@+id/button3"
+                android:id="@+id/bT_newDivi_save"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
