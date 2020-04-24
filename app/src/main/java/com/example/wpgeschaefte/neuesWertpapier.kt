@@ -25,7 +25,6 @@ class neuesWertpapier : AppCompatActivity() {
         }
 
     }
-
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_neueswertpapier, menu)
         return true

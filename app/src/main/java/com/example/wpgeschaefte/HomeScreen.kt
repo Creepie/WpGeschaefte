@@ -11,7 +11,7 @@ import kotlinx.android.synthetic.main.activity_homescreen.*
 class HomeScreen : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_homescreen)
 
         setSupportActionBar(toolbar_homescreen)
 
