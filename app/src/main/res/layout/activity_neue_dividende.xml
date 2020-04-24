@@ -48,27 +48,27 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/tV_newDivi_date"
+                android:id="@+id/tV_newBroker_costs_depot"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Datum:" />
 
             <EditText
-                android:id="@+id/eT_newDivi_date"
+                android:id="@+id/eT_newBroker_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:inputType="date" />
 
             <TextView
-                android:id="@+id/tV_newDivi_earning"
+                android:id="@+id/tV_newBroker_costs_title_eur"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:text="Ertrag: (Dividende pro Aktie)" />
 
             <EditText
-                android:id="@+id/eT_newDivi_earning"
+                android:id="@+id/eT_newBroker_date_since"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
@@ -82,7 +82,7 @@
                 android:text="Volumen: (€ Brutto)" />
 
             <EditText
-                android:id="@+id/eT_newDivi_volume"
+                android:id="@+id/eT_newBroker_costs_depot"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
@@ -96,7 +96,7 @@
                 android:text="Steuern: ( € )" />
 
             <EditText
-                android:id="@+id/eT_newDivi_taxes"
+                android:id="@+id/eT_newBroker_costs_title_eur"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"

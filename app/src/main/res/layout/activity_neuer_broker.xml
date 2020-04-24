@@ -39,7 +39,7 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <Button
-            android:id="@+id/button"
+            android:id="@+id/bT_expenses_cancel"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
@@ -47,14 +47,14 @@
             android:text="Abbrechen" />
 
         <Button
-            android:id="@+id/button6"
+            android:id="@+id/bT_expenses_home"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.2"
             android:text="Home" />
 
         <Button
-            android:id="@+id/button2"
+            android:id="@+id/bT_expenses_save"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
@@ -85,36 +85,44 @@
             android:weightSum="1.0">
 
             <TextView
-                android:id="@+id/textView10"
+                android:id="@+id/tV_newBroker_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.25"
+                android:layout_weight="0.20"
                 android:gravity="center"
                 android:text="Name:" />
 
             <TextView
-                android:id="@+id/textView11"
+                android:id="@+id/tV_newBroker_since"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.25"
+                android:layout_weight="0.20"
                 android:gravity="center"
                 android:text="seit:" />
 
             <TextView
-                android:id="@+id/tV_newDivi_date"
+                android:id="@+id/tV_newBroker_costs_depot"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.25"
+                android:layout_weight="0.20"
                 android:gravity="center"
                 android:text="Kosten Depot: " />
 
             <TextView
-                android:id="@+id/tV_newDivi_earning"
+                android:id="@+id/tV_newBroker_costs_title_eur"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.25"
+                android:layout_weight="0.20"
                 android:gravity="center"
-                android:text="Kosten pro Titel: " />
+                android:text="Mindestgebühr pro Titel: " />
+
+            <TextView
+                android:id="@+id/tV_newBroker_costs_percent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.20"
+                android:gravity="center"
+                android:text="Kosten pro Titel %: " />
         </LinearLayout>
 
         <LinearLayout
@@ -124,7 +132,7 @@
             android:orientation="vertical">
 
             <EditText
-                android:id="@+id/eT_newDivi_date"
+                android:id="@+id/eT_newBroker_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.25"
@@ -133,7 +141,7 @@
                 android:inputType="textPersonName" />
 
             <EditText
-                android:id="@+id/eT_newDivi_earning"
+                android:id="@+id/eT_newBroker_date_since"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.25"
@@ -142,21 +150,30 @@
                 android:inputType="date" />
 
             <EditText
-                android:id="@+id/eT_newDivi_volume"
+                android:id="@+id/eT_newBroker_costs_depot"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.25"
                 android:ems="10"
-                android:hint="€/Depot"
+                android:hint="€/Depot p.a."
                 android:inputType="numberDecimal" />
 
             <EditText
-                android:id="@+id/eT_newDivi_taxes"
+                android:id="@+id/eT_newBroker_costs_title_eur"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.25"
                 android:ems="10"
-                android:hint="€/Titel"
+                android:hint="€/Titel p.a."
+                android:inputType="numberDecimal" />
+
+            <EditText
+                android:id="@+id/eT_newBroker_costs_title_percent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.25"
+                android:ems="10"
+                android:hint="%/Titel"
                 android:inputType="numberDecimal" />
         </LinearLayout>
     </LinearLayout>
