@@ -27,9 +27,9 @@
 
         <TextView
             android:id="@+id/tV_neues_Symbol"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="0.2"
+            android:layout_weight="0.3"
             android:gravity="center_vertical"
             android:text="Symbol"
             android:textColor="#000000"
@@ -37,10 +37,10 @@
 
         <EditText
             android:id="@+id/eT_neues_Symbol"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="0.7"
-            android:text="Symbol" />
+            android:hint="Symbol der Aktie:" />
     </LinearLayout>
 
     <LinearLayout
@@ -51,19 +51,19 @@
 
         <TextView
             android:id="@+id/tV_neues_Name"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="0.2"
+            android:layout_weight="0.3"
             android:gravity="center_vertical"
             android:text="Name"
             android:textColor="#000000" />
 
         <EditText
             android:id="@+id/eT_neues_Name"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="0.7"
-            android:text="Name" />
+            android:hint="Name der Aktie:" />
     </LinearLayout>
 
     <LinearLayout
@@ -73,20 +73,22 @@
         android:orientation="horizontal">
 
         <TextView
-            android:textColor="#000000"
-            android:gravity="center_vertical"
             android:id="@+id/tV_neues_Kaufpreis"
-            android:text="Kaufpreis:"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="0.2"/>
+            android:layout_weight="0.3"
+            android:gravity="center_vertical"
+            android:text="Kaufpreis:"
+            android:textColor="#000000" />
+
         <EditText
             android:id="@+id/eT_neues_Kaufpreis"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="0.8"
-            android:inputType="number"
-            android:text="Kaufpreis"/>
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.7"
+            android:ems="10"
+            android:hint="Kaufpreis der Aktie:"
+            android:inputType="numberDecimal" />
     </LinearLayout>
 
     <LinearLayout
@@ -96,20 +98,23 @@
         android:orientation="horizontal">
 
         <TextView
-            android:textColor="#000000"
-            android:gravity="center_vertical"
             android:id="@+id/tV_neues_buyDate"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.3"
+            android:gravity="center_vertical"
             android:text="Datum:"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="0.2"/>
+            android:textColor="#000000" />
+
         <EditText
-            android:id="@+id/eT_Symbol"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="0.8"
-            android:inputType="date"
-            android:text="Datum"/>
+            android:id="@+id/eT_neues_Datum"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.7"
+            android:ems="10"
+            android:hint="Kaufdatum der Aktie:"
+            android:inputType="date" />
+
     </LinearLayout>
 
     <LinearLayout
@@ -119,19 +124,22 @@
         android:orientation="horizontal">
 
         <TextView
-            android:textColor="#000000"
-            android:gravity="center_vertical"
             android:id="@+id/tV_neues_Spesen"
-            android:text="Spesen:"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="0.2"/>
+            android:layout_weight="0.3"
+            android:gravity="center_vertical"
+            android:text="Spesen:"
+            android:textColor="#000000" />
+
         <EditText
             android:id="@+id/eT_neues_Spesen"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="0.8"
-            android:text="Spesen"/>
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.7"
+            android:ems="10"
+            android:hint="Kaufspesen der Aktie:"
+            android:inputType="numberDecimal" />
     </LinearLayout>
 
     <LinearLayout

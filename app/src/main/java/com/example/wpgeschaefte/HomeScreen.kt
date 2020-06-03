@@ -71,7 +71,8 @@ class MyViewHolder(view: View) : RecyclerView.ViewHolder(view){
 
     val tV_name = view.findViewById<TextView>(R.id.home_recycleritem_Name)
     val tV_symbol = view.findViewById<TextView>(R.id.home_recycleritem_Symbol)
-
+    val tv_kaufDatum = view.findViewById<TextView>(R.id.home_recycleritem_Kaufdatum)
+    val tv_kaufPreis = view.findViewById<TextView>(R.id.home_recycleritem_Kaufkurs)
     init {
 
     }
@@ -89,15 +90,19 @@ class MyRecyclerAdapter(val list: MutableList<Aktie>) : RecyclerView.Adapter<MyV
         return MyViewHolder(view)
     }
 
+
     override fun getItemCount(): Int {
         return list.size
     }
+
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
 
         val item = list[position]
         holder.tV_name.text = item.name
         holder.tV_symbol.text = item.symbol
+        holder.tv_kaufDatum.text = item.kaufDatum
+        holder.tv_kaufPreis.text = item.kaufpreis.toString()
 
         //get a Toast message with the the country text > if you clicked on the item
         holder.itemView.setOnClickListener{
