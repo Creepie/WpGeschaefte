@@ -28,7 +28,7 @@ class HomeScreen : AppCompatActivity() {
             resources.getStringArray(R.array.sP_list_homescreen)
         )
 
-        
+
         rV_aktien.layoutManager = LinearLayoutManager(this)
         rV_aktien.adapter = MyRecyclerAdapter(list)
     }
@@ -70,6 +70,7 @@ class HomeScreen : AppCompatActivity() {
 class MyViewHolder(view: View) : RecyclerView.ViewHolder(view){
 
     val tV_name = view.findViewById<TextView>(R.id.home_recycleritem_Name)
+    val tV_symbol = view.findViewById<TextView>(R.id.home_recycleritem_Symbol)
 
     init {
 
@@ -96,6 +97,7 @@ class MyRecyclerAdapter(val list: MutableList<Aktie>) : RecyclerView.Adapter<MyV
 
         val item = list[position]
         holder.tV_name.text = item.name
+        holder.tV_symbol.text = item.symbol
 
         //get a Toast message with the the country text > if you clicked on the item
         holder.itemView.setOnClickListener{

@@ -31,6 +31,9 @@
             android:id="@+id/tV_gesamt"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginRight="8dp"
             android:layout_weight="0.05"
             android:text="Gesamt (%,€,$)" />
 
@@ -38,7 +41,8 @@
             android:id="@+id/rV_aktien"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="0.6" />
+            android:layout_marginTop="8dp"
+            android:layout_weight="0.95" />
 
 
     </LinearLayout>
