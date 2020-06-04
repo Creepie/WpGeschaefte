@@ -22,6 +22,7 @@ class neuesWertpapier : AppCompatActivity(), View.OnClickListener {
 
         //add Listeners
         bT_nWertpapier_speichern.setOnClickListener(this)
+        bT_nWertpapier_abbrechen.setOnClickListener(this)
 }
 override fun onCreateOptionsMenu(menu: Menu?): Boolean {
    menuInflater.inflate(R.menu.menu_neueswertpapier, menu)
