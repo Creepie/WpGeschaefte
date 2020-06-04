@@ -1,6 +1,7 @@
 package com.example.wpgeschaefte
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -9,6 +10,7 @@ import android.widget.ArrayAdapter
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.activity_homescreen.*
@@ -20,7 +22,6 @@ class HomeScreen : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_homescreen)
-
         setSupportActionBar(toolbar_homescreen)
 
         sP_homescreen.adapter = ArrayAdapter(
@@ -31,7 +32,7 @@ class HomeScreen : AppCompatActivity() {
 
 
         rV_aktien.layoutManager = LinearLayoutManager(this)
-        rV_aktien.adapter = MyRecyclerAdapter(list)
+        rV_aktien.adapter = MyRecyclerAdapter(list, this);
 
     }
 
@@ -53,7 +54,6 @@ class HomeScreen : AppCompatActivity() {
     //check the Result of the activity (neuer Fehler)
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-
         if(requestCode == 999 && resultCode == Activity.RESULT_OK){
             val Aktie = data?.getParcelableExtra<Aktie>("neueAktie")
             if (Aktie != null) {
@@ -82,7 +82,7 @@ class MyViewHolder(view: View) : RecyclerView.ViewHolder(view){
     }
 }
 
-class MyRecyclerAdapter(val list: MutableList<Aktie>) : RecyclerView.Adapter<MyViewHolder>() {
+class MyRecyclerAdapter(val list: MutableList<Aktie>, val context: Context) : RecyclerView.Adapter<MyViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
 
@@ -113,6 +113,13 @@ class MyRecyclerAdapter(val list: MutableList<Aktie>) : RecyclerView.Adapter<MyV
             Toast.makeText(
                 it.context,"${item.name} , ${item.symbol}", Toast.LENGTH_SHORT
             ).show()
+
+            val arrayList = ArrayList<Aktie>(list)
+            val intent = Intent(context, Wp_Detail::class.java);
+
+            intent.putParcelableArrayListExtra("list", arrayList)
+            intent.putExtra("selectedItem",list.get(position));
+            context.startActivity(intent)
         }
     }
 

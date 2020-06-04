@@ -14,6 +14,7 @@ import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_homescreen.*
 import kotlinx.android.synthetic.main.activity_neues_wertpapier.*
 import kotlinx.android.synthetic.main.activity_neues_wertpapier.view.*
+import java.io.Serializable
 
 class neuesWertpapier : AppCompatActivity(), View.OnClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -97,7 +98,7 @@ override fun onCreateOptionsMenu(menu: Menu?): Boolean {
 //data stuff
 
 data class Aktie(val name: String?, val symbol: String?, val kaufpreis: Double, val kaufDatum: String?, val spesen: Double, val anzahl: Int, val wert: Double) :
-    Parcelable {
+    Parcelable{
     constructor(parcel: Parcel) : this(
         parcel.readString(),
         parcel.readString(),
