@@ -141,6 +141,9 @@
             android:layout_weight="0.7"
             android:ems="10"
             android:hint="Kaufdatum der Aktie:"
+            android:focusableInTouchMode="true"
+            android:cursorVisible="false"
+            android:focusable="false"
             android:inputType="date" />
 
     </LinearLayout>

@@ -1,7 +1,10 @@
 package com.example.wpgeschaefte
 
 import android.app.Activity
-import android.content.Intent
+import android.app.DatePickerDialog
+import android.icu.text.SimpleDateFormat
+import android.icu.util.Calendar
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Parcel
@@ -9,12 +12,12 @@ import android.os.Parcelable
 import android.util.Log
 import android.view.Menu
 import android.view.View
-import android.view.View.OnClickListener
+import android.widget.EditText
 import android.widget.Toast
-import kotlinx.android.synthetic.main.activity_homescreen.*
+import androidx.annotation.RequiresApi
 import kotlinx.android.synthetic.main.activity_neues_wertpapier.*
-import kotlinx.android.synthetic.main.activity_neues_wertpapier.view.*
-import java.io.Serializable
+import java.util.*
+
 
 class neuesWertpapier : AppCompatActivity(), View.OnClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -24,12 +27,14 @@ class neuesWertpapier : AppCompatActivity(), View.OnClickListener {
         //add Listeners
         bT_nWertpapier_speichern.setOnClickListener(this)
         bT_nWertpapier_abbrechen.setOnClickListener(this)
+        eT_neues_Datum.setOnClickListener(this)
 }
 override fun onCreateOptionsMenu(menu: Menu?): Boolean {
    menuInflater.inflate(R.menu.menu_neueswertpapier, menu)
    return true
 }
 
+    @RequiresApi(Build.VERSION_CODES.N)
     override fun onClick(v: View?) {
         when(v?.id){
             R.id.bT_nWertpapier_abbrechen -> {
@@ -64,12 +69,24 @@ override fun onCreateOptionsMenu(menu: Menu?): Boolean {
                     finish()
                 }
             }
+            R.id.eT_neues_Datum -> {
+                //create Calendar
+                val myCalendar = Calendar.getInstance()
+
+                //create date Picker to set day, month and year in the edit Text
+                val datePickerOnDataSetListener = DatePickerDialog.OnDateSetListener { _, year, monthOfYear, dayOfMonth ->
+                    myCalendar.set(Calendar.YEAR, year)
+                    myCalendar.set(Calendar.MONTH, monthOfYear)
+                    myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth)
+                    updateLabel(myCalendar, eT_neues_Datum)
+                }
+                    //show calendar with current date
+                    DatePickerDialog(this, datePickerOnDataSetListener, myCalendar
+                        .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
+                        myCalendar.get(Calendar.DAY_OF_MONTH)).show()
+                }
+            }
         }
-
-
-
-
-    }
 
 
     //Toast Message
@@ -89,16 +106,21 @@ override fun onCreateOptionsMenu(menu: Menu?): Boolean {
 
                 )
     }
+
+@RequiresApi(Build.VERSION_CODES.N)
+private fun updateLabel(myCalendar: Calendar, dateEditText: EditText) {
+    val myFormat: String = "dd-MMM-yyyy"
+    val sdf = SimpleDateFormat(myFormat, Locale.UK)
+    dateEditText.setText(sdf.format(myCalendar.time))
 }
-
-
+}
 
 
 //---------------------------------------------------
 //data stuff
 
 data class Aktie(val name: String?, val symbol: String?, val kaufpreis: Double, val kaufDatum: String?, val spesen: Double, val anzahl: Int, val wert: Double) :
-    Parcelable{
+    Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readString(),
         parcel.readString(),
