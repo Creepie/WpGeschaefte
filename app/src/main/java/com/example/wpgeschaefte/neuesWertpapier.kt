@@ -22,6 +22,8 @@ class neuesWertpapier : AppCompatActivity() {
             val kaufPreis = eT_neues_Kaufpreis.text.toString().toDouble()
             val kaufDatum = eT_neues_Datum.text.toString()
             val spesen = eT_neues_Spesen.text.toString().toDouble()
+            val anzahl = eT_neues_Anzahl.text.toString().toInt()
+            val wert = kaufPreis * anzahl - spesen
             val i = intent
             i.putExtra(
                 "neueAktie", Aktie(
@@ -29,7 +31,9 @@ class neuesWertpapier : AppCompatActivity() {
                     symbol,
                     kaufPreis,
                     kaufDatum,
-                    spesen
+                    spesen,
+                    anzahl,
+                    wert
                 )
             )
             setResult(Activity.RESULT_OK, i)
@@ -46,12 +50,15 @@ override fun onCreateOptionsMenu(menu: Menu?): Boolean {
 //---------------------------------------------------
 //data stuff
 
-data class Aktie(val name: String?, val symbol: String?, val kaufpreis: Double, val kaufDatum: String?, val spesen: Double): Parcelable {
+data class Aktie(val name: String?, val symbol: String?, val kaufpreis: Double, val kaufDatum: String?, val spesen: Double, val anzahl: Int, val wert: Double) :
+    Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readString(),
         parcel.readString(),
         parcel.readDouble(),
         parcel.readString(),
+        parcel.readDouble(),
+        parcel.readInt(),
         parcel.readDouble()
     ) {
     }
@@ -62,6 +69,8 @@ data class Aktie(val name: String?, val symbol: String?, val kaufpreis: Double, 
         parcel.writeDouble(kaufpreis)
         parcel.writeString(kaufDatum)
         parcel.writeDouble(spesen)
+        parcel.writeInt(anzahl)
+        parcel.writeDouble(wert)
     }
 
     override fun describeContents(): Int {
@@ -77,4 +86,5 @@ data class Aktie(val name: String?, val symbol: String?, val kaufpreis: Double, 
             return arrayOfNulls(size)
         }
     }
+
 }

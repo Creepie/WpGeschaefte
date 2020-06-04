@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.activity_homescreen.*
+import kotlin.math.roundToInt
 
 class HomeScreen : AppCompatActivity() {
     val list = arrayListOf<Aktie>()
@@ -31,6 +32,7 @@ class HomeScreen : AppCompatActivity() {
 
         rV_aktien.layoutManager = LinearLayoutManager(this)
         rV_aktien.adapter = MyRecyclerAdapter(list)
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -58,6 +60,8 @@ class HomeScreen : AppCompatActivity() {
                 list.add(Aktie)
                 Log.i("LOG", "neue Aktie hinzugefügt")
                 rV_aktien.adapter?.notifyItemInserted(list.size)
+                val sum = list.sumBy { x -> x.wert.roundToInt() }
+                tV_gesamt.text = "Derzeitiger Wert deines Portfilios: € ${sum.toString()}"
             }
         }
     }
@@ -70,9 +74,9 @@ class HomeScreen : AppCompatActivity() {
 class MyViewHolder(view: View) : RecyclerView.ViewHolder(view){
 
     val tV_name = view.findViewById<TextView>(R.id.home_recycleritem_Name)
-    val tV_symbol = view.findViewById<TextView>(R.id.home_recycleritem_Symbol)
     val tv_kaufDatum = view.findViewById<TextView>(R.id.home_recycleritem_Kaufdatum)
     val tv_kaufPreis = view.findViewById<TextView>(R.id.home_recycleritem_Kaufkurs)
+    val tv_wert = view.findViewById<TextView>(R.id.home_recycleritem_WertAktuell)
     init {
 
     }
@@ -99,10 +103,10 @@ class MyRecyclerAdapter(val list: MutableList<Aktie>) : RecyclerView.Adapter<MyV
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
 
         val item = list[position]
-        holder.tV_name.text = item.name
-        holder.tV_symbol.text = item.symbol
+        holder.tV_name.text = "${item.name} (${item.symbol})"
         holder.tv_kaufDatum.text = item.kaufDatum
-        holder.tv_kaufPreis.text = item.kaufpreis.toString()
+        holder.tv_kaufPreis.text = "Preis: € ${item.kaufpreis.toString()}"
+        holder.tv_wert.text = "Wert: € ${item.wert}"
 
         //get a Toast message with the the country text > if you clicked on the item
         holder.itemView.setOnClickListener{
