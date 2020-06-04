@@ -10,10 +10,10 @@ import android.widget.ArrayAdapter
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.activity_homescreen.*
+import java.io.Serializable
 import kotlin.math.roundToInt
 
 class HomeScreen : AppCompatActivity() {
@@ -55,12 +55,13 @@ class HomeScreen : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if(requestCode == 999 && resultCode == Activity.RESULT_OK){
-            val Aktie = data?.getParcelableExtra<Aktie>("neueAktie")
+            val Aktie = data?.getParcelableExtra<Aktiepos>("neueAktie")
             if (Aktie != null) {
-                list.add(Aktie)
+                val neueAktie = Aktie(Aktie,null)
+                list.add(neueAktie)
                 Log.i("LOG", "neue Aktie hinzugefügt")
                 rV_aktien.adapter?.notifyItemInserted(list.size)
-                val sum = list.sumBy { x -> x.wert.roundToInt() }
+                val sum = list.sumBy { x -> x.kauf.wert.roundToInt() }
                 tV_gesamt.text = "Derzeitiger Wert deines Portfilios: € ${sum.toString()}"
             }
         }
@@ -103,25 +104,30 @@ class MyRecyclerAdapter(val list: MutableList<Aktie>, val context: Context) : Re
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
 
         val item = list[position]
-        holder.tV_name.text = "${item.name} (${item.symbol})"
-        holder.tv_kaufDatum.text = item.kaufDatum
-        holder.tv_kaufPreis.text = "Preis: € ${item.kaufpreis.toString()}"
-        holder.tv_wert.text = "Wert: € ${item.wert}"
+        holder.tV_name.text = "${item.kauf.name} (${item.kauf.symbol})"
+        holder.tv_kaufDatum.text = item.kauf.kaufDatum
+        holder.tv_kaufPreis.text = "Preis: € ${item.kauf.kaufpreis.toString()}"
+        holder.tv_wert.text = "Wert: € ${item.kauf.wert}"
 
         //get a Toast message with the the country text > if you clicked on the item
         holder.itemView.setOnClickListener{
             Toast.makeText(
-                it.context,"${item.name} , ${item.symbol}", Toast.LENGTH_SHORT
+                it.context,"${item.kauf.name} , ${item.kauf.symbol}", Toast.LENGTH_SHORT
             ).show()
 
-            val arrayList = ArrayList<Aktie>(list)
+            //val arrayList = ArrayList<Aktiepos>(list)
             val intent = Intent(context, Wp_Detail::class.java);
-
-            intent.putParcelableArrayListExtra("list", arrayList)
-            intent.putExtra("selectedItem",list.get(position));
+            val bundle  = Bundle()
+            //intent.putParcelableArrayListExtra("list", arrayList)
+            //intent.putExtra("selectedItem",list.get(position));
+            bundle.putSerializable("selectedItem", list.get(position))
+            intent.putExtra("selectedItem",bundle)
             context.startActivity(intent)
         }
     }
 
 }
+
+//data stuff
+data class Aktie (val kauf: Aktiepos, val dividenden: MutableList<Dividende>?): Serializable
 

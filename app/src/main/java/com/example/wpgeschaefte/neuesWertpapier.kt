@@ -55,7 +55,7 @@ override fun onCreateOptionsMenu(menu: Menu?): Boolean {
                     val wert = kaufPreis * anzahl - spesen
                     val i = intent
                     i.putExtra(
-                        "neueAktie", Aktie(
+                        "neueAktie", Aktiepos(
                             name,
                             symbol,
                             kaufPreis,
@@ -119,7 +119,8 @@ private fun updateLabel(myCalendar: Calendar, dateEditText: EditText) {
 //---------------------------------------------------
 //data stuff
 
-data class Aktie(val name: String?, val symbol: String?, val kaufpreis: Double, val kaufDatum: String?, val spesen: Double, val anzahl: Int, val wert: Double) :
+
+data class Aktiepos(val name: String?, val symbol: String?, val kaufpreis: Double, val kaufDatum: String?, val spesen: Double, val anzahl: Int, val wert: Double) :
     Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readString(),
@@ -146,12 +147,12 @@ data class Aktie(val name: String?, val symbol: String?, val kaufpreis: Double, 
         return 0
     }
 
-    companion object CREATOR : Parcelable.Creator<Aktie> {
-        override fun createFromParcel(parcel: Parcel): Aktie {
-            return Aktie(parcel)
+    companion object CREATOR : Parcelable.Creator<Aktiepos> {
+        override fun createFromParcel(parcel: Parcel): Aktiepos {
+            return Aktiepos(parcel)
         }
 
-        override fun newArray(size: Int): Array<Aktie?> {
+        override fun newArray(size: Int): Array<Aktiepos?> {
             return arrayOfNulls(size)
         }
     }
