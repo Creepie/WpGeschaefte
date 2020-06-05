@@ -112,14 +112,7 @@ class MyRecyclerAdapter(val list: MutableList<Aktie>, val context: Context) : Re
             Toast.makeText(
                 it.context,"${item.kauf.name} , ${item.kauf.symbol}", Toast.LENGTH_SHORT
             ).show()
-
-            //val arrayList = ArrayList<Aktiepos>(list)
-            val intent = Intent(context, Wp_Detail::class.java);
-            val bundle  = Bundle()
-            bundle.putParcelableArray("dividenden", item.dividenden?.toTypedArray())
-            bundle.putParcelable("kauf", list.get(position).kauf)
-            intent.putExtra("selectedItem",bundle)
-
+            val intent = Intent(context, Wp_Detail::class.java)
             AktieSingleton.selectedAktie = item
             context.startActivity(intent)
         }
