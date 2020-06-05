@@ -5,17 +5,11 @@ import android.os.Bundle
 import kotlinx.android.synthetic.main.activity_wp__detail.*
 
 class Wp_Detail : AppCompatActivity() {
-    lateinit var list:MutableList<Aktiepos>
-    lateinit var selectedItem:Aktiepos
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        //list = intent.getParcelableArrayListExtra<Aktiepos>("list").toTypedArray().toMutableList()
-       // selectedItem = intent.getBundleExtra("selectedItem").getSerializable("selectedItem")
-       // selectedItem = intent.getBundleExtra("selectedItem").getSerializable("selectedItem")
         setContentView(R.layout.activity_wp__detail)
-
-        tV_wpDetail_wpName.text = selectedItem.name
-
+        tV_wpDetail_wpName.text = AktieSingleton.selectedAktie?.kauf?.name
+        var aktie = AktieSingleton.selectedAktie
+        var liste = AktieSingleton.atkieListe
     }
 }

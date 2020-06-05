@@ -17,8 +17,6 @@ import java.io.Serializable
 import kotlin.math.roundToInt
 
 class HomeScreen : AppCompatActivity() {
-    val list = arrayListOf<Aktie>()
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_homescreen)
@@ -32,7 +30,7 @@ class HomeScreen : AppCompatActivity() {
 
 
         rV_aktien.layoutManager = LinearLayoutManager(this)
-        rV_aktien.adapter = MyRecyclerAdapter(list, this);
+        rV_aktien.adapter = MyRecyclerAdapter(AktieSingleton.atkieListe, this);
 
     }
 
@@ -57,11 +55,11 @@ class HomeScreen : AppCompatActivity() {
         if(requestCode == 999 && resultCode == Activity.RESULT_OK){
             val Aktie = data?.getParcelableExtra<Aktiepos>("neueAktie")
             if (Aktie != null) {
-                val neueAktie = Aktie(Aktie,null)
-                list.add(neueAktie)
+                val neueAktie = Aktie(Aktie, arrayListOf<Dividende>())
+                AktieSingleton.atkieListe.add(neueAktie)
                 Log.i("LOG", "neue Aktie hinzugefügt")
-                rV_aktien.adapter?.notifyItemInserted(list.size)
-                val sum = list.sumBy { x -> x.kauf.wert.roundToInt() }
+                rV_aktien.adapter?.notifyItemInserted(AktieSingleton.atkieListe.size)
+                val sum = AktieSingleton.atkieListe.sumBy { x -> x.kauf.wert.roundToInt() }
                 tV_gesamt.text = "Derzeitiger Wert deines Portfilios: € ${sum.toString()}"
             }
         }
@@ -118,10 +116,11 @@ class MyRecyclerAdapter(val list: MutableList<Aktie>, val context: Context) : Re
             //val arrayList = ArrayList<Aktiepos>(list)
             val intent = Intent(context, Wp_Detail::class.java);
             val bundle  = Bundle()
-            //intent.putParcelableArrayListExtra("list", arrayList)
-            //intent.putExtra("selectedItem",list.get(position));
-            bundle.putSerializable("selectedItem", list.get(position))
+            bundle.putParcelableArray("dividenden", item.dividenden?.toTypedArray())
+            bundle.putParcelable("kauf", list.get(position).kauf)
             intent.putExtra("selectedItem",bundle)
+
+            AktieSingleton.selectedAktie = item
             context.startActivity(intent)
         }
     }
