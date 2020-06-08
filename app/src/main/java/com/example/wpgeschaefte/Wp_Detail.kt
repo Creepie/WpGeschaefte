@@ -17,8 +17,9 @@ class Wp_Detail : AppCompatActivity() {
         tV_wpDetail_wpName.text = aktie?.kauf?.name
         tV_wpDetail_symbol.text = aktie?.kauf?.symbol
         tV_wpDetail_buyDate.text = aktie?.kauf?.kaufDatum
-        tv_wpDetail_perShareCurrentPrice.text = "€ ${aktie?.currentPrice.toString()}"
-        tV_wpDetail_buyPrice.text = "€ ${aktie?.kauf?.wert.toString()}"
+        tv_wpDetail_perShareCurrentPrice.text = "€ ${aktie?.currentPrice}"
+        tv_wpDetail_perShareBuyPrice.text = "€ ${aktie?.kauf?.kaufpreis}"
+        tV_wpDetail_buyPrice.text = "€ ${aktie?.kauf?.wert}"
 
         val currentPrice = aktie?.kauf?.anzahl?.times(aktie?.currentPrice)
             ?.minus(aktie?.kauf?.spesen)

@@ -57,8 +57,8 @@ class HomeScreen : AppCompatActivity() {
             if (Aktie != null) {
                 val neueAktie = Aktie(Aktie, arrayListOf<Dividende>(),Aktie.kaufpreis, false)
                 AktieSingleton.aktkieListe.add(neueAktie)
-                AktieSingleton.currentIndex = AktieSingleton.aktkieListe.lastIndex
-                API().getValues()
+                //AktieSingleton.currentIndex = AktieSingleton.aktkieListe.lastIndex
+                AktieSingleton.aktkieListe[AktieSingleton.aktkieListe.size-1].currentPrice = AktieSingleton.currentPrice
                 Log.i("LOG", "neue Aktie hinzugefügt")
                 rV_aktien.adapter?.notifyDataSetChanged()
                 val test = AktieSingleton.aktkieListe[0].currentPrice

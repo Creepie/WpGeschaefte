@@ -3,43 +3,54 @@ package com.example.wpgeschaefte
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.google.gson.annotations.SerializedName
-import kotlinx.android.synthetic.main.activity_homescreen.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
+import retrofit2.http.Url
 
 class API : AppCompatActivity() {
     //APIKey = "brf4e9nrh5rah2kpe7k0"
     private var BASE_URL = "https://finnhub.io/api/v1/"
+
+
     var liste = AktieSingleton.aktkieListe
 
-    fun getValues() {
+    fun getValues(symbol: String) {
+        var symbol1 = "VOE.VI"
+        var url = "quote?symbol=${symbol}&token=brf4e9nrh5rah2kpe7k0"
 
-        val retrofit = Retrofit.Builder().baseUrl(BASE_URL)
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
+        AktieSingleton.validSymbol = false
+        if (symbol.length >= 3){
+            val retrofit = Retrofit.Builder().baseUrl(BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build()
 
-        val service = retrofit.create(PaperAPI::class.java)
+            val service = retrofit.create(PaperAPI::class.java)
 
-        //request
-        service.loadPapers().enqueue(object: Callback<Paper> {
-            override fun onResponse(call: Call<Paper>, response: Response<Paper>) {
-                if(response.isSuccessful){
-                    Log.e("Tag", "alles gucci")
-                    val data = response.body()
-                    if (data != null) {
-                        AktieSingleton.aktkieListe[AktieSingleton.currentIndex].currentPrice = data.currentPrice.toDouble()
+            //request
+            service.loadPapers(url).enqueue(object: Callback<Paper> {
+                override fun onResponse(call: Call<Paper>, response: Response<Paper>) {
+
+                    AktieSingleton.currentPrice = 0.0
+                    if(response.isSuccessful){
+                        Log.e("Tag", "alles gucci")
+                        val data = response.body()
+                        if (data?.currentPrice  != null) {
+                            AktieSingleton.validSymbol = true
+                            AktieSingleton.currentPrice = data.currentPrice.toDouble()
+                        }
+                        //println("test")
                     }
-                    println("test")
                 }
-            }
-            override fun onFailure(call: Call<Paper>, t: Throwable) {
-                Log.e("Tag", "error")
-            }
-        })
+                override fun onFailure(call: Call<Paper>, t: Throwable) {
+                    Log.e("Tag", "error")
+                }
+            })
+        }
+
     }
 }
 
@@ -62,6 +73,6 @@ class Paper(
 )
 //API
 interface PaperAPI {
-    @GET("quote?symbol=VOE.VI&token=brf4e9nrh5rah2kpe7k0")
-    fun loadPapers(): Call<Paper>
+    @GET()
+    fun loadPapers(@Url url: String): Call<Paper>
 }
