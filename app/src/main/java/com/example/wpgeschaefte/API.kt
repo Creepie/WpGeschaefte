@@ -1,9 +1,9 @@
 package com.example.wpgeschaefte
 
-import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.google.gson.annotations.SerializedName
+import kotlinx.android.synthetic.main.activity_homescreen.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -12,12 +12,11 @@ import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
 
 class API : AppCompatActivity() {
-
     //APIKey = "brf4e9nrh5rah2kpe7k0"
     private var BASE_URL = "https://finnhub.io/api/v1/"
+    var liste = AktieSingleton.aktkieListe
 
     fun getValues() {
-
 
         val retrofit = Retrofit.Builder().baseUrl(BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
@@ -31,8 +30,10 @@ class API : AppCompatActivity() {
                 if(response.isSuccessful){
                     Log.e("Tag", "alles gucci")
                     val data = response.body()
-
-                    // println("test")
+                    if (data != null) {
+                        AktieSingleton.aktkieListe[AktieSingleton.currentIndex].currentPrice = data.currentPrice.toDouble()
+                    }
+                    println("test")
                 }
             }
             override fun onFailure(call: Call<Paper>, t: Throwable) {

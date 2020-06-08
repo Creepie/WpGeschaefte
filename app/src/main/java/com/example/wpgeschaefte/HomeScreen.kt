@@ -30,7 +30,7 @@ class HomeScreen : AppCompatActivity() {
 
 
         rV_aktien.layoutManager = LinearLayoutManager(this)
-        rV_aktien.adapter = MyRecyclerAdapter(AktieSingleton.atkieListe, this);
+        rV_aktien.adapter = MyRecyclerAdapter(AktieSingleton.aktkieListe, this);
 
     }
 
@@ -55,11 +55,14 @@ class HomeScreen : AppCompatActivity() {
         if(requestCode == 999 && resultCode == Activity.RESULT_OK){
             val Aktie = data?.getParcelableExtra<Aktiepos>("neueAktie")
             if (Aktie != null) {
-                val neueAktie = Aktie(Aktie, arrayListOf<Dividende>())
-                AktieSingleton.atkieListe.add(neueAktie)
+                val neueAktie = Aktie(Aktie, arrayListOf<Dividende>(),Aktie.kaufpreis, false)
+                AktieSingleton.aktkieListe.add(neueAktie)
+                AktieSingleton.currentIndex = AktieSingleton.aktkieListe.lastIndex
+                API().getValues()
                 Log.i("LOG", "neue Aktie hinzugefügt")
-                rV_aktien.adapter?.notifyItemInserted(AktieSingleton.atkieListe.size)
-                val sum = AktieSingleton.atkieListe.sumBy { x -> x.kauf.wert.roundToInt() }
+                rV_aktien.adapter?.notifyDataSetChanged()
+                val test = AktieSingleton.aktkieListe[0].currentPrice
+                val sum = AktieSingleton.aktkieListe.sumBy { x -> x.kauf.wert.roundToInt() }
                 tV_gesamt.text = "Derzeitiger Wert deines Portfilios: € ${sum.toString()}"
             }
         }
@@ -76,6 +79,7 @@ class MyViewHolder(view: View) : RecyclerView.ViewHolder(view){
     val tv_kaufDatum = view.findViewById<TextView>(R.id.home_recycleritem_Kaufdatum)
     val tv_kaufPreis = view.findViewById<TextView>(R.id.home_recycleritem_Kaufkurs)
     val tv_wert = view.findViewById<TextView>(R.id.home_recycleritem_WertAktuell)
+    val tv_currentPrice = view.findViewById<TextView>(R.id.home_recycleritem_KursAktuell)
     init {
 
     }
@@ -106,6 +110,7 @@ class MyRecyclerAdapter(val list: MutableList<Aktie>, val context: Context) : Re
         holder.tv_kaufDatum.text = item.kauf.kaufDatum
         holder.tv_kaufPreis.text = "Preis: € ${item.kauf.kaufpreis.toString()}"
         holder.tv_wert.text = "Wert: € ${item.kauf.wert}"
+        holder.tv_currentPrice.text = "Aktuell: € ${item.currentPrice.toString()}"
 
         //get a Toast message with the the country text > if you clicked on the item
         holder.itemView.setOnClickListener{
@@ -117,9 +122,8 @@ class MyRecyclerAdapter(val list: MutableList<Aktie>, val context: Context) : Re
             context.startActivity(intent)
         }
     }
-
 }
 
 //data stuff
-data class Aktie (val kauf: Aktiepos, val dividenden: MutableList<Dividende>?): Serializable
+data class Aktie (val kauf: Aktiepos, val dividenden: MutableList<Dividende>?, var currentPrice: Double, var sold: Boolean): Serializable
 
