@@ -2,6 +2,7 @@ package com.example.wpgeschaefte
 
 import android.app.Activity
 import android.app.DatePickerDialog
+import android.app.ProgressDialog.show
 import android.icu.text.SimpleDateFormat
 import android.icu.util.Calendar
 import android.os.Build
@@ -101,9 +102,13 @@ override fun onCreateOptionsMenu(menu: Menu?): Boolean {
                     updateLabel(myCalendar, eT_neues_Datum)
                 }
                     //show calendar with current date
-                    DatePickerDialog(this, datePickerOnDataSetListener, myCalendar
+                   val DatePickerDialog = DatePickerDialog(this, datePickerOnDataSetListener, myCalendar
                         .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
-                        myCalendar.get(Calendar.DAY_OF_MONTH)).show()
+                        myCalendar.get(Calendar.DAY_OF_MONTH))
+
+                DatePickerDialog.datePicker.maxDate = System.currentTimeMillis()
+
+                DatePickerDialog.show()
                 }
             }
         }

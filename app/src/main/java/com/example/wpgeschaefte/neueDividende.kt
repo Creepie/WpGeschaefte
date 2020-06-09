@@ -5,7 +5,6 @@ import android.app.DatePickerDialog
 import android.icu.text.SimpleDateFormat
 import android.icu.util.Calendar
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Parcel
 import android.os.Parcelable
@@ -14,6 +13,7 @@ import android.view.View
 import android.widget.EditText
 import android.widget.Toast
 import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_neue_dividende.*
 import kotlinx.android.synthetic.main.activity_neues_wertpapier.*
 import java.util.*
@@ -77,10 +77,15 @@ class neueDividende : AppCompatActivity(), View.OnClickListener {
                     myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth)
                     updateLabel(myCalendar, eT_neues_Datum)
                 }
+
                 //show calendar with current date
-                DatePickerDialog(this, datePickerOnDataSetListener, myCalendar
+               val DatePickerDialog =  DatePickerDialog(this, datePickerOnDataSetListener, myCalendar
                     .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
-                    myCalendar.get(Calendar.DAY_OF_MONTH)).show()
+                    myCalendar.get(Calendar.DAY_OF_MONTH))
+
+                DatePickerDialog.datePicker.maxDate = System.currentTimeMillis()
+
+                DatePickerDialog.show()
             }
         }
     }
