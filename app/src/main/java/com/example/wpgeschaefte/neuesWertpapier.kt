@@ -181,5 +181,4 @@ data class Aktiepos(val name: String?, val symbol: String?, val kaufpreis: Doubl
             return arrayOfNulls(size)
         }
     }
-
 }

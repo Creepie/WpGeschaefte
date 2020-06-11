@@ -17,6 +17,7 @@ import java.io.Serializable
 import kotlin.math.roundToInt
 
 class HomeScreen : AppCompatActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_homescreen)
@@ -28,10 +29,8 @@ class HomeScreen : AppCompatActivity() {
             resources.getStringArray(R.array.sP_list_homescreen)
         )
 
-
         rV_aktien.layoutManager = LinearLayoutManager(this)
         rV_aktien.adapter = MyRecyclerAdapter(AktieSingleton.aktkieListe, this);
-
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -125,5 +124,5 @@ class MyRecyclerAdapter(val list: MutableList<Aktie>, val context: Context) : Re
 }
 
 //data stuff
-data class Aktie (val kauf: Aktiepos, val dividenden: MutableList<Dividende>?, var currentPrice: Double, var sold: Boolean): Serializable
+data class Aktie (val kauf: Aktiepos, val dividenden: MutableList<Dividende>, var currentPrice: Double, var sold: Boolean): Serializable
 
