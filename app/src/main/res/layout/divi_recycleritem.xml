@@ -5,14 +5,28 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
+    <View
+        android:id="@+id/view3"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="3dp"
+        android:layout_marginTop="3dp"
+        android:layout_marginEnd="3dp"
+        android:layout_marginBottom="3dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <TextView
         android:id="@+id/divi_recycleritem_gutschrift"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:text="Gutschrift"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/divi_recycleritem_stk"
+        app:layout_constraintStart_toEndOf="@+id/divi_recycleritem_perShare"
         app:layout_constraintTop_toBottomOf="@+id/divi_recycleritem_datum" />
 
     <TextView
@@ -22,29 +36,42 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:text="Datum"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/divi_recycleritem_stk"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
-        android:text="TextView"
+        android:text="Stk"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/divi_recycleritem_gutschrift"
+        app:layout_constraintStart_toStartOf="@+id/divi_recycleritem_datum"
         app:layout_constraintTop_toBottomOf="@+id/divi_recycleritem_datum"
         app:layout_constraintVertical_bias="1.0" />
 
     <TextView
-        android:id="@+id/textView3"
+        android:id="@+id/divi_recycleritem_percent"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginStart="32dp"
+        android:text="%"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/divi_recycleritem_datum"
+        app:layout_constraintStart_toEndOf="@+id/divi_recycleritem_datum"
+        app:layout_constraintTop_toTopOf="@+id/divi_recycleritem_datum" />
+
+    <TextView
+        android:id="@+id/divi_recycleritem_perShare"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:text="%"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_marginStart="16dp"
+        android:layout_marginBottom="8dp"
+        android:text="Ertrag / Stück"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/divi_recycleritem_stk" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

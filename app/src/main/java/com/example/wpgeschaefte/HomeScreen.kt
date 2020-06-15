@@ -56,15 +56,21 @@ class HomeScreen : AppCompatActivity() {
             if (Aktie != null) {
                 val neueAktie = Aktie(Aktie, arrayListOf<Dividende>(),Aktie.kaufpreis, false)
                 AktieSingleton.aktkieListe.add(neueAktie)
-                //AktieSingleton.currentIndex = AktieSingleton.aktkieListe.lastIndex
-                AktieSingleton.aktkieListe[AktieSingleton.aktkieListe.size-1].currentPrice = AktieSingleton.currentPrice
-                val test = AktieSingleton.aktkieListe[AktieSingleton.aktkieListe.size-1].currentPrice
                 Log.i("LOG", "neue Aktie hinzugefügt")
+                //calc data
+                calcAktie()
+                //notify recycler adapter
                 rV_aktien.adapter?.notifyDataSetChanged()
                 val sum = AktieSingleton.aktkieListe.sumBy { x -> x.kauf.wert.roundToInt() }
                 tV_gesamt.text = "Derzeitiger Wert deines Portfilios: € ${sum.toString()}"
             }
         }
+    }
+
+    fun calcAktie(){
+        val currentAktie = AktieSingleton.aktkieListe[AktieSingleton.aktkieListe.size-1]
+        currentAktie.currentPrice = AktieSingleton.currentPrice
+        currentAktie.kauf.wert = (currentAktie.currentPrice * currentAktie.kauf.anzahl) - currentAktie.kauf.spesen
     }
 
     override fun onResume() {

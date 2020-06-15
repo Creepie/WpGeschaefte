@@ -71,7 +71,8 @@ override fun onCreateOptionsMenu(menu: Menu?): Boolean {
                         val kaufDatum = eT_neues_Datum.text.toString()
                         val spesen = eT_neues_Spesen.text.toString().toDouble()
                         val anzahl = eT_neues_Anzahl.text.toString().toInt()
-                        val wert = kaufPreis * anzahl - spesen
+                        val wert = 0.0
+                        val kaufwert = anzahl*kaufPreis-spesen
                         val i = intent
                         i.putExtra(
                             "neueAktie", Aktiepos(
@@ -81,7 +82,8 @@ override fun onCreateOptionsMenu(menu: Menu?): Boolean {
                                 kaufDatum,
                                 spesen,
                                 anzahl,
-                                wert
+                                wert,
+                                kaufwert
                             )
                         )
                         setResult(Activity.RESULT_OK, i)
@@ -144,7 +146,7 @@ private fun updateLabel(myCalendar: Calendar, dateEditText: EditText) {
 //data stuff
 
 
-data class Aktiepos(val name: String?, val symbol: String?, val kaufpreis: Double, val kaufDatum: String?, val spesen: Double, val anzahl: Int, val wert: Double) :
+data class Aktiepos(val name: String?, val symbol: String?, val kaufpreis: Double, val kaufDatum: String?, val spesen: Double, val anzahl: Int, var wert: Double, var kaufWert: Double) :
     Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readString(),
@@ -153,6 +155,7 @@ data class Aktiepos(val name: String?, val symbol: String?, val kaufpreis: Doubl
         parcel.readString(),
         parcel.readDouble(),
         parcel.readInt(),
+        parcel.readDouble(),
         parcel.readDouble()
     ) {
     }
@@ -165,6 +168,7 @@ data class Aktiepos(val name: String?, val symbol: String?, val kaufpreis: Doubl
         parcel.writeDouble(spesen)
         parcel.writeInt(anzahl)
         parcel.writeDouble(wert)
+        parcel.writeDouble(kaufWert)
     }
 
     override fun describeContents(): Int {
@@ -180,4 +184,5 @@ data class Aktiepos(val name: String?, val symbol: String?, val kaufpreis: Doubl
             return arrayOfNulls(size)
         }
     }
+
 }

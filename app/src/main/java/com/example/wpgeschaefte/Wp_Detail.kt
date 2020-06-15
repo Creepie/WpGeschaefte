@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.activity_homescreen.*
 import kotlinx.android.synthetic.main.activity_wp__detail.*
+import kotlin.math.roundToInt
 
 class Wp_Detail : AppCompatActivity() {
     var aktie = AktieSingleton.selectedAktie
@@ -40,21 +41,25 @@ class Wp_Detail : AppCompatActivity() {
             rV_wpDetail_divis.adapter = aktie!!.dividenden?.let { MyDiviRecyclerAdapter(it, this) }
         };
 
+        //add data to textviews
         tV_wpDetail_wpName.text = aktie?.kauf?.name
         tV_wpDetail_symbol.text = aktie?.kauf?.symbol
         tV_wpDetail_buyDate.text = aktie?.kauf?.kaufDatum
         tv_wpDetail_perShareCurrentPrice.text = "€ ${aktie?.currentPrice}"
         tv_wpDetail_perShareBuyPrice.text = "€ ${aktie?.kauf?.kaufpreis}"
-        tV_wpDetail_buyPrice.text = "€ ${aktie?.kauf?.wert}"
+        tv_wpDetail_currentPrice.text = "€ ${aktie?.kauf?.wert}"
+        tV_wpDetail_pieces.text = aktie?.kauf?.anzahl.toString()
 
         val currentPrice = aktie?.kauf?.spesen?.let {
-            aktie?.currentPrice?.let { it1 ->
-                aktie?.kauf?.anzahl?.times(it1)
-                    ?.minus(it)
+            aktie?.kauf?.kaufpreis.let { it1 ->
+                if (it1 != null) {
+                    aktie?.kauf?.anzahl?.times(it1)
+                        ?.minus(it)
+                }
             }
         }
+        tV_wpDetail_buyPrice.text = "€ ${currentPrice}"
 
-        tv_wpDetail_currentPrice.text = "€ ${currentPrice}"
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -76,8 +81,12 @@ class Wp_Detail : AppCompatActivity() {
 //Recycler Stuff
 class MyDiviViewHolder(view: View) : RecyclerView.ViewHolder(view){
 
+    val tV_stk = view.findViewById<TextView>(R.id.divi_recycleritem_stk)
     val tV_gutschrift = view.findViewById<TextView>(R.id.divi_recycleritem_gutschrift)
     val tV_datum = view.findViewById<TextView>(R.id.divi_recycleritem_datum)
+    val tV_percent = view.findViewById<TextView>(R.id.divi_recycleritem_percent)
+    val tV_perShare = view.findViewById<TextView>(R.id.divi_recycleritem_perShare)
+
     init {
 
     }
@@ -104,8 +113,14 @@ class MyDiviRecyclerAdapter(val list: MutableList<Dividende>, val context: Conte
     override fun onBindViewHolder(holder: MyDiviViewHolder, position: Int) {
 
         val item = list[position]
-        holder.tV_gutschrift.text = item.gutschrift.toString()
-        holder.tV_datum.text = item.datum
+        holder.tV_gutschrift.text = "Gutschrift: € ${item.gutschrift}"
+        holder.tV_datum.text = "Datum: ${item.datum}"
+        holder.tV_stk.text = "STK: ${item.stk}"
+
+        val percent = AktieSingleton.selectedAktie?.kauf?.kaufWert?.let { item.gutschrift?.div(it)?.times(100) }
+        holder.tV_percent.text = "% (netto): ${percent?.roundToInt()}"
+        holder.tV_perShare.text = "Ertrag: € ${item.ertrag}"
+
 
         //get a Toast message with the the country text > if you clicked on the item
         holder.itemView.setOnClickListener{

@@ -78,6 +78,19 @@
                 android:inputType="numberDecimal" />
 
             <TextView
+                android:id="@+id/tV_newDivi_stk"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Stückzahl:" />
+
+            <EditText
+                android:id="@+id/eT_newDivi_stk"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="number" />
+
+            <TextView
                 android:id="@+id/tV_newDivi_volume"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

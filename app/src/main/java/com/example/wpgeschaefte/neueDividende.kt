@@ -49,6 +49,7 @@ class neueDividende : AppCompatActivity(), View.OnClickListener {
                     val steuern = eT_newDivi_taxes.text.toString().toDouble()
                     val spesen = eT_newDivi_expenses.text.toString().toDouble()
                     val gutschrift = eT_newDivi_credit.text.toString().toDouble()
+                    val stk = eT_newDivi_stk.text.toString().toInt()
 
                     val i = intent
                     i.putExtra(
@@ -58,7 +59,8 @@ class neueDividende : AppCompatActivity(), View.OnClickListener {
                             volumen,
                             steuern,
                             spesen,
-                            gutschrift
+                            gutschrift,
+                            stk
                         )
                     )
                     setResult(Activity.RESULT_OK, i)
@@ -102,7 +104,8 @@ class neueDividende : AppCompatActivity(), View.OnClickListener {
                 eT_newDivi_volume.text.isNullOrEmpty() ||
                 eT_newDivi_taxes.text.isNullOrEmpty() ||
                 eT_newDivi_expenses.text.isNullOrEmpty() ||
-                eT_newDivi_credit.text.isNullOrEmpty()
+                eT_newDivi_credit.text.isNullOrEmpty() ||
+                eT_newDivi_stk.text.isNullOrEmpty()
 
                 )
     }
@@ -115,14 +118,16 @@ class neueDividende : AppCompatActivity(), View.OnClickListener {
     }
 }
 //data stuff
-data class Dividende(val datum:String?, val ertrag:Double, val volumen:Double, val steuern:Double, val spesen:Double, val gutschrift:Double ):Parcelable {
+data class Dividende(val datum:String?, val ertrag:Double, val volumen:Double, val steuern:Double, val spesen:Double, val gutschrift:Double , val stk: Int) :
+    Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readString(),
         parcel.readDouble(),
         parcel.readDouble(),
         parcel.readDouble(),
         parcel.readDouble(),
-        parcel.readDouble()
+        parcel.readDouble(),
+        parcel.readInt()
     ) {
     }
 
@@ -133,6 +138,7 @@ data class Dividende(val datum:String?, val ertrag:Double, val volumen:Double, v
         parcel.writeDouble(steuern)
         parcel.writeDouble(spesen)
         parcel.writeDouble(gutschrift)
+        parcel.writeInt(stk)
     }
 
     override fun describeContents(): Int {
@@ -148,4 +154,5 @@ data class Dividende(val datum:String?, val ertrag:Double, val volumen:Double, v
             return arrayOfNulls(size)
         }
     }
+
 }
