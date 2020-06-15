@@ -5,11 +5,8 @@ import android.app.DatePickerDialog
 import android.app.ProgressDialog.show
 import android.icu.text.SimpleDateFormat
 import android.icu.util.Calendar
-import android.os.Build
+import android.os.*
 import androidx.appcompat.app.AppCompatActivity
-import android.os.Bundle
-import android.os.Parcel
-import android.os.Parcelable
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
@@ -35,7 +32,7 @@ class neuesWertpapier : AppCompatActivity(), View.OnClickListener {
 
         eT_neues_Symbol.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(p0: Editable?) {
-                    API().getValues(eT_neues_Symbol.text.toString())
+                  //  API().getValues(eT_neues_Symbol.text.toString())
 
             }
 
@@ -64,31 +61,33 @@ override fun onCreateOptionsMenu(menu: Menu?): Boolean {
             }
             R.id.bT_nWertpapier_speichern -> {
                 Log.i("LOG", "bT_nWertpapier_speichern was clicked")
-
-                if (!allFilled() || !AktieSingleton.validSymbol) {
-                    getToast()
-                } else {val name = eT_neues_Name.text.toString()
-                    val symbol = eT_neues_Symbol.text.toString()
-                    val kaufPreis = eT_neues_Kaufpreis.text.toString().toDouble()
-                    val kaufDatum = eT_neues_Datum.text.toString()
-                    val spesen = eT_neues_Spesen.text.toString().toDouble()
-                    val anzahl = eT_neues_Anzahl.text.toString().toInt()
-                    val wert = kaufPreis * anzahl - spesen
-                    val i = intent
-                    i.putExtra(
-                        "neueAktie", Aktiepos(
-                            name,
-                            symbol,
-                            kaufPreis,
-                            kaufDatum,
-                            spesen,
-                            anzahl,
-                            wert
+                API().getValues(eT_neues_Symbol.text.toString())
+                Handler().postDelayed({
+                    if (!allFilled() || !AktieSingleton.validSymbol) {
+                        getToast()
+                    } else {val name = eT_neues_Name.text.toString()
+                        val symbol = eT_neues_Symbol.text.toString()
+                        val kaufPreis = eT_neues_Kaufpreis.text.toString().toDouble()
+                        val kaufDatum = eT_neues_Datum.text.toString()
+                        val spesen = eT_neues_Spesen.text.toString().toDouble()
+                        val anzahl = eT_neues_Anzahl.text.toString().toInt()
+                        val wert = kaufPreis * anzahl - spesen
+                        val i = intent
+                        i.putExtra(
+                            "neueAktie", Aktiepos(
+                                name,
+                                symbol,
+                                kaufPreis,
+                                kaufDatum,
+                                spesen,
+                                anzahl,
+                                wert
+                            )
                         )
-                    )
-                    setResult(Activity.RESULT_OK, i)
-                    finish()
-                }
+                        setResult(Activity.RESULT_OK, i)
+                        finish()
+                    }
+                }, 3000)
             }
             R.id.eT_neues_Datum -> {
                 //create Calendar

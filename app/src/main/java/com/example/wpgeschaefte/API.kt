@@ -19,7 +19,6 @@ class API : AppCompatActivity() {
     var liste = AktieSingleton.aktkieListe
 
     fun getValues(symbol: String) {
-        var symbol1 = "VOE.VI"
         var url = "quote?symbol=${symbol}&token=brf4e9nrh5rah2kpe7k0"
 
         AktieSingleton.validSymbol = false
@@ -34,13 +33,13 @@ class API : AppCompatActivity() {
             service.loadPapers(url).enqueue(object: Callback<Paper> {
                 override fun onResponse(call: Call<Paper>, response: Response<Paper>) {
 
-                    AktieSingleton.currentPrice = 0.0
                     if(response.isSuccessful){
                         Log.e("Tag", "alles gucci")
                         val data = response.body()
                         if (data?.currentPrice  != null) {
                             AktieSingleton.validSymbol = true
                             AktieSingleton.currentPrice = data.currentPrice.toDouble()
+                            val test = data.currentPrice.toDouble()
                         }
                         //println("test")
                     }

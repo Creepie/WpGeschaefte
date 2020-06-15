@@ -29,6 +29,10 @@ class Wp_Detail : AppCompatActivity() {
             true
         }
 
+        bT_wpDetail_aktieLöschen.setOnClickListener {
+            AktieSingleton.aktkieListe.removeAt(AktieSingleton.currentIndex)
+            finish()
+        }
 
         rV_wpDetail_divis.layoutManager = LinearLayoutManager(this)
 

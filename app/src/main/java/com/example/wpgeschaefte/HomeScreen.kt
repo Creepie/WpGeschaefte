@@ -58,13 +58,21 @@ class HomeScreen : AppCompatActivity() {
                 AktieSingleton.aktkieListe.add(neueAktie)
                 //AktieSingleton.currentIndex = AktieSingleton.aktkieListe.lastIndex
                 AktieSingleton.aktkieListe[AktieSingleton.aktkieListe.size-1].currentPrice = AktieSingleton.currentPrice
+                val test = AktieSingleton.aktkieListe[AktieSingleton.aktkieListe.size-1].currentPrice
                 Log.i("LOG", "neue Aktie hinzugefügt")
                 rV_aktien.adapter?.notifyDataSetChanged()
-                val test = AktieSingleton.aktkieListe[0].currentPrice
                 val sum = AktieSingleton.aktkieListe.sumBy { x -> x.kauf.wert.roundToInt() }
                 tV_gesamt.text = "Derzeitiger Wert deines Portfilios: € ${sum.toString()}"
             }
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Log.i("LOG", "onResume")
+        rV_aktien.adapter?.notifyDataSetChanged()
+        val sum = AktieSingleton.aktkieListe.sumBy { x -> x.kauf.wert.roundToInt() }
+        tV_gesamt.text = "Derzeitiger Wert deines Portfilios: € ${sum.toString()}"
     }
 }
 
@@ -118,6 +126,7 @@ class MyRecyclerAdapter(val list: MutableList<Aktie>, val context: Context) : Re
             ).show()
             val intent = Intent(context, Wp_Detail::class.java)
             AktieSingleton.selectedAktie = item
+            AktieSingleton.currentIndex = position
             context.startActivity(intent)
         }
     }
