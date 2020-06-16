@@ -23,12 +23,6 @@ class HomeScreen : AppCompatActivity() {
         setContentView(R.layout.activity_homescreen)
         setSupportActionBar(toolbar_homescreen)
 
-        sP_homescreen.adapter = ArrayAdapter(
-            this,
-            R.layout.support_simple_spinner_dropdown_item,
-            resources.getStringArray(R.array.sP_list_homescreen)
-        )
-
         rV_aktien.layoutManager = LinearLayoutManager(this)
         rV_aktien.adapter = MyRecyclerAdapter(AktieSingleton.aktkieListe, this);
     }
