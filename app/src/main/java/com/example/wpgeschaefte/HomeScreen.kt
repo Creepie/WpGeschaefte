@@ -21,8 +21,13 @@ import kotlin.math.roundToInt
 
 class HomeScreen : AppCompatActivity() {
 
-    override fun onStart() {
-      super.onStart()
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_homescreen)
+        setSupportActionBar(toolbar_homescreen)
+        rV_aktien.layoutManager = LinearLayoutManager(this)
+
+        Log.i("LOG", "onCreate")
         val jsonString = readStocksFromJSON ( "myStocks.json")
         var gson = Gson()
         val listType: Type = object : TypeToken<ArrayList<Aktie?>?>() {}.type
@@ -32,14 +37,6 @@ class HomeScreen : AppCompatActivity() {
             rV_aktien.adapter = MyRecyclerAdapter(AktieSingleton.aktieListe, this);
             rV_aktien.adapter?.notifyDataSetChanged()
         }
-
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_homescreen)
-        setSupportActionBar(toolbar_homescreen)
-        rV_aktien.layoutManager = LinearLayoutManager(this)
     }
 
 
@@ -126,6 +123,7 @@ class HomeScreen : AppCompatActivity() {
         rV_aktien.adapter?.notifyDataSetChanged()
         val sum = AktieSingleton.aktieListe.sumBy { x -> x.kauf.wert.roundToInt() }
         tV_gesamt.text = "Derzeitiger Wert deines Portfilios: € ${sum.toString()}"
+        createJSONFromStocks("myStocks.json")
     }
 }
 
