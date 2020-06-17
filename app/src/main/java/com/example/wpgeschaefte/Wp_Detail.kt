@@ -10,6 +10,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.activity_homescreen.*
@@ -26,8 +27,13 @@ class Wp_Detail : AppCompatActivity() {
         var liste = AktieSingleton.aktkieListe
 
         bT_wpDetail_neueDivi.setOnClickListener {
-            startActivityForResult(Intent(this, neueDividende::class.java), 100)
-            true
+            if (aktie?.sold == false){
+                startActivityForResult(Intent(this, neueDividende::class.java), 100)
+                true
+            } else {
+                val toast = Toast.makeText(applicationContext, "Aktie bereits verkauft, divi hinzufügen nicht mehr möglich", Toast.LENGTH_LONG)
+                toast.show()
+            }
         }
 
         bT_wpDetail_sell.setOnClickListener {
@@ -80,9 +86,9 @@ class Wp_Detail : AppCompatActivity() {
             val soldAktie = data?.getParcelableExtra<AktieSell>("aktieSell")
             aktie?.soldData = soldAktie
             aktie?.sold = true
+            aktie?.currentPrice = aktie?.soldData?.kurs!!
             Log.i("LOG", "aktie wurde verkauft")
         }
-
     }
 }
 
