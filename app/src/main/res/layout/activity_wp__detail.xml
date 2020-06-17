@@ -381,10 +381,10 @@
         android:layout_weight="0.4"
         android:text="+ Spesen"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/bT_wpDetail_save" />
+        app:layout_constraintEnd_toStartOf="@+id/bT_wpDetail_sell" />
 
     <Button
-        android:id="@+id/bT_wpDetail_save"
+        android:id="@+id/bT_wpDetail_sell"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"

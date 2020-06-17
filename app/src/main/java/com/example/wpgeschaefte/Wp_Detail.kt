@@ -30,6 +30,11 @@ class Wp_Detail : AppCompatActivity() {
             true
         }
 
+        bT_wpDetail_sell.setOnClickListener {
+            startActivityForResult(Intent(this,Wp_Verkauf::class.java), 200)
+            true
+        }
+
         bT_wpDetail_aktieLöschen.setOnClickListener {
             AktieSingleton.aktkieListe.removeAt(AktieSingleton.currentIndex)
             finish()
@@ -71,6 +76,11 @@ class Wp_Detail : AppCompatActivity() {
                 Log.i("LOG", "neue divi hinzugefügt")
                 rV_wpDetail_divis.adapter?.notifyDataSetChanged()
             }
+        } else if (requestCode == 200 && resultCode == Activity.RESULT_OK){
+            val soldAktie = data?.getParcelableExtra<AktieSell>("aktieSell")
+            aktie?.soldData = soldAktie
+            aktie?.sold = true
+            Log.i("LOG", "aktie wurde verkauft")
         }
 
     }

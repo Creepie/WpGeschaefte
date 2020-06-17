@@ -48,7 +48,7 @@ class HomeScreen : AppCompatActivity() {
         if(requestCode == 999 && resultCode == Activity.RESULT_OK){
             val Aktie = data?.getParcelableExtra<Aktiepos>("neueAktie")
             if (Aktie != null) {
-                val neueAktie = Aktie(Aktie, arrayListOf<Dividende>(),Aktie.kaufpreis, false)
+                val neueAktie = Aktie(Aktie, arrayListOf<Dividende>(),Aktie.kaufpreis, false, null)
                 AktieSingleton.aktkieListe.add(neueAktie)
                 Log.i("LOG", "neue Aktie hinzugefügt")
                 //calc data
@@ -133,5 +133,5 @@ class MyRecyclerAdapter(val list: MutableList<Aktie>, val context: Context) : Re
 }
 
 //data stuff
-data class Aktie (val kauf: Aktiepos, val dividenden: MutableList<Dividende>, var currentPrice: Double, var sold: Boolean): Serializable
+data class Aktie (val kauf: Aktiepos, val dividenden: MutableList<Dividende>, var currentPrice: Double, var sold: Boolean, var soldData: AktieSell?): Serializable
 
