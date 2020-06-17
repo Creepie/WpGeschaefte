@@ -23,7 +23,7 @@ class HomeScreen : AppCompatActivity() {
 
     override fun onStart() {
       super.onStart()
-        val jsonString = readStocksFromJSON( "myStocks.json")
+        val jsonString = readStocksFromJSON ( "myStocks.json")
         var gson = Gson()
         val listType: Type = object : TypeToken<ArrayList<Aktie?>?>() {}.type
         if(jsonString != ""){
@@ -112,12 +112,6 @@ class HomeScreen : AppCompatActivity() {
         } catch (ioException: IOException) {
             false
         }
-    }
-
-    fun isFilePresent(fileName: String): Boolean {
-        val path = filesDir.absolutePath + "/" + fileName
-        val file = File(path)
-        return file.exists()
     }
 
     fun calcAktie(){
