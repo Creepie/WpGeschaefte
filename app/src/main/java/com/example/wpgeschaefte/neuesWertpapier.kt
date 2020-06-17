@@ -8,6 +8,7 @@ import android.icu.util.Calendar
 import android.os.*
 import androidx.appcompat.app.AppCompatActivity
 import android.text.Editable
+import android.text.InputFilter
 import android.text.TextWatcher
 import android.util.Log
 import android.view.Menu
@@ -31,7 +32,7 @@ class neuesWertpapier : AppCompatActivity(), View.OnClickListener {
         //add Listeners
         eT_neues_Datum.setOnClickListener(this)
 
-
+        eT_neues_Symbol.setFilters(eT_neues_Symbol.getFilters() + InputFilter.AllCaps())
         eT_neues_Symbol.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(p0: Editable?) {
                   //  API().getValues(eT_neues_Symbol.text.toString())
