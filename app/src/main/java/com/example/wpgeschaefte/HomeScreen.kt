@@ -24,7 +24,7 @@ class HomeScreen : AppCompatActivity() {
         setSupportActionBar(toolbar_homescreen)
 
         rV_aktien.layoutManager = LinearLayoutManager(this)
-        rV_aktien.adapter = MyRecyclerAdapter(AktieSingleton.aktkieListe, this);
+        rV_aktien.adapter = MyRecyclerAdapter(AktieSingleton.aktieListe, this);
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -49,20 +49,20 @@ class HomeScreen : AppCompatActivity() {
             val Aktie = data?.getParcelableExtra<Aktiepos>("neueAktie")
             if (Aktie != null) {
                 val neueAktie = Aktie(Aktie, arrayListOf<Dividende>(),Aktie.kaufpreis, false, null)
-                AktieSingleton.aktkieListe.add(neueAktie)
+                AktieSingleton.aktieListe.add(neueAktie)
                 Log.i("LOG", "neue Aktie hinzugefügt")
                 //calc data
                 calcAktie()
                 //notify recycler adapter
                 rV_aktien.adapter?.notifyDataSetChanged()
-                val sum = AktieSingleton.aktkieListe.sumBy { x -> x.kauf.wert.roundToInt() }
+                val sum = AktieSingleton.aktieListe.sumBy { x -> x.kauf.wert.roundToInt() }
                 tV_gesamt.text = "Derzeitiger Wert deines Portfilios: € ${sum.toString()}"
             }
         }
     }
 
     fun calcAktie(){
-        val currentAktie = AktieSingleton.aktkieListe[AktieSingleton.aktkieListe.size-1]
+        val currentAktie = AktieSingleton.aktieListe[AktieSingleton.aktieListe.size-1]
         currentAktie.currentPrice = AktieSingleton.currentPrice
         currentAktie.kauf.wert = (currentAktie.currentPrice * currentAktie.kauf.anzahl) - currentAktie.kauf.spesen
     }
@@ -71,7 +71,7 @@ class HomeScreen : AppCompatActivity() {
         super.onResume()
         Log.i("LOG", "onResume")
         rV_aktien.adapter?.notifyDataSetChanged()
-        val sum = AktieSingleton.aktkieListe.sumBy { x -> x.kauf.wert.roundToInt() }
+        val sum = AktieSingleton.aktieListe.sumBy { x -> x.kauf.wert.roundToInt() }
         tV_gesamt.text = "Derzeitiger Wert deines Portfilios: € ${sum.toString()}"
     }
 }

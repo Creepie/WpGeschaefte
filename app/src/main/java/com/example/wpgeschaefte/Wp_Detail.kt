@@ -24,7 +24,7 @@ class Wp_Detail : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_wp__detail)
 
-        var liste = AktieSingleton.aktkieListe
+        var liste = AktieSingleton.aktieListe
 
         bT_wpDetail_neueDivi.setOnClickListener {
             if (aktie?.sold == false){
@@ -42,7 +42,7 @@ class Wp_Detail : AppCompatActivity() {
         }
 
         bT_wpDetail_aktieLöschen.setOnClickListener {
-            AktieSingleton.aktkieListe.removeAt(AktieSingleton.currentIndex)
+            AktieSingleton.aktieListe.removeAt(AktieSingleton.currentIndex)
             finish()
         }
 

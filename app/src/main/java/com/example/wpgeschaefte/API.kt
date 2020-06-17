@@ -16,7 +16,7 @@ class API : AppCompatActivity() {
     private var BASE_URL = "https://finnhub.io/api/v1/"
 
 
-    var liste = AktieSingleton.aktkieListe
+    var liste = AktieSingleton.aktieListe
 
     fun getValues(symbol: String) {
         var url = "quote?symbol=${symbol}&token=brf4e9nrh5rah2kpe7k0"

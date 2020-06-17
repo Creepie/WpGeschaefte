@@ -2,14 +2,14 @@
 <menu xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
         <item
-            android:id="@+id/addAktie_item"
-            android:icon="@drawable/ic_add_aktie"
-            android:title="Aktie hinzufügen"
-            app:showAsAction="ifRoom"></item>
-        <item
             android:id="@+id/filter_item"
             android:icon="@drawable/ic_refresh"
             android:title=""
+            app:showAsAction="ifRoom"></item>
+        <item
+            android:id="@+id/addAktie_item"
+            android:icon="@drawable/ic_add_aktie"
+            android:title="Aktie hinzufügen"
             app:showAsAction="ifRoom"></item>
 
 </menu>

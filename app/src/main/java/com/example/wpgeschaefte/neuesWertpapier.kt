@@ -11,11 +11,14 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
 import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.widget.EditText
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import kotlinx.android.synthetic.main.activity_neues_wertpapier.*
+import org.json.JSONArray
+import org.json.JSONObject
 import java.util.*
 
 
@@ -23,10 +26,9 @@ class neuesWertpapier : AppCompatActivity(), View.OnClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_neues_wertpapier)
+        setSupportActionBar(toolbar_neues)
 
         //add Listeners
-        bT_nWertpapier_speichern.setOnClickListener(this)
-        bT_nWertpapier_abbrechen.setOnClickListener(this)
         eT_neues_Datum.setOnClickListener(this)
 
 
@@ -46,21 +48,19 @@ class neuesWertpapier : AppCompatActivity(), View.OnClickListener {
         }
 
         )
-}
-override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-   menuInflater.inflate(R.menu.menu_neueswertpapier, menu)
-   return true
-}
+    }
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+       menuInflater.inflate(R.menu.menu_neueswertpapier, menu)
+       return true
+    }
 
     @RequiresApi(Build.VERSION_CODES.N)
-    override fun onClick(v: View?) {
-        when(v?.id){
-            R.id.bT_nWertpapier_abbrechen -> {
-                Log.i("LOG", "bT_nWerpapier_abbrechen was clicked")
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item.itemId){
+            R.id.cancel_item -> {
                 finish()
             }
-            R.id.bT_nWertpapier_speichern -> {
-                Log.i("LOG", "bT_nWertpapier_speichern was clicked")
+            R.id.saveAktie_item -> {
                 API().getValues(eT_neues_Symbol.text.toString())
                 Handler().postDelayed({
                     if (!allFilled() || !AktieSingleton.validSymbol) {
@@ -74,18 +74,17 @@ override fun onCreateOptionsMenu(menu: Menu?): Boolean {
                         val wert = 0.0
                         val kaufwert = anzahl*kaufPreis-spesen
                         val i = intent
-                        i.putExtra(
-                            "neueAktie", Aktiepos(
-                                name,
-                                symbol,
-                                kaufPreis,
-                                kaufDatum,
-                                spesen,
-                                anzahl,
-                                wert,
-                                kaufwert
-                            )
+                        var neueAktie =  Aktiepos(
+                        name,
+                        symbol,
+                        kaufPreis,
+                        kaufDatum,
+                        spesen,
+                        anzahl,
+                        wert,
+                        kaufwert
                         )
+                        i.putExtra("neueAktie", neueAktie)
                         setResult(Activity.RESULT_OK, i)
                         finish()
                     }
@@ -102,13 +101,38 @@ override fun onCreateOptionsMenu(menu: Menu?): Boolean {
                     myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth)
                     updateLabel(myCalendar, eT_neues_Datum)
                 }
+                //show calendar with current date
+                val DatePickerDialog = DatePickerDialog(this, datePickerOnDataSetListener, myCalendar
+                    .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
+                    myCalendar.get(Calendar.DAY_OF_MONTH))
+
+                DatePickerDialog.datePicker.maxDate = System.currentTimeMillis()
+
+                DatePickerDialog.show()
+            }
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @RequiresApi(Build.VERSION_CODES.N)
+    override fun onClick(v: View?) {
+        when(v?.id){
+            R.id.eT_neues_Datum -> {
+                //create Calendar
+                val myCalendar = Calendar.getInstance()
+                //create date Picker to set day, month and year in the edit Text
+                val datePickerOnDataSetListener = DatePickerDialog.OnDateSetListener { _, year, monthOfYear, dayOfMonth ->
+                    myCalendar.set(Calendar.YEAR, year)
+                    myCalendar.set(Calendar.MONTH, monthOfYear)
+                    myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth)
+                    updateLabel(myCalendar, eT_neues_Datum)
+                }
                     //show calendar with current date
                    val DatePickerDialog = DatePickerDialog(this, datePickerOnDataSetListener, myCalendar
                         .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
                         myCalendar.get(Calendar.DAY_OF_MONTH))
 
                 DatePickerDialog.datePicker.maxDate = System.currentTimeMillis()
-
                 DatePickerDialog.show()
                 }
             }
@@ -141,11 +165,8 @@ private fun updateLabel(myCalendar: Calendar, dateEditText: EditText) {
 }
 }
 
-
 //---------------------------------------------------
 //data stuff
-
-
 data class Aktiepos(val name: String?, val symbol: String?, val kaufpreis: Double, val kaufDatum: String?, val spesen: Double, val anzahl: Int, var wert: Double, var kaufWert: Double) :
     Parcelable {
     constructor(parcel: Parcel) : this(
