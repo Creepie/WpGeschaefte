@@ -6,26 +6,42 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.*
-import android.widget.ArrayAdapter
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import kotlinx.android.synthetic.main.activity_homescreen.*
-import java.io.Serializable
+import java.io.*
+import java.lang.reflect.Type
 import kotlin.math.roundToInt
 
+
 class HomeScreen : AppCompatActivity() {
+
+    override fun onStart() {
+      super.onStart()
+        val jsonString = readStocksFromJSON( "myStocks.json")
+        var gson = Gson()
+        val listType: Type = object : TypeToken<ArrayList<Aktie?>?>() {}.type
+        if(jsonString != ""){
+            val aktie: List<Aktie> = gson.fromJson(jsonString, listType)
+            AktieSingleton.aktieListe = aktie as ArrayList<Aktie>;
+            rV_aktien.adapter = MyRecyclerAdapter(AktieSingleton.aktieListe, this);
+            rV_aktien.adapter?.notifyDataSetChanged()
+        }
+
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_homescreen)
         setSupportActionBar(toolbar_homescreen)
-
         rV_aktien.layoutManager = LinearLayoutManager(this)
-        rV_aktien.adapter = MyRecyclerAdapter(AktieSingleton.aktieListe, this);
     }
+
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_homescreen, menu)
@@ -51,6 +67,7 @@ class HomeScreen : AppCompatActivity() {
                 val neueAktie = Aktie(Aktie, arrayListOf<Dividende>(),Aktie.kaufpreis, false, null)
                 AktieSingleton.aktieListe.add(neueAktie)
                 Log.i("LOG", "neue Aktie hinzugefügt")
+                createJSONFromStocks("myStocks.json")
                 //calc data
                 calcAktie()
                 //notify recycler adapter
@@ -59,6 +76,48 @@ class HomeScreen : AppCompatActivity() {
                 tV_gesamt.text = "Derzeitiger Wert deines Portfilios: € ${sum.toString()}"
             }
         }
+    }
+
+    private fun readStocksFromJSON(fileName: String): String? {
+        return try {
+            val fis = openFileInput(fileName)
+            val isr = InputStreamReader(fis)
+            val bufferedReader = BufferedReader(isr)
+            val sb = StringBuilder()
+            var line: String?
+            while (bufferedReader.readLine().also { line = it } != null) {
+                sb.append(line)
+            }
+             sb.toString()
+        } catch (fileNotFound: FileNotFoundException) {
+            ""
+        } catch (ioException: IOException) {
+            null
+        }
+    }
+     fun createJSONFromStocks(fileName: String): Boolean {
+         var g = Gson()
+         var jsonString = g.toJson(AktieSingleton.aktieListe)
+         var file = File(filesDir,fileName)
+         var fos = file.outputStream()
+
+        return try {
+            if (jsonString != null) {
+                fos.write(jsonString.toByteArray())
+            }
+            fos.close()
+            true
+        } catch (fileNotFound: FileNotFoundException) {
+            false
+        } catch (ioException: IOException) {
+            false
+        }
+    }
+
+    fun isFilePresent(fileName: String): Boolean {
+        val path = filesDir.absolutePath + "/" + fileName
+        val file = File(path)
+        return file.exists()
     }
 
     fun calcAktie(){
