@@ -13,7 +13,7 @@
         android:theme="@style/AppTheme">
             <activity android:name=".MainActivity"/>
             <activity android:name=".neuerBroker"/>
-            <activity android:name=".SpesenUebersicht" />
+            <activity android:name=".neueSpese" />
             <activity android:name=".neuesWertpapier" />
             <activity android:name=".Wp_Verkauf" />
             <activity android:name=".neueDividende" />

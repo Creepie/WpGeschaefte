@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="#E403A9F4"
     android:padding="8dp"
-    tools:context=".SpesenUebersicht">
+    tools:context=".neueSpese">
 
     <LinearLayout
         android:id="@+id/linearLayout5"
@@ -101,7 +101,7 @@
                 android:text="seit:" />
 
             <TextView
-                android:id="@+id/tV_newBroker_costs_depot"
+                android:id="@+id/tV_newDivi_costs_depot"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.20"

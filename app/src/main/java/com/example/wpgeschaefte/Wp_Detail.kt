@@ -37,8 +37,23 @@ class Wp_Detail : AppCompatActivity() {
         }
 
         bT_wpDetail_sell.setOnClickListener {
-            startActivityForResult(Intent(this,Wp_Verkauf::class.java), 200)
-            true
+            if (aktie?.sold == false){
+                startActivityForResult(Intent(this,Wp_Verkauf::class.java), 200)
+                true
+            } else {
+                val toast = Toast.makeText(applicationContext, "Aktie bereits verkauft, verkaufen nicht mehr möglich", Toast.LENGTH_LONG)
+                toast.show()
+            }
+        }
+
+        bT_wpDetail_spesenHinzufuegen.setOnClickListener {
+            if (aktie?.sold == false){
+                startActivityForResult(Intent(this, neueSpese::class.java), 300)
+                true
+            } else {
+                val toast = Toast.makeText(applicationContext, "Aktie bereits verkauft, spese hinzufügen nicht mehr möglich", Toast.LENGTH_LONG)
+                toast.show()
+            }
         }
 
         bT_wpDetail_aktieLöschen.setOnClickListener {
@@ -88,6 +103,11 @@ class Wp_Detail : AppCompatActivity() {
             aktie?.sold = true
             aktie?.currentPrice = aktie?.soldData?.kurs!!
             Log.i("LOG", "aktie wurde verkauft")
+        } else if (requestCode == 300 && resultCode == Activity.RESULT_OK){
+            val spese = data?.getParcelableExtra<Spese>("neueSpese")
+            if (spese != null) {
+                aktie?.spesen?.add(spese)
+            }
         }
     }
 }
