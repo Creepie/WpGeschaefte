@@ -34,9 +34,12 @@ class HomeScreen : AppCompatActivity() {
         rV_aktien.layoutManager = LinearLayoutManager(this)
 
         Log.i("LOG", "onCreate")
+        //returns '[]' if the file contains no JSON-Objects
+        //returns "" (empty string) if file  has not been created yet -> gets returned by FileNotFoundException
         val jsonString = readStocksFromJSON ( "myStocks.json")
         var gson = Gson()
         val listType: Type = object : TypeToken<ArrayList<Aktie?>?>() {}.type
+
         if(jsonString != ""){
             val aktie: List<Aktie> = gson.fromJson(jsonString, listType)
             AktieSingleton.aktieListe = aktie as ArrayList<Aktie>;
@@ -98,7 +101,7 @@ class HomeScreen : AppCompatActivity() {
             null
         }
     }
-     fun createJSONFromStocks(fileName: String): Boolean {
+     private fun createJSONFromStocks(fileName: String): Boolean {
          var g = Gson()
          var jsonString = g.toJson(AktieSingleton.aktieListe)
          var file = File(filesDir,fileName)
