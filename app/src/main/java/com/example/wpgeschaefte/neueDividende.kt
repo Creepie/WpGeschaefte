@@ -1,7 +1,9 @@
 package com.example.wpgeschaefte
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.DatePickerDialog
+import android.content.pm.ActivityInfo
 import android.icu.text.SimpleDateFormat
 import android.icu.util.Calendar
 import android.os.Build
@@ -20,10 +22,13 @@ import java.util.*
 
 class neueDividende : AppCompatActivity(), View.OnClickListener {
 
+    @SuppressLint("SourceLockedOrientationActivity")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_neue_dividende)
 
+        //forces activity to stay in portrait mode
+        requestedOrientation =  ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
         //set Click Listeners
         bT_newDivi_save.setOnClickListener(this)
         bT_newDivi_cancel.setOnClickListener(this)

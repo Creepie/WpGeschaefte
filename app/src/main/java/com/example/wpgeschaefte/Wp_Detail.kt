@@ -1,8 +1,10 @@
 package com.example.wpgeschaefte
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.content.pm.ActivityInfo
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -20,12 +22,12 @@ import kotlin.math.roundToInt
 class Wp_Detail : AppCompatActivity() {
     var aktie = AktieSingleton.selectedAktie
 
+    @SuppressLint("SourceLockedOrientationActivity")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_wp__detail)
-
-        var liste = AktieSingleton.aktieListe
-
+        //forces activity to stay in portrait mode
+        requestedOrientation =  ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
         bT_wpDetail_neueDivi.setOnClickListener {
             if (aktie?.sold == false){
                 startActivityForResult(Intent(this, neueDividende::class.java), 100)

@@ -1,8 +1,10 @@
 package com.example.wpgeschaefte
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.util.Log
 import android.view.*
@@ -21,10 +23,14 @@ import kotlin.math.roundToInt
 
 class HomeScreen : AppCompatActivity() {
 
+    @SuppressLint("SourceLockedOrientationActivity")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_homescreen)
         setSupportActionBar(toolbar_homescreen)
+        //forces activity to stay in portrait mode
+        requestedOrientation =  ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+
         rV_aktien.layoutManager = LinearLayoutManager(this)
 
         Log.i("LOG", "onCreate")

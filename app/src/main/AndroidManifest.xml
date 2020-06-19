@@ -17,7 +17,7 @@
             <activity android:name=".neuesWertpapier" />
             <activity android:name=".Wp_Verkauf" />
             <activity android:name=".neueDividende" />
-            <activity android:name=".Wp_Detail" />
+            <activity android:name=".Wp_Detail"/>
             <activity android:name=".HomeScreen">
                 <intent-filter>
                     <action android:name="android.intent.action.MAIN" />
