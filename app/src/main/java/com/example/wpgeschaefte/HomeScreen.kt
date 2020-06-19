@@ -134,7 +134,7 @@ class HomeScreen : AppCompatActivity() {
 class MyViewHolder(view: View) : RecyclerView.ViewHolder(view){
 
     val tV_name = view.findViewById<TextView>(R.id.home_recycleritem_Name)
-    val tv_kaufDatum = view.findViewById<TextView>(R.id.home_recycleritem_Kaufdatum)
+    val tv_bestand = view.findViewById<TextView>(R.id.home_recycleritem_bestand)
     val tv_kaufPreis = view.findViewById<TextView>(R.id.home_recycleritem_Kaufkurs)
     val tv_wert = view.findViewById<TextView>(R.id.home_recycleritem_WertAktuell)
     val tv_currentPrice = view.findViewById<TextView>(R.id.home_recycleritem_KursAktuell)
@@ -162,10 +162,14 @@ class MyRecyclerAdapter(val list: MutableList<Aktie>, val context: Context) : Re
 
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-
         val item = list[position]
+        var soldtext = "ja"
+
+        if (item.sold){
+            soldtext = "nein"
+        }
         holder.tV_name.text = "${item.kauf.name} (${item.kauf.symbol})"
-        holder.tv_kaufDatum.text = item.kauf.kaufDatum
+        holder.tv_bestand.text = "Bestand: ${soldtext}"
         holder.tv_kaufPreis.text = "Preis: € ${item.kauf.kaufpreis.toString()}"
         holder.tv_wert.text = "Wert: € ${item.kauf.wert}"
         holder.tv_currentPrice.text = "Aktuell: € ${item.currentPrice.toString()}"

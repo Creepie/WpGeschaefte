@@ -17,12 +17,12 @@
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/home_recycleritem_KursAktuell"
-        app:layout_constraintEnd_toStartOf="@+id/home_recycleritem_Kaufdatum"
+        app:layout_constraintEnd_toStartOf="@+id/home_recycleritem_bestand"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/home_recycleritem_Kaufdatum"
+        android:id="@+id/home_recycleritem_bestand"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
