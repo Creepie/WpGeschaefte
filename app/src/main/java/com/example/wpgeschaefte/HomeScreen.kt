@@ -30,7 +30,6 @@ class HomeScreen : AppCompatActivity() {
         setSupportActionBar(toolbar_homescreen)
         //forces activity to stay in portrait mode
         requestedOrientation =  ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
-
         rV_aktien.layoutManager = LinearLayoutManager(this)
 
         Log.i("LOG", "onCreate")
@@ -58,8 +57,10 @@ class HomeScreen : AppCompatActivity() {
         return when(item.itemId){
             R.id.addAktie_item ->{
                 startActivityForResult(Intent(this, neuesWertpapier::class.java),999)
-                true
-            }
+                true}
+             R.id.refresh_item -> {Toast.makeText(this, "Daten wurde aktualisiert!", Toast.LENGTH_SHORT).show()
+                API.getValuesOnRefresh(rV_aktien.adapter as MyRecyclerAdapter)
+                true}
             else -> super.onOptionsItemSelected(item)
         }
     }

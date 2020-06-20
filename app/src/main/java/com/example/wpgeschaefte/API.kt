@@ -1,6 +1,7 @@
 package com.example.wpgeschaefte
 
 import android.util.Log
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.gson.annotations.SerializedName
 import retrofit2.Call
@@ -14,7 +15,6 @@ import retrofit2.http.Url
 class API : AppCompatActivity() {
     //APIKey = "brf4e9nrh5rah2kpe7k0"
     private var BASE_URL = "https://finnhub.io/api/v1/"
-
 
     var liste = AktieSingleton.aktieListe
 
@@ -39,9 +39,7 @@ class API : AppCompatActivity() {
                         if (data?.currentPrice  != null) {
                             AktieSingleton.validSymbol = true
                             AktieSingleton.currentPrice = data.currentPrice.toDouble()
-                            val test = data.currentPrice.toDouble()
                         }
-                        //println("test")
                     }
                 }
                 override fun onFailure(call: Call<Paper>, t: Throwable) {
@@ -51,6 +49,41 @@ class API : AppCompatActivity() {
         }
 
     }
+    companion object {
+        fun getValuesOnRefresh(adapter:MyRecyclerAdapter){
+            val baseURL = "https://finnhub.io/api/v1/"
+            for(a in AktieSingleton.aktieListe){
+                var url = "quote?symbol=${a.kauf.symbol}&token=brf4e9nrh5rah2kpe7k0"
+                //Refresh data if stock hasn't been sold yet
+                if(!a.sold){
+                    val retrofit = Retrofit.Builder().baseUrl(baseURL)
+                        .addConverterFactory(GsonConverterFactory.create())
+                        .build()
+
+                    val service = retrofit.create(PaperAPI::class.java)
+
+                    //request
+                    service.loadPapers(url).enqueue(object: Callback<Paper> {
+                        override fun onResponse(call: Call<Paper>, response: Response<Paper>) {
+                            if(response.isSuccessful){
+                                Log.e("Tag", "alles gucci")
+                                val data = response.body()
+                                //if current has changed -> refresh stock in list and notify the adapter
+                                if( data != null && a.currentPrice != data.currentPrice.toDouble()){
+                                    a.currentPrice = data.currentPrice.toDouble()
+                                    adapter.notifyDataSetChanged()
+                                }
+                            }
+                        }
+                        override fun onFailure(call: Call<Paper>, t: Throwable) {
+                            Log.e("Tag", "error")
+                        }
+                    })
+                }
+            }
+        }
+    }
+
 }
 
 class PaperResponse(@SerializedName("request") val papers: Paper)
