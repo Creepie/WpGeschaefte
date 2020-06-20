@@ -48,7 +48,7 @@ class neueSpese : AppCompatActivity(), View.OnClickListener {
                     getToast()
                 } else {
                     val datum = eT_newSpese_date.text.toString()
-                    val betrag = eT_newSpese_betrag.text.toString().toDouble()
+                    val betrag = String.format("%.2f",eT_newSpese_betrag.text.toString()).toDouble()
 
                     val i = intent
                     i.putExtra("neueSpese", Spese(

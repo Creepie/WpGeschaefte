@@ -38,7 +38,7 @@ class API : AppCompatActivity() {
                         val data = response.body()
                         if (data?.currentPrice  != null) {
                             AktieSingleton.validSymbol = true
-                            AktieSingleton.currentPrice = data.currentPrice.toDouble()
+                            AktieSingleton.currentPrice = String.format("%.2f", data.currentPrice).toDouble()
                         }
                     }
                 }
@@ -70,7 +70,7 @@ class API : AppCompatActivity() {
                                 val data = response.body()
                                 //if current has changed -> refresh stock in list and notify the adapter
                                 if( data != null && a.currentPrice != data.currentPrice.toDouble()){
-                                    a.currentPrice = data.currentPrice.toDouble()
+                                    a.currentPrice = String.format("%.2f", data.currentPrice).toDouble()
                                     adapter.notifyDataSetChanged()
                                 }
                             }

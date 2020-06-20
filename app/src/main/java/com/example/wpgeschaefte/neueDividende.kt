@@ -49,11 +49,11 @@ class neueDividende : AppCompatActivity(), View.OnClickListener {
                 if (!allFilled()) {
                     getToast()
                 } else {val datum = eT_newDivi_date.text.toString()
-                    val ertrag = eT_newDivi_ertrag.text.toString().toDouble()
-                    val volumen = eT_newDivi_volume.text.toString().toDouble()
-                    val steuern = eT_newDivi_taxes.text.toString().toDouble()
-                    val spesen = eT_newDivi_expenses.text.toString().toDouble()
-                    val gutschrift = eT_newDivi_credit.text.toString().toDouble()
+                    val ertrag = String.format("%.2f", eT_newDivi_ertrag.text.toString()).toDouble()
+                    val volumen = String.format("%.2f", eT_newDivi_volume.text.toString()).toDouble()
+                    val steuern = String.format("%.2f", eT_newDivi_taxes.text.toString()).toDouble()
+                    val spesen = String.format("%.2f", eT_newDivi_expenses.text.toString()).toDouble()
+                    val gutschrift = String.format("%.2f", eT_newDivi_credit.text.toString()).toDouble()
                     val stk = eT_newDivi_stk.text.toString().toInt()
 
                     val i = intent

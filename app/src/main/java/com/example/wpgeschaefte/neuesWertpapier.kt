@@ -69,13 +69,16 @@ class neuesWertpapier : AppCompatActivity(), View.OnClickListener {
             R.id.saveAktie_item -> {
                 API().getValues(eT_neues_Symbol.text.toString())
                 Handler().postDelayed({
-                    if (!allFilled() || !AktieSingleton.validSymbol) {
+                    if (!allFilled()) {
                         getToast()
-                    } else {val name = eT_neues_Name.text.toString()
+                    }else if(!AktieSingleton.validSymbol) {
+                        getInvalidSymbolToast()
+                    }
+                    else {val name = eT_neues_Name.text.toString()
                         val symbol = eT_neues_Symbol.text.toString()
-                        val kaufPreis = eT_neues_Kaufpreis.text.toString().toDouble()
+                        val kaufPreis = String.format("%.2f", eT_neues_Kaufpreis.text.toString()).toDouble()
                         val kaufDatum = eT_neues_Datum.text.toString()
-                        val spesen = eT_neues_Spesen.text.toString().toDouble()
+                        val spesen = String.format("%.2f", eT_neues_Spesen.text.toString()).toDouble()
                         val anzahl = eT_neues_Anzahl.text.toString().toInt()
                         val wert = 0.0
                         val kaufwert = anzahl*kaufPreis-spesen
@@ -148,6 +151,11 @@ class neuesWertpapier : AppCompatActivity(), View.OnClickListener {
     //Toast Message
     fun getToast() {
         val toast = Toast.makeText(applicationContext, "Bitte alle Felder korrekt ausfüllen", Toast.LENGTH_LONG)
+        toast.show()
+    }
+
+    fun getInvalidSymbolToast() {
+        val toast = Toast.makeText(applicationContext, "Ungültiges Symbol!", Toast.LENGTH_LONG)
         toast.show()
     }
 
