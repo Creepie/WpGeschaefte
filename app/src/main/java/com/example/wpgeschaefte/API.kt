@@ -1,5 +1,6 @@
 package com.example.wpgeschaefte
 
+import android.icu.util.UniversalTimeScale.toBigDecimal
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -11,6 +12,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
 import retrofit2.http.Url
+import java.math.RoundingMode
 
 class API : AppCompatActivity() {
     //APIKey = "brf4e9nrh5rah2kpe7k0"
@@ -38,7 +40,7 @@ class API : AppCompatActivity() {
                         val data = response.body()
                         if (data?.currentPrice  != null) {
                             AktieSingleton.validSymbol = true
-                            AktieSingleton.currentPrice = String.format("%.2f", data.currentPrice).toDouble()
+                            AktieSingleton.currentPrice = data.currentPrice.toBigDecimal().setScale(2, RoundingMode.UP).toDouble()
                         }
                     }
                 }
@@ -70,7 +72,7 @@ class API : AppCompatActivity() {
                                 val data = response.body()
                                 //if current has changed -> refresh stock in list and notify the adapter
                                 if( data != null && a.currentPrice != data.currentPrice.toDouble()){
-                                    a.currentPrice = String.format("%.2f", data.currentPrice).toDouble()
+                                    a.currentPrice = data.currentPrice.toBigDecimal().setScale(2, RoundingMode.UP).toDouble()
                                     adapter.notifyDataSetChanged()
                                 }
                             }

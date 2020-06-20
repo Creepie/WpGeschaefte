@@ -22,6 +22,7 @@ import androidx.annotation.RequiresApi
 import kotlinx.android.synthetic.main.activity_neues_wertpapier.*
 import org.json.JSONArray
 import org.json.JSONObject
+import java.math.RoundingMode
 import java.util.*
 
 
@@ -76,9 +77,9 @@ class neuesWertpapier : AppCompatActivity(), View.OnClickListener {
                     }
                     else {val name = eT_neues_Name.text.toString()
                         val symbol = eT_neues_Symbol.text.toString()
-                        val kaufPreis = String.format("%.2f", eT_neues_Kaufpreis.text.toString()).toDouble()
+                        val kaufPreis = eT_neues_Kaufpreis.text.toString().toBigDecimal().setScale(2, RoundingMode.UP).toDouble()
                         val kaufDatum = eT_neues_Datum.text.toString()
-                        val spesen = String.format("%.2f", eT_neues_Spesen.text.toString()).toDouble()
+                        val spesen = eT_neues_Spesen.text.toString().toBigDecimal().setScale(2, RoundingMode.UP).toDouble()
                         val anzahl = eT_neues_Anzahl.text.toString().toInt()
                         val wert = 0.0
                         val kaufwert = anzahl*kaufPreis-spesen
