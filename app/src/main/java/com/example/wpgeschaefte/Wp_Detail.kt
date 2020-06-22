@@ -77,6 +77,9 @@ class Wp_Detail : AppCompatActivity() {
         tv_wpDetail_perShareBuyPrice.text = "€ ${aktie?.kauf?.kaufpreis}"
         tv_wpDetail_currentPrice.text = "€ ${aktie?.kauf?.wert}"
         tV_wpDetail_pieces.text = aktie?.kauf?.anzahl.toString()
+        tV_wpDetail_taxes.text = "${aktie?.kauf?.wert?.times(0.25)} €"
+
+
 
         val currentPrice = aktie?.kauf?.spesen?.let {
             aktie?.kauf?.kaufpreis.let { it1 ->

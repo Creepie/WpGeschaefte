@@ -32,6 +32,7 @@ class HomeScreen : AppCompatActivity() {
         requestedOrientation =  ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
         rV_aktien.layoutManager = LinearLayoutManager(this)
 
+
         Log.i("LOG", "onCreate")
         //returns '[]' if the file contains no JSON-Objects
         //returns "" (empty string) if file  has not been created yet -> gets returned by FileNotFoundException
@@ -131,8 +132,10 @@ class HomeScreen : AppCompatActivity() {
         super.onResume()
         Log.i("LOG", "onResume")
         rV_aktien.adapter?.notifyDataSetChanged()
-        val sum = AktieSingleton.aktieListe.sumBy { x -> x.kauf.wert.roundToInt() }
-        tV_gesamt.text = "Derzeitiger Wert deines Portfilios: € ${sum.toString()}"
+        val purchaseValue = CalcHomeScreen().getPurchaseValue().toString()
+        val sum = CalcHomeScreen().checkTotalSum().toString()
+        tV_gesamt.text = "Derzeitiger Wert deines Portfolios: € ${sum}"
+        tV_purchaseValue.text = "Kaufwert deines Portfolios: € ${purchaseValue}"
         createJSONFromStocks("myStocks.json")
     }
 }
