@@ -76,8 +76,12 @@ class Wp_Detail : AppCompatActivity() {
         tv_wpDetail_perShareCurrentPrice.text = "€ ${aktie?.currentPrice}"
         tv_wpDetail_perShareBuyPrice.text = "€ ${aktie?.kauf?.kaufpreis}"
         tv_wpDetail_currentPrice.text = "€ ${aktie?.kauf?.wert}"
-        tV_wpDetail_pieces.text = aktie?.kauf?.anzahl.toString()
-        tV_wpDetail_taxes.text = "${aktie?.kauf?.wert?.times(0.25)} €"
+        tV_wpDetail_pieces.text = "${aktie?.kauf?.anzahl.toString()} Stk"
+        tV_wpDetail_taxes.text = "${CalcDetailScreen().totalTaxes()} €"
+        tV_wpDetail_expenses.text = "${CalcDetailScreen().getTotalExpanses()} €"
+        tV_wpDetail_averageDivi.text = "€ ${CalcDetailScreen().getAverageDivi()}"
+        tV_wpDetail_totalCredits.text = "€ ${CalcDetailScreen().getTotalCredit()}"
+        tV_wpDetail_profit.text ="Gewinn: +100% ( p.A.: 40% )"
 
 
 
@@ -89,7 +93,7 @@ class Wp_Detail : AppCompatActivity() {
                 }
             }
         }
-        tV_wpDetail_buyPrice.text = "€ ${currentPrice}"
+        tV_wpDetail_buyPrice.text = "€ ${AktieSingleton.selectedAktie?.kauf?.kaufpreis}"
 
     }
 
@@ -102,17 +106,23 @@ class Wp_Detail : AppCompatActivity() {
                 Log.i("LOG", "neue divi hinzugefügt")
                 rV_wpDetail_divis.adapter?.notifyDataSetChanged()
             }
+            recreate()
         } else if (requestCode == 200 && resultCode == Activity.RESULT_OK){
             val soldAktie = data?.getParcelableExtra<AktieSell>("aktieSell")
             aktie?.soldData = soldAktie
             aktie?.sold = true
             aktie?.currentPrice = aktie?.soldData?.kurs!!
+            recreate()
             Log.i("LOG", "aktie wurde verkauft")
-        } else if (requestCode == 300 && resultCode == Activity.RESULT_OK){
+            recreate()
+        }
+        else if (requestCode == 300 && resultCode == Activity.RESULT_OK){
             val spese = data?.getParcelableExtra<Spese>("neueSpese")
             if (spese != null) {
                 aktie?.spesen?.add(spese)
+
             }
+            recreate()
         }
     }
 }
