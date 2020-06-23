@@ -82,6 +82,7 @@ class Wp_Detail : AppCompatActivity() {
         tV_wpDetail_averageDivi.text = "€ ${CalcDetailScreen().getAverageDivi()}"
         tV_wpDetail_totalCredits.text = "€ ${CalcDetailScreen().getTotalCredit()}"
         tV_wpDetail_profit.text ="Gewinn: +100% ( p.A.: 40% )"
+        tV_wpDetail_buyPrice.text = "€ ${aktie?.kauf?.kaufpreis?.times(aktie?.kauf?.anzahl!!)}"
 
 
 
@@ -93,7 +94,7 @@ class Wp_Detail : AppCompatActivity() {
                 }
             }
         }
-        tV_wpDetail_buyPrice.text = "€ ${AktieSingleton.selectedAktie?.kauf?.kaufpreis}"
+
 
     }
 
