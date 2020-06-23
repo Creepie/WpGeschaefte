@@ -5,6 +5,7 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.pm.ActivityInfo
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -13,6 +14,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.activity_homescreen.*
@@ -23,6 +25,7 @@ import kotlin.math.roundToInt
 class Wp_Detail : AppCompatActivity() {
     var aktie = AktieSingleton.selectedAktie
 
+    @RequiresApi(Build.VERSION_CODES.O)
     @SuppressLint("SourceLockedOrientationActivity")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -78,12 +81,14 @@ class Wp_Detail : AppCompatActivity() {
         tv_wpDetail_perShareBuyPrice.text = "€ ${aktie?.kauf?.kaufpreis.toString().toBigDecimal().setScale(2, RoundingMode.UP).toDouble()}"
         tv_wpDetail_currentPrice.text = "€ ${aktie?.kauf?.wert.toString().toBigDecimal().setScale(2, RoundingMode.UP).toDouble()}"
         tV_wpDetail_pieces.text = "${aktie?.kauf?.anzahl.toString()} Stk"
-        tV_wpDetail_taxes.text = "Taxes: ${CalcDetailScreen().totalTaxes()} €"
+        tV_wpDetail_taxes.text = "Steuern: ${CalcDetailScreen().totalTaxes()} €"
         tV_wpDetail_expenses.text = "Spesen: ${CalcDetailScreen().getTotalExpanses()} €"
         tV_wpDetail_averageDivi.text = "€ ${CalcDetailScreen().getAverageDivi()}"
         tV_wpDetail_totalCredits.text = "€ ${CalcDetailScreen().getTotalCredit()}"
-        tV_wpDetail_profit.text ="Gewinn: +100% ( p.A.: 40% )"
+        tV_wpDetail_profit.text ="Gewinn: ${CalcDetailScreen().getProfit()}% ( p.A.: ${CalcDetailScreen().getProfitpA()}% )"
         tV_wpDetail_buyPrice.text = "€ ${aktie?.kauf?.kaufpreis?.times(aktie?.kauf?.anzahl!!)}"
+        tv_wpDetail_holdingTime.text ="Jahre ${CalcDetailScreen().getHoldyears()}"
+        tV_wpDetail_averagePercent.text = "${CalcDetailScreen().getAverageDiviPercent()} %"
 
 
 
@@ -171,7 +176,8 @@ class MyDiviRecyclerAdapter(val list: MutableList<Dividende>, val context: Conte
         holder.tV_stk.text = "STK: ${item.stk}"
 
         val percent = AktieSingleton.selectedAktie?.kauf?.kaufWert?.let { item.gutschrift?.div(it)?.times(100) }
-        holder.tV_percent.text = "% (netto): ${percent?.roundToInt()}"
+        holder.tV_percent.text = "% (netto): ${percent?.toString()?.toBigDecimal()
+            ?.setScale(2, RoundingMode.UP)?.toDouble()}"
         holder.tV_perShare.text = "Ertrag: € ${item.ertrag.toString().toBigDecimal().setScale(2, RoundingMode.UP).toDouble()}"
 
 
