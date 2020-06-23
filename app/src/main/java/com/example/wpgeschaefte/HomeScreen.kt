@@ -183,9 +183,9 @@ class MyRecyclerAdapter(val list: MutableList<Aktie>, val context: Context) : Re
         }
         holder.tV_name.text = "${item.kauf.name} (${item.kauf.symbol})"
         holder.tv_bestand.text = "Bestand: ${soldtext}"
-        holder.tv_kaufPreis.text = "Preis: € ${item.kauf.kaufpreis.toString()}"
+        holder.tv_kaufPreis.text = "Preis: € ${item.kauf.kaufpreis}"
         holder.tv_wert.text = "Wert: € ${item.kauf.wert}"
-        holder.tv_currentPrice.text = "Aktuell: € ${item.currentPrice.toString()}"
+        holder.tv_currentPrice.text = "Aktuell: € ${item.currentPrice}"
 
         //get a Toast message with the the country text > if you clicked on the item
         holder.itemView.setOnClickListener{

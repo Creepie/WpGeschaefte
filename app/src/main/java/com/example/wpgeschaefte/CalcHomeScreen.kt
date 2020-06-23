@@ -17,7 +17,7 @@ class CalcHomeScreen {
             //if there are any divi -> add them to the sum
             if (Aktie.dividenden != null) {
                 for (Dividende in Aktie.dividenden) {
-                    sum += Dividende.ertrag
+                    sum += Dividende.gutschrift
                 }
             }
 
