@@ -18,6 +18,7 @@ import com.google.gson.reflect.TypeToken
 import kotlinx.android.synthetic.main.activity_homescreen.*
 import java.io.*
 import java.lang.reflect.Type
+import java.math.RoundingMode
 import kotlin.math.roundToInt
 
 
@@ -176,6 +177,7 @@ class MyRecyclerAdapter(val list: MutableList<Aktie>, val context: Context) : Re
 
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
+
         val item = list[position]
         var soldtext = "ja"
 
@@ -184,9 +186,9 @@ class MyRecyclerAdapter(val list: MutableList<Aktie>, val context: Context) : Re
         }
         holder.tV_name.text = "${item.kauf.name} (${item.kauf.symbol})"
         holder.tv_bestand.text = "Bestand: ${soldtext}"
-        holder.tv_kaufPreis.text = "Preis: € ${item.kauf.kaufpreis}"
-        holder.tv_wert.text = "Wert: € ${item.kauf.wert}"
-        holder.tv_currentPrice.text = "Aktuell: € ${item.currentPrice}"
+        holder.tv_kaufPreis.text = "Preis: € ${item.kauf.kaufpreis.toString().toBigDecimal().setScale(2, RoundingMode.UP).toDouble()}"
+        holder.tv_wert.text = "Wert: € ${item.kauf.wert.toString().toBigDecimal().setScale(2, RoundingMode.UP).toDouble()}"
+        holder.tv_currentPrice.text = "Aktuell: € ${item.currentPrice.toString().toBigDecimal().setScale(2, RoundingMode.UP).toDouble()}"
 
         //get a Toast message with the the country text > if you clicked on the item
         holder.itemView.setOnClickListener{

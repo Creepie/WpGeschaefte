@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.activity_homescreen.*
 import kotlinx.android.synthetic.main.activity_wp__detail.*
+import java.math.RoundingMode
 import kotlin.math.roundToInt
 
 class Wp_Detail : AppCompatActivity() {
@@ -73,9 +74,9 @@ class Wp_Detail : AppCompatActivity() {
         tV_wpDetail_wpName.text = aktie?.kauf?.name
         tV_wpDetail_symbol.text = aktie?.kauf?.symbol
         tV_wpDetail_buyDate.text = aktie?.kauf?.kaufDatum
-        tv_wpDetail_perShareCurrentPrice.text = "€ ${aktie?.currentPrice}"
-        tv_wpDetail_perShareBuyPrice.text = "€ ${aktie?.kauf?.kaufpreis}"
-        tv_wpDetail_currentPrice.text = "€ ${aktie?.kauf?.wert}"
+        tv_wpDetail_perShareCurrentPrice.text = "€ ${aktie?.currentPrice.toString().toBigDecimal().setScale(2, RoundingMode.UP).toDouble()}"
+        tv_wpDetail_perShareBuyPrice.text = "€ ${aktie?.kauf?.kaufpreis.toString().toBigDecimal().setScale(2, RoundingMode.UP).toDouble()}"
+        tv_wpDetail_currentPrice.text = "€ ${aktie?.kauf?.wert.toString().toBigDecimal().setScale(2, RoundingMode.UP).toDouble()}"
         tV_wpDetail_pieces.text = "${aktie?.kauf?.anzahl.toString()} Stk"
         tV_wpDetail_taxes.text = "Taxes: ${CalcDetailScreen().totalTaxes()} €"
         tV_wpDetail_expenses.text = "Spesen: ${CalcDetailScreen().getTotalExpanses()} €"
@@ -165,13 +166,13 @@ class MyDiviRecyclerAdapter(val list: MutableList<Dividende>, val context: Conte
     override fun onBindViewHolder(holder: MyDiviViewHolder, position: Int) {
 
         val item = list[position]
-        holder.tV_gutschrift.text = "Gutschrift: € ${item.gutschrift}"
+        holder.tV_gutschrift.text = "Gutschrift: € ${item.gutschrift.toString().toBigDecimal().setScale(2, RoundingMode.UP).toDouble()}"
         holder.tV_datum.text = "Datum: ${item.datum}"
         holder.tV_stk.text = "STK: ${item.stk}"
 
         val percent = AktieSingleton.selectedAktie?.kauf?.kaufWert?.let { item.gutschrift?.div(it)?.times(100) }
         holder.tV_percent.text = "% (netto): ${percent?.roundToInt()}"
-        holder.tV_perShare.text = "Ertrag: € ${item.ertrag}"
+        holder.tV_perShare.text = "Ertrag: € ${item.ertrag.toString().toBigDecimal().setScale(2, RoundingMode.UP).toDouble()}"
 
 
         //get a Toast message with the the country text > if you clicked on the item
