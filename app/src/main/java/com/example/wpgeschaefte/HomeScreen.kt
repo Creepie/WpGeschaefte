@@ -80,8 +80,8 @@ class HomeScreen : AppCompatActivity() {
                 calcAktie()
                 //notify recycler adapter
                 rV_aktien.adapter?.notifyDataSetChanged()
-                val sum = AktieSingleton.aktieListe.sumBy { x -> x.kauf.wert.roundToInt() }
-                tV_gesamt.text = "Derzeitiger Wert deines Portfilios: € ${sum.toString()}"
+                val sum = CalcHomeScreen().checkTotalSum().toString()
+                tV_gesamt.text = "Derzeitiger Wert deines Portfilios: € ${sum}"
             }
         }
     }

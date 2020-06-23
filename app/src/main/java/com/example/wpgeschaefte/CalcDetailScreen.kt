@@ -19,7 +19,7 @@ class CalcDetailScreen {
         if(AktieSingleton.selectedAktie!!.soldData!=null){
             totalTax += AktieSingleton.selectedAktie!!.soldData?.steuern!!
         }
-
+        totalTax = totalTax.toString().toBigDecimal().setScale(2, RoundingMode.UP).toDouble()
         return totalTax
     }
 
@@ -40,6 +40,7 @@ class CalcDetailScreen {
             totalExpanses += DiviSpese.spesen
         }
 
+        totalExpanses = totalExpanses.toString().toBigDecimal().setScale(2, RoundingMode.UP).toDouble()
         return totalExpanses
     }
 
@@ -51,7 +52,7 @@ class CalcDetailScreen {
         }
         average = average / AktieSingleton.selectedAktie!!.kauf.anzahl
 
-        average.toBigDecimal().setScale(2, RoundingMode.UP).toDouble()
+        average = average.toBigDecimal().setScale(2, RoundingMode.UP).toDouble()
         return average
     }
 
@@ -61,7 +62,7 @@ class CalcDetailScreen {
         for (Divi in AktieSingleton.selectedAktie?.dividenden!!){
 
         }
-
+        averagePercent = averagePercent.toString().toBigDecimal().setScale(2, RoundingMode.UP).toDouble()
         return averagePercent
     }
 
@@ -72,6 +73,7 @@ class CalcDetailScreen {
             credit += Divi.gutschrift
         }
 
+        credit = credit.toString().toBigDecimal().setScale(2, RoundingMode.UP).toDouble()
         return credit
     }
 
@@ -97,7 +99,7 @@ class CalcDetailScreen {
             profit -= AktieSingleton.selectedAktie!!.soldData?.steuern!!
         }
 
-
+        profit = profit.toString().toBigDecimal().setScale(2, RoundingMode.UP).toDouble()
         return profit
     }
 

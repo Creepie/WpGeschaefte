@@ -18,6 +18,7 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import kotlinx.android.synthetic.main.activity_neue_dividende.*
 import kotlinx.android.synthetic.main.activity_neue_spese.*
+import java.math.RoundingMode
 import java.util.*
 
 class neueSpese : AppCompatActivity(), View.OnClickListener {
@@ -48,7 +49,7 @@ class neueSpese : AppCompatActivity(), View.OnClickListener {
                     getToast()
                 } else {
                     val datum = eT_newSpese_date.text.toString()
-                    val betrag = String.format("%.2f",eT_newSpese_betrag.text.toString()).toDouble()
+                    val betrag = eT_newSpese_betrag.text.toString().toBigDecimal().setScale(2, RoundingMode.UP).toDouble()
 
                     val i = intent
                     i.putExtra("neueSpese", Spese(

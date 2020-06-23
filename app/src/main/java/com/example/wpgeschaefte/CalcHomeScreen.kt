@@ -1,6 +1,7 @@
 package com.example.wpgeschaefte
 
 import androidx.appcompat.app.AppCompatActivity
+import java.math.RoundingMode
 import kotlin.math.roundToInt
 class CalcHomeScreen {
 
@@ -32,7 +33,7 @@ class CalcHomeScreen {
                 sum -= Aktie.soldData!!.spesen
             }
         }
-
+        sum=sum.toString().toBigDecimal().setScale(2, RoundingMode.UP).toDouble()
         return sum
     }
 
@@ -42,7 +43,7 @@ class CalcHomeScreen {
         for (Aktie in AktieSingleton.aktieListe){
             value += (Aktie.kauf.kaufpreis*Aktie.kauf.anzahl)-Aktie.kauf.spesen
         }
-
+        value = value.toString().toBigDecimal().setScale(2, RoundingMode.UP).toDouble()
         return value
     }
 }
