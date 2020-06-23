@@ -83,6 +83,7 @@ class HomeScreen : AppCompatActivity() {
                 val sum = CalcHomeScreen().checkTotalSum().toString()
                 tV_gesamt.text = "Derzeitiger Wert deines Portfilios: € ${sum}"
             }
+            recreate()
         }
     }
 
