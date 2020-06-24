@@ -103,6 +103,8 @@ class HomeScreen : AppCompatActivity() {
         val sum = CalcHomeScreen().checkTotalSum().toString()
         tV_gesamt.text = "Derzeitiger Wert deines Portfolios: € ${sum}"
         tV_purchaseValue.text = "Kaufwert deines Portfolios: € ${purchaseValue}"
+        tV_totalProfit.text = "Gewinn/Verlust: € ${CalcHomeScreen().getProfit()} / ${CalcHomeScreen().getProfitPercent()}%"
+        tV_totalDivi.text = "Dividenden gesamt: € ${CalcHomeScreen().gettotalDivi()}"
         createJSONFromStocks("myStocks.json", this)
     }
 

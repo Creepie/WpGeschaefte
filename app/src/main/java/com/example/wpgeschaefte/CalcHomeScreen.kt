@@ -46,6 +46,45 @@ class CalcHomeScreen {
         value = value.toString().toBigDecimal().setScale(2, RoundingMode.UP).toDouble()
         return value
     }
+
+    fun gettotalDivi(): Double {
+        var total: Double = 0.0
+
+        for (Aktie in AktieSingleton.aktieListe){
+            if(Aktie.dividenden.size!=0){
+                for(Divi in Aktie.dividenden){
+                    total +=Divi.gutschrift
+                }
+            }
+        }
+        total = total.toString().toBigDecimal().setScale(2, RoundingMode.UP).toDouble()
+
+          return total
+    }
+
+    fun getProfit():Double {
+        var profit:Double = 0.0
+        val currentValue = checkTotalSum()
+        val purchaseVAlue = getPurchaseValue()
+
+        val diff = currentValue - purchaseVAlue
+
+
+        profit = diff.toString().toBigDecimal().setScale(2, RoundingMode.UP).toDouble()
+
+
+        return profit
+    }
+
+    fun getProfitPercent():Double {
+        var percent: Double = 0.0
+        var diff: Double = getProfit()
+
+        percent = (diff/getPurchaseValue())*100
+        percent = percent.toString().toBigDecimal().setScale(2, RoundingMode.UP).toDouble()
+
+        return percent
+    }
 }
 
 //profit € and %
