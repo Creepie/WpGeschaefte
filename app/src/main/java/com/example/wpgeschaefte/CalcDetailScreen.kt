@@ -112,8 +112,8 @@ class CalcDetailScreen {
             profit -= AktieSingleton.selectedAktie!!.soldData?.steuern!!
         }
 
-        val diff = profit-AktieSingleton.selectedAktie!!.kauf.kaufWert
-        profit = (diff / AktieSingleton.selectedAktie!!.kauf.kaufWert)*100
+        val diff = profit-(AktieSingleton.selectedAktie!!.kauf.kaufWert + AktieSingleton.selectedAktie!!.kauf.spesen)
+        profit = (diff / (AktieSingleton.selectedAktie!!.kauf.kaufWert + AktieSingleton.selectedAktie!!.kauf.spesen))*100
         profit = profit.toString().toBigDecimal().setScale(2, RoundingMode.UP).toDouble()
         return profit
     }

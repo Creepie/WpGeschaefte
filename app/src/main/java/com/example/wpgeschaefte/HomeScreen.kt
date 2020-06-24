@@ -105,6 +105,7 @@ class HomeScreen : AppCompatActivity() {
             null
         }
     }
+
      private fun createJSONFromStocks(fileName: String): Boolean {
          var g = Gson()
          var jsonString = g.toJson(AktieSingleton.aktieListe)
