@@ -1,8 +1,6 @@
 package com.example.wpgeschaefte
 
-import android.icu.util.UniversalTimeScale.toBigDecimal
 import android.util.Log
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.gson.annotations.SerializedName
 import retrofit2.Call
@@ -20,7 +18,7 @@ class API : AppCompatActivity() {
 
     var liste = AktieSingleton.aktieListe
 
-    fun getValues(symbol: String) {
+    fun getValues(symbol: String, listener: SymbolAvailable) {
         var url = "quote?symbol=${symbol}&token=brf4e9nrh5rah2kpe7k0"
 
         AktieSingleton.validSymbol = false
@@ -40,12 +38,17 @@ class API : AppCompatActivity() {
                         val data = response.body()
                         if (data?.currentPrice  != null) {
                             AktieSingleton.validSymbol = true
+                            listener.available()
                             AktieSingleton.currentPrice = data.currentPrice.toBigDecimal().setScale(2, RoundingMode.UP).toDouble()
+                        } else {
+                            listener.notAvailable()
                         }
+
                     }
                 }
                 override fun onFailure(call: Call<Paper>, t: Throwable) {
                     Log.e("Tag", "error")
+                    listener.notAvailable()
                 }
             })
         }

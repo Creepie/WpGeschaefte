@@ -3,16 +3,12 @@ package com.example.wpgeschaefte
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.DatePickerDialog
-import android.app.ProgressDialog.show
 import android.content.pm.ActivityInfo
 import android.icu.text.SimpleDateFormat
 import android.icu.util.Calendar
 import android.os.*
 import androidx.appcompat.app.AppCompatActivity
-import android.text.Editable
 import android.text.InputFilter
-import android.text.TextWatcher
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -20,13 +16,11 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import kotlinx.android.synthetic.main.activity_neues_wertpapier.*
-import org.json.JSONArray
-import org.json.JSONObject
 import java.math.RoundingMode
 import java.util.*
 
 
-class neuesWertpapier : AppCompatActivity(), View.OnClickListener {
+class neuesWertpapier : AppCompatActivity(), View.OnClickListener , SymbolAvailable{
     @SuppressLint("SourceLockedOrientationActivity")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,37 +47,9 @@ class neuesWertpapier : AppCompatActivity(), View.OnClickListener {
                 finish()
             }
             R.id.saveAktie_item -> {
-                API().getValues(eT_neues_Symbol.text.toString())
-                Handler().postDelayed({
-                    if (!allFilled()) {
-                        getToast()
-                    }else if(!AktieSingleton.validSymbol) {
-                        getInvalidSymbolToast()
-                    }
-                    else {val name = eT_neues_Name.text.toString()
-                        val symbol = eT_neues_Symbol.text.toString()
-                        val kaufPreis = eT_neues_Kaufpreis.text.toString().toBigDecimal().setScale(2, RoundingMode.UP).toDouble()
-                        val kaufDatum = eT_neues_Datum.text.toString()
-                        val spesen = eT_neues_Spesen.text.toString().toBigDecimal().setScale(2, RoundingMode.UP).toDouble()
-                        val anzahl = eT_neues_Anzahl.text.toString().toInt()
-                        val wert = 0.0
-                        val kaufwert = anzahl*kaufPreis
-                        val i = intent
-                        var neueAktie =  Aktiepos(
-                        name,
-                        symbol,
-                        kaufPreis,
-                        kaufDatum,
-                        spesen,
-                        anzahl,
-                        wert,
-                        kaufwert
-                        )
-                        i.putExtra("neueAktie", neueAktie)
-                        setResult(Activity.RESULT_OK, i)
-                        finish()
-                    }
-                }, 3000)
+                if (allFilled()) {
+                    API().getValues(eT_neues_Symbol.text.toString(),this)
+                }
             }
             R.id.eT_neues_Datum -> {
                 //create Calendar
@@ -163,6 +129,35 @@ private fun updateLabel(myCalendar: Calendar, dateEditText: EditText) {
     val sdf = SimpleDateFormat(myFormat, Locale.UK)
     dateEditText.setText(sdf.format(myCalendar.time))
 }
+
+    override fun available() {
+        val name = eT_neues_Name.text.toString()
+        val symbol = eT_neues_Symbol.text.toString()
+        val kaufPreis = eT_neues_Kaufpreis.text.toString().toBigDecimal().setScale(2, RoundingMode.UP).toDouble()
+        val kaufDatum = eT_neues_Datum.text.toString()
+        val spesen = eT_neues_Spesen.text.toString().toBigDecimal().setScale(2, RoundingMode.UP).toDouble()
+        val anzahl = eT_neues_Anzahl.text.toString().toInt()
+        val wert = 0.0
+        val kaufwert = anzahl*kaufPreis
+        val i = intent
+        var neueAktie =  Aktiepos(
+            name,
+            symbol,
+            kaufPreis,
+            kaufDatum,
+            spesen,
+            anzahl,
+            wert,
+            kaufwert
+        )
+        i.putExtra("neueAktie", neueAktie)
+        setResult(Activity.RESULT_OK, i)
+        finish()
+    }
+
+    override fun notAvailable() {
+        getInvalidSymbolToast()
+    }
 }
 
 //---------------------------------------------------
@@ -206,4 +201,9 @@ data class Aktiepos(val name: String?, val symbol: String?, val kaufpreis: Doubl
         }
     }
 
+}
+
+interface SymbolAvailable{
+    fun available()
+    fun notAvailable()
 }

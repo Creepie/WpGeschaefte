@@ -71,8 +71,9 @@ class HomeScreen : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if(requestCode == 999 && resultCode == Activity.RESULT_OK){
+
             val Aktie = data?.getParcelableExtra<Aktiepos>("neueAktie")
-            if (Aktie != null) {
+            if (AktieSingleton.validSymbol && Aktie != null) {
                 val neueAktie = Aktie(Aktie, arrayListOf<Dividende>(),arrayListOf<Spese>(), Aktie.kaufpreis, false, null)
                 AktieSingleton.aktieListe.add(neueAktie)
                 Log.i("LOG", "neue Aktie hinzugefügt")
