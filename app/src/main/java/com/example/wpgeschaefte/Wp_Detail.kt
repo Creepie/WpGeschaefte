@@ -113,10 +113,10 @@ class Wp_Detail : AppCompatActivity() {
             }
             recreate()
         } else if (requestCode == 200 && resultCode == Activity.RESULT_OK){
-            val soldAktie = data?.getParcelableExtra<AktieSell>("aktieSell")
+            val soldAktie = data?.getParcelableExtra<ShareSell>("aktieSell")
             aktie?.soldData = soldAktie
             aktie?.sold = true
-            aktie?.currentPrice = aktie?.soldData?.kurs!!
+            aktie?.currentPrice = aktie?.soldData?.currentPrice!!
             recreate()
             Log.i("LOG", "aktie wurde verkauft")
             recreate()

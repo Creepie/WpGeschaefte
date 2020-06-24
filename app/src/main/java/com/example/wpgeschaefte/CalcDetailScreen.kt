@@ -22,7 +22,7 @@ class CalcDetailScreen {
             totalTax += Share.taxes
         }
         if(ShareSingleton.selectedShare!!.soldData!=null){
-            totalTax += ShareSingleton.selectedShare!!.soldData?.steuern!!
+            totalTax += ShareSingleton.selectedShare!!.soldData?.taxes!!
         }
         totalTax = totalTax.toString().toBigDecimal().setScale(2, RoundingMode.UP).toDouble()
         return totalTax
@@ -34,7 +34,7 @@ class CalcDetailScreen {
 
         totalExpenses += ShareSingleton.selectedShare?.buyData?.expenses!!
         if(ShareSingleton.selectedShare!!.soldData!=null){
-            totalExpenses += ShareSingleton.selectedShare!!.soldData?.spesen!!
+            totalExpenses += ShareSingleton.selectedShare!!.soldData?.expenses!!
         }
 
 
@@ -108,8 +108,8 @@ class CalcDetailScreen {
         }
 
         if (ShareSingleton.selectedShare!!.sold){
-            profit -= ShareSingleton.selectedShare!!.soldData?.spesen!!
-            profit -= ShareSingleton.selectedShare!!.soldData?.steuern!!
+            profit -= ShareSingleton.selectedShare!!.soldData?.expenses!!
+            profit -= ShareSingleton.selectedShare!!.soldData?.taxes!!
         }
 
         val diff = profit-(ShareSingleton.selectedShare!!.buyData.purchaseValue + ShareSingleton.selectedShare!!.buyData.expenses)
@@ -127,7 +127,7 @@ class CalcDetailScreen {
         val buyDate: LocalDate? = LocalDate.parse(string, formatter)
 
         if (ShareSingleton.selectedShare?.sold!!){
-            val string2 = ShareSingleton.selectedShare!!.soldData?.datum
+            val string2 = ShareSingleton.selectedShare!!.soldData?.date
             val soldDate: LocalDate? = LocalDate.parse(string2, formatter)
             val period: Period = Period.between(buyDate, soldDate)
             val diff: Int = period.getDays() + (period.months*30) + (period.years*365)

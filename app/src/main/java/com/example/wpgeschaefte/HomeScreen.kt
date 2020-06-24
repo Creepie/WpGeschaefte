@@ -41,8 +41,8 @@ class HomeScreen : AppCompatActivity() {
         val listType: Type = object : TypeToken<ArrayList<Share?>?>() {}.type
 
         if(jsonString != ""){
-            val aktie: List<Share> = gson.fromJson(jsonString, listType)
-            ShareSingleton.shareList = aktie as ArrayList<Share>;
+            val share: List<Share> = gson.fromJson(jsonString, listType)
+            ShareSingleton.shareList = share as ArrayList<Share>;
             rV_aktien.adapter = MyRecyclerAdapter(ShareSingleton.shareList, this);
             rV_aktien.adapter?.notifyDataSetChanged()
         }
@@ -210,5 +210,5 @@ class MyRecyclerAdapter(val list: MutableList<Share>, val context: Context) : Re
 }
 
 //data stuff
-data class Share (val buyData: Stockitem, val dividends: MutableList<Dividends>, var expenses: MutableList<Expense>, var currentPrice: Double, var sold: Boolean, var soldData: AktieSell?): Serializable
+data class Share (val buyData: Stockitem, val dividends: MutableList<Dividends>, var expenses: MutableList<Expense>, var currentPrice: Double, var sold: Boolean, var soldData: ShareSell?): Serializable
 

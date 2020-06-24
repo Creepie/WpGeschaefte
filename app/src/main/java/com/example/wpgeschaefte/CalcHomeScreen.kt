@@ -8,28 +8,28 @@ class CalcHomeScreen {
     fun checkTotalSum(): Double {
         var sum: Double = 0.0
 
-        for (Aktie in ShareSingleton.shareList) {
+        for (Share in ShareSingleton.shareList) {
 
             //count the total value from the current stock
-            sum += (Aktie.currentPrice * Aktie.buyData.amount) - Aktie.buyData.expenses
+            sum += (Share.currentPrice * Share.buyData.amount) - Share.buyData.expenses
 
             //if there are any divi -> add them to the sum
-            if (Aktie.dividends != null) {
-                for (Dividende in Aktie.dividends) {
+            if (Share.dividends != null) {
+                for (Dividende in Share.dividends) {
                     sum += Dividende.credit
                 }
             }
 
             //if there are any expanses -> calculate minus from the sum
-            if (Aktie.expenses != null) {
-                for (Spesen in Aktie.expenses) {
-                    sum -= Spesen.amount
+            if (Share.expenses != null) {
+                for (Expense in Share.expenses) {
+                    sum -= Expense.amount
                 }
             }
 
             //if the stock is sold -> calculate expanses from sold minus from the sum
-            if (Aktie.sold && Aktie.soldData != null) {
-                sum -= Aktie.soldData!!.spesen
+            if (Share.sold && Share.soldData != null) {
+                sum -= Share.soldData!!.expenses
             }
         }
         sum=sum.toString().toBigDecimal().setScale(2, RoundingMode.UP).toDouble()
@@ -39,8 +39,8 @@ class CalcHomeScreen {
     fun getPurchaseValue(): Double{
         var value = 0.0
 
-        for (Aktie in ShareSingleton.shareList){
-            value += (Aktie.buyData.purchasePrice*Aktie.buyData.amount)-Aktie.buyData.expenses
+        for (Share in ShareSingleton.shareList){
+            value += (Share.buyData.purchasePrice*Share.buyData.amount)-Share.buyData.expenses
         }
         value = value.toString().toBigDecimal().setScale(2, RoundingMode.UP).toDouble()
         return value
@@ -49,9 +49,9 @@ class CalcHomeScreen {
     fun gettotalDivi(): Double {
         var total: Double = 0.0
 
-        for (Aktie in ShareSingleton.shareList){
-            if(Aktie.dividends.size!=0){
-                for(Divi in Aktie.dividends){
+        for (Share in ShareSingleton.shareList){
+            if(Share.dividends.size!=0){
+                for(Divi in Share.dividends){
                     total +=Divi.credit
                 }
             }
@@ -64,9 +64,9 @@ class CalcHomeScreen {
     fun getProfit():Double {
         var profit:Double = 0.0
         val currentValue = checkTotalSum()
-        val purchaseVAlue = getPurchaseValue()
+        val purchaseValue = getPurchaseValue()
 
-        val diff = currentValue - purchaseVAlue
+        val diff = currentValue - purchaseValue
 
 
         profit = diff.toString().toBigDecimal().setScale(2, RoundingMode.UP).toDouble()

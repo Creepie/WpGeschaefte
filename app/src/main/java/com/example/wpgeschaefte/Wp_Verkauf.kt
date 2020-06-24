@@ -54,7 +54,7 @@ class Wp_Verkauf : AppCompatActivity(), View.OnClickListener {
                 val gutschrift = eT_wpSell_credit.text.toString().toDouble()
 
                 val i = intent
-                i.putExtra("aktieSell", AktieSell(
+                i.putExtra("aktieSell", ShareSell(
                     datum,
                     ertrag,
                     volumen,
@@ -115,7 +115,7 @@ class Wp_Verkauf : AppCompatActivity(), View.OnClickListener {
 }
 
 
-data class AktieSell(val datum:String?, val kurs:Double, val volumen:Double, val steuern:Double, val spesen:Double, val gutschrift:Double): Parcelable {
+data class ShareSell(val date:String?, val currentPrice:Double, val volume:Double, val taxes:Double, val expenses:Double, val credit:Double): Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readString(),
         parcel.readDouble(),
@@ -127,24 +127,24 @@ data class AktieSell(val datum:String?, val kurs:Double, val volumen:Double, val
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
-        parcel.writeString(datum)
-        parcel.writeDouble(kurs)
-        parcel.writeDouble(volumen)
-        parcel.writeDouble(steuern)
-        parcel.writeDouble(spesen)
-        parcel.writeDouble(gutschrift)
+        parcel.writeString(date)
+        parcel.writeDouble(currentPrice)
+        parcel.writeDouble(volume)
+        parcel.writeDouble(taxes)
+        parcel.writeDouble(expenses)
+        parcel.writeDouble(credit)
     }
 
     override fun describeContents(): Int {
         return 0
     }
 
-    companion object CREATOR : Parcelable.Creator<AktieSell> {
-        override fun createFromParcel(parcel: Parcel): AktieSell {
-            return AktieSell(parcel)
+    companion object CREATOR : Parcelable.Creator<ShareSell> {
+        override fun createFromParcel(parcel: Parcel): ShareSell {
+            return ShareSell(parcel)
         }
 
-        override fun newArray(size: Int): Array<AktieSell?> {
+        override fun newArray(size: Int): Array<ShareSell?> {
             return arrayOfNulls(size)
         }
     }
