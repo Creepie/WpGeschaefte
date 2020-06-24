@@ -93,8 +93,8 @@ class CalcDetailScreen {
     fun getProfit() : Double {
         var profit: Double = 0.0
 
-        profit += (AktieSingleton.selectedAktie?.currentPrice!!*AktieSingleton.selectedAktie!!.kauf.anzahl)
-                    - AktieSingleton.selectedAktie!!.kauf.spesen
+        profit += AktieSingleton.selectedAktie?.currentPrice!!*AktieSingleton.selectedAktie!!.kauf.anzahl
+
 
         if (AktieSingleton.selectedAktie!!.dividenden!=null){
             for (Divi in AktieSingleton.selectedAktie!!.dividenden){
@@ -113,7 +113,7 @@ class CalcDetailScreen {
         }
 
         val diff = profit-(AktieSingleton.selectedAktie!!.kauf.kaufWert + AktieSingleton.selectedAktie!!.kauf.spesen)
-        profit = (diff / (AktieSingleton.selectedAktie!!.kauf.kaufWert + AktieSingleton.selectedAktie!!.kauf.spesen))*100
+        profit = (diff / (AktieSingleton.selectedAktie!!.kauf.kaufWert))*100
         profit = profit.toString().toBigDecimal().setScale(2, RoundingMode.UP).toDouble()
         return profit
     }

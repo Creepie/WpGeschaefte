@@ -91,7 +91,7 @@ class HomeScreen : AppCompatActivity() {
     fun calcAktie(){
         val currentAktie = AktieSingleton.aktieListe[AktieSingleton.aktieListe.size-1]
         currentAktie.currentPrice = AktieSingleton.currentPrice
-        currentAktie.kauf.wert = (currentAktie.currentPrice * currentAktie.kauf.anzahl) - currentAktie.kauf.spesen
+        currentAktie.kauf.wert = currentAktie.currentPrice * currentAktie.kauf.anzahl
     }
 
     override fun onResume() {
