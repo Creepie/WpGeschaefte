@@ -77,27 +77,27 @@
                 android:inputType="date" />
 
             <TextView
-                android:id="@+id/tV_newDivi_ertrag"
+                android:id="@+id/tV_newDivi_profit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:text="Ertrag: (Dividende pro Aktie)" />
 
             <EditText
-                android:id="@+id/eT_newDivi_ertrag"
+                android:id="@+id/eT_newDivi_profit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:inputType="numberDecimal" />
 
             <TextView
-                android:id="@+id/tV_newDivi_stk"
+                android:id="@+id/tV_newDivi_amount"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Stückzahl:" />
 
             <EditText
-                android:id="@+id/eT_newDivi_stk"
+                android:id="@+id/eT_newDivi_amount"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"

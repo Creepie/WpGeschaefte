@@ -19,18 +19,18 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/divi_recycleritem_gutschrift"
+        android:id="@+id/divi_recycleritem_credit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:text="Gutschrift"
-        app:layout_constraintBottom_toBottomOf="@+id/divi_recycleritem_stk"
+        app:layout_constraintBottom_toBottomOf="@+id/divi_recycleritem_amount"
         app:layout_constraintStart_toEndOf="@+id/divi_recycleritem_perShare"
-        app:layout_constraintTop_toBottomOf="@+id/divi_recycleritem_datum" />
+        app:layout_constraintTop_toBottomOf="@+id/divi_recycleritem_date" />
 
     <TextView
-        android:id="@+id/divi_recycleritem_datum"
+        android:id="@+id/divi_recycleritem_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -41,15 +41,15 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/divi_recycleritem_stk"
+        android:id="@+id/divi_recycleritem_amount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
         android:text="Stk"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/divi_recycleritem_datum"
-        app:layout_constraintTop_toBottomOf="@+id/divi_recycleritem_datum"
+        app:layout_constraintStart_toStartOf="@+id/divi_recycleritem_date"
+        app:layout_constraintTop_toBottomOf="@+id/divi_recycleritem_date"
         app:layout_constraintVertical_bias="1.0" />
 
     <TextView
@@ -60,9 +60,9 @@
         android:text="%"
         android:textSize="14sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/divi_recycleritem_datum"
-        app:layout_constraintStart_toEndOf="@+id/divi_recycleritem_datum"
-        app:layout_constraintTop_toTopOf="@+id/divi_recycleritem_datum" />
+        app:layout_constraintBottom_toBottomOf="@+id/divi_recycleritem_date"
+        app:layout_constraintStart_toEndOf="@+id/divi_recycleritem_date"
+        app:layout_constraintTop_toTopOf="@+id/divi_recycleritem_date" />
 
     <TextView
         android:id="@+id/divi_recycleritem_perShare"
@@ -72,6 +72,6 @@
         android:layout_marginBottom="8dp"
         android:text="Ertrag / Stück"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/divi_recycleritem_stk" />
+        app:layout_constraintStart_toEndOf="@+id/divi_recycleritem_amount" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

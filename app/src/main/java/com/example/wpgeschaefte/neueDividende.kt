@@ -49,12 +49,12 @@ class neueDividende : AppCompatActivity(), View.OnClickListener {
                 if (!allFilled()) {
                     getToast()
                 } else {val date = eT_newDivi_date.text.toString()
-                    val profit = eT_newDivi_ertrag.text.toString().toBigDecimal().setScale(2, RoundingMode.UP).toDouble()
+                    val profit = eT_newDivi_profit.text.toString().toBigDecimal().setScale(2, RoundingMode.UP).toDouble()
                     val volume = eT_newDivi_volume.text.toString().toBigDecimal().setScale(2, RoundingMode.UP).toDouble()
                     val taxes = eT_newDivi_taxes.text.toString().toBigDecimal().setScale(2, RoundingMode.UP).toDouble()
                     val expenses = eT_newDivi_expenses.text.toString().toBigDecimal().setScale(2, RoundingMode.UP).toDouble()
                     val credit = eT_newDivi_credit.text.toString().toBigDecimal().setScale(2, RoundingMode.UP).toDouble()
-                    val amount = eT_newDivi_stk.text.toString().toInt()
+                    val amount = eT_newDivi_amount.text.toString().toInt()
 
                     val i = intent
                     i.putExtra(
@@ -105,12 +105,12 @@ class neueDividende : AppCompatActivity(), View.OnClickListener {
     //check if every spinner is != default position and edit Text is not empty
     fun allFilled(): Boolean {
         return !(eT_newDivi_date.text.isNullOrEmpty() ||
-                eT_newDivi_ertrag.text.isNullOrEmpty() ||
+                eT_newDivi_profit.text.isNullOrEmpty() ||
                 eT_newDivi_volume.text.isNullOrEmpty() ||
                 eT_newDivi_taxes.text.isNullOrEmpty() ||
                 eT_newDivi_expenses.text.isNullOrEmpty() ||
                 eT_newDivi_credit.text.isNullOrEmpty() ||
-                eT_newDivi_stk.text.isNullOrEmpty()
+                eT_newDivi_amount.text.isNullOrEmpty()
 
                 )
     }

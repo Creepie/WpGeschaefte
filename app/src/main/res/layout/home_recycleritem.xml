@@ -6,7 +6,7 @@
     android:layout_height="wrap_content">
 
     <TextView
-        android:id="@+id/home_recycleritem_Name"
+        android:id="@+id/home_recycleritem_name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="27dp"
@@ -16,48 +16,48 @@
         android:text="Name"
         android:textSize="18sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/home_recycleritem_KursAktuell"
-        app:layout_constraintEnd_toStartOf="@+id/home_recycleritem_bestand"
+        app:layout_constraintBottom_toTopOf="@+id/home_recycleritem_currentPrice"
+        app:layout_constraintEnd_toStartOf="@+id/home_recycleritem_stock"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/home_recycleritem_bestand"
+        android:id="@+id/home_recycleritem_stock"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
-        android:text="Kaufdatum"
+        android:text="Bestand"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/home_recycleritem_Name" />
+        app:layout_constraintTop_toTopOf="@+id/home_recycleritem_name" />
 
     <TextView
-        android:id="@+id/home_recycleritem_Kaufkurs"
+        android:id="@+id/home_recycleritem_purchasePrice"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
         android:text="Kaufkurs"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/home_recycleritem_Name"
-        app:layout_constraintTop_toBottomOf="@+id/home_recycleritem_Name" />
+        app:layout_constraintStart_toStartOf="@+id/home_recycleritem_name"
+        app:layout_constraintTop_toBottomOf="@+id/home_recycleritem_name" />
 
     <TextView
-        android:id="@+id/home_recycleritem_KursAktuell"
+        android:id="@+id/home_recycleritem_currentPrice"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:layout_marginBottom="8dp"
         android:text="Kurs Aktuell"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/home_recycleritem_Kaufkurs" />
+        app:layout_constraintStart_toEndOf="@+id/home_recycleritem_purchasePrice" />
 
     <TextView
-        android:id="@+id/home_recycleritem_WertAktuell"
+        android:id="@+id/home_recycleritem_currentValue"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
         android:text="Wert"
-        app:layout_constraintBottom_toBottomOf="@+id/home_recycleritem_KursAktuell"
+        app:layout_constraintBottom_toBottomOf="@+id/home_recycleritem_currentPrice"
         app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

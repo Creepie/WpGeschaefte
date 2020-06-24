@@ -30,7 +30,7 @@ class HomeScreen : AppCompatActivity() {
         setSupportActionBar(toolbar_homescreen)
         //forces activity to stay in portrait mode
         requestedOrientation =  ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
-        rV_aktien.layoutManager = LinearLayoutManager(this)
+        rV_share.layoutManager = LinearLayoutManager(this)
 
 
         Log.i("LOG", "onCreate")
@@ -43,8 +43,8 @@ class HomeScreen : AppCompatActivity() {
         if(jsonString != ""){
             val share: List<Share> = gson.fromJson(jsonString, listType)
             ShareSingleton.shareList = share as ArrayList<Share>;
-            rV_aktien.adapter = MyRecyclerAdapter(ShareSingleton.shareList, this);
-            rV_aktien.adapter?.notifyDataSetChanged()
+            rV_share.adapter = MyRecyclerAdapter(ShareSingleton.shareList, this);
+            rV_share.adapter?.notifyDataSetChanged()
         }
     }
 
@@ -60,7 +60,7 @@ class HomeScreen : AppCompatActivity() {
                 startActivityForResult(Intent(this, neuesWertpapier::class.java),999)
                 true}
              R.id.refresh_item -> {Toast.makeText(this, "Daten wurde aktualisiert!", Toast.LENGTH_SHORT).show()
-                API.getValuesOnRefresh(rV_aktien.adapter as MyRecyclerAdapter)
+                API.getValuesOnRefresh(rV_share.adapter as MyRecyclerAdapter)
                 true}
             else -> super.onOptionsItemSelected(item)
         }
@@ -80,9 +80,9 @@ class HomeScreen : AppCompatActivity() {
                 //calc data
                 calcShare()
                 //notify recycler adapter
-                rV_aktien.adapter?.notifyDataSetChanged()
+                rV_share.adapter?.notifyDataSetChanged()
                 val sum = CalcHomeScreen().checkTotalSum().toString()
-                tV_gesamt.text = "Derzeitiger Wert deines Portfilios: € ${sum}"
+                tV_total.text = "Derzeitiger Wert deines Portfilios: € ${sum}"
             }
         }
     }
@@ -97,10 +97,10 @@ class HomeScreen : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         Log.i("LOG", "onResume")
-        rV_aktien.adapter?.notifyDataSetChanged()
+        rV_share.adapter?.notifyDataSetChanged()
         val purchaseValue = CalcHomeScreen().getPurchaseValue().toString()
         val sum = CalcHomeScreen().checkTotalSum().toString()
-        tV_gesamt.text = "Derzeitiger Wert deines Portfolios: € ${sum}"
+        tV_total.text = "Derzeitiger Wert deines Portfolios: € ${sum}"
         tV_purchaseValue.text = "Kaufwert deines Portfolios: € ${purchaseValue}"
         tV_totalProfit.text = "Gewinn/Verlust: € ${CalcHomeScreen().getProfit()} / ${CalcHomeScreen().getProfitPercent()}%"
         tV_totalDivi.text = "Dividenden gesamt: € ${CalcHomeScreen().gettotalDivi()}"
@@ -154,11 +154,11 @@ class HomeScreen : AppCompatActivity() {
 //Recycler Stuff
 class MyViewHolder(view: View) : RecyclerView.ViewHolder(view){
 
-    val tV_name = view.findViewById<TextView>(R.id.home_recycleritem_Name)
-    val tv_stock = view.findViewById<TextView>(R.id.home_recycleritem_bestand)
-    val tv_purchasePrice = view.findViewById<TextView>(R.id.home_recycleritem_Kaufkurs)
-    val tv_value = view.findViewById<TextView>(R.id.home_recycleritem_WertAktuell)
-    val tv_currentPrice = view.findViewById<TextView>(R.id.home_recycleritem_KursAktuell)
+    val tV_name = view.findViewById<TextView>(R.id.home_recycleritem_name)
+    val tv_stock = view.findViewById<TextView>(R.id.home_recycleritem_stock)
+    val tv_purchasePrice = view.findViewById<TextView>(R.id.home_recycleritem_purchasePrice)
+    val tv_value = view.findViewById<TextView>(R.id.home_recycleritem_currentValue)
+    val tv_currentPrice = view.findViewById<TextView>(R.id.home_recycleritem_currentPrice)
     init {
 
     }
@@ -196,18 +196,15 @@ class MyRecyclerAdapter(val list: MutableList<Share>, val context: Context) : Re
         holder.tv_value.text = "Wert: € ${item.buyData.value.toString().toBigDecimal().setScale(2, RoundingMode.UP).toDouble()}"
         holder.tv_currentPrice.text = "Aktuell: € ${item.currentPrice.toString().toBigDecimal().setScale(2, RoundingMode.UP).toDouble()}"
 
-        //get a Toast message with the the country text > if you clicked on the item
         holder.itemView.setOnClickListener{
-            Toast.makeText(
-                it.context,"${item.buyData.name} , ${item.buyData.symbol}", Toast.LENGTH_SHORT
-            ).show()
             val intent = Intent(context, Wp_Detail::class.java)
             ShareSingleton.selectedShare = item
             ShareSingleton.currentIndex = position
             context.startActivity(intent)
         }
+
+        }
     }
-}
 
 //data stuff
 data class Share (val buyData: Stockitem, val dividends: MutableList<Dividends>, var expenses: MutableList<Expense>, var currentPrice: Double, var sold: Boolean, var soldData: ShareSell?): Serializable

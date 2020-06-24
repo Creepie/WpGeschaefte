@@ -319,7 +319,7 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/bT_wpDetail_spesenHinzufuegen"
+        app:layout_constraintBottom_toTopOf="@+id/bT_wpDetail_addExpense"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/bT_wpDetail_neueDivi" />
@@ -375,7 +375,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/bT_wpDetail_spesenHinzufuegen"
+        android:id="@+id/bT_wpDetail_addExpense"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"

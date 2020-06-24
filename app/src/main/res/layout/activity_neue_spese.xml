@@ -78,14 +78,14 @@
                 android:inputType="date" />
 
             <TextView
-                android:id="@+id/tV_newSpese_betrag"
+                android:id="@+id/tV_newSpese_profit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:text="Betrag:" />
 
             <EditText
-                android:id="@+id/eT_newSpese_betrag"
+                android:id="@+id/eT_newSpese_profit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"

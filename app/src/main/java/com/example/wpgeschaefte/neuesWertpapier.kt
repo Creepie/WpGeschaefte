@@ -30,9 +30,9 @@ class neuesWertpapier : AppCompatActivity(), View.OnClickListener , SymbolAvaila
         setSupportActionBar(toolbar_neues)
 
         //add Listeners
-        eT_neues_Datum.setOnClickListener(this)
+        eT_new_buyDate.setOnClickListener(this)
 
-        eT_neues_Symbol.setFilters(eT_neues_Symbol.getFilters() + InputFilter.AllCaps())
+        eT_new_symbol.setFilters(eT_new_symbol.getFilters() + InputFilter.AllCaps())
 
     }
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -48,10 +48,10 @@ class neuesWertpapier : AppCompatActivity(), View.OnClickListener , SymbolAvaila
             }
             R.id.saveAktie_item -> {
                 if (allFilled()) {
-                    API().getValues(eT_neues_Symbol.text.toString(),this)
+                    API().getValues(eT_new_symbol.text.toString(),this)
                 }
             }
-            R.id.eT_neues_Datum -> {
+            R.id.eT_new_buyDate -> {
                 //create Calendar
                 val myCalendar = Calendar.getInstance()
 
@@ -60,7 +60,7 @@ class neuesWertpapier : AppCompatActivity(), View.OnClickListener , SymbolAvaila
                     myCalendar.set(Calendar.YEAR, year)
                     myCalendar.set(Calendar.MONTH, monthOfYear)
                     myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth)
-                    updateLabel(myCalendar, eT_neues_Datum)
+                    updateLabel(myCalendar, eT_new_buyDate)
                 }
                 //show calendar with current date
                 val DatePickerDialog = DatePickerDialog(this, datePickerOnDataSetListener, myCalendar
@@ -78,7 +78,7 @@ class neuesWertpapier : AppCompatActivity(), View.OnClickListener , SymbolAvaila
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onClick(v: View?) {
         when(v?.id){
-            R.id.eT_neues_Datum -> {
+            R.id.eT_new_buyDate -> {
                 //create Calendar
                 val myCalendar = Calendar.getInstance()
                 //create date Picker to set day, month and year in the edit Text
@@ -86,7 +86,7 @@ class neuesWertpapier : AppCompatActivity(), View.OnClickListener , SymbolAvaila
                     myCalendar.set(Calendar.YEAR, year)
                     myCalendar.set(Calendar.MONTH, monthOfYear)
                     myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth)
-                    updateLabel(myCalendar, eT_neues_Datum)
+                    updateLabel(myCalendar, eT_new_buyDate)
                 }
                     //show calendar with current date
                    val DatePickerDialog = DatePickerDialog(this, datePickerOnDataSetListener, myCalendar
@@ -113,12 +113,12 @@ class neuesWertpapier : AppCompatActivity(), View.OnClickListener , SymbolAvaila
 
     //check if every spinner is != default position and edit Text is not empty
     fun allFilled(): Boolean {
-        return !(eT_neues_Symbol.text.isNullOrEmpty() ||
-                eT_neues_Name.text.isNullOrEmpty() ||
-                eT_neues_Kaufpreis.text.isNullOrEmpty() ||
-                eT_neues_Anzahl.text.isNullOrEmpty() ||
-                eT_neues_Datum.text.isNullOrEmpty() ||
-                eT_neues_Spesen.text.isNullOrEmpty()
+        return !(eT_new_symbol.text.isNullOrEmpty() ||
+                eT_new_name.text.isNullOrEmpty() ||
+                eT_new_purchaseValue.text.isNullOrEmpty() ||
+                eT_new_amount.text.isNullOrEmpty() ||
+                eT_new_buyDate.text.isNullOrEmpty() ||
+                eT_new_expenses.text.isNullOrEmpty()
 
                 )
     }
@@ -131,12 +131,12 @@ private fun updateLabel(myCalendar: Calendar, dateEditText: EditText) {
 }
 
     override fun available() {
-        val name = eT_neues_Name.text.toString()
-        val symbol = eT_neues_Symbol.text.toString()
-        val purchasePrice = eT_neues_Kaufpreis.text.toString().toBigDecimal().setScale(2, RoundingMode.UP).toDouble()
-        val purchaseDate = eT_neues_Datum.text.toString()
-        val expenses = eT_neues_Spesen.text.toString().toBigDecimal().setScale(2, RoundingMode.UP).toDouble()
-        val amount = eT_neues_Anzahl.text.toString().toInt()
+        val name = eT_new_name.text.toString()
+        val symbol = eT_new_symbol.text.toString()
+        val purchasePrice = eT_new_purchaseValue.text.toString().toBigDecimal().setScale(2, RoundingMode.UP).toDouble()
+        val purchaseDate = eT_new_buyDate.text.toString()
+        val expenses = eT_new_expenses.text.toString().toBigDecimal().setScale(2, RoundingMode.UP).toDouble()
+        val amount = eT_new_amount.text.toString().toInt()
         val value = 0.0
         val purchaseValue = amount*purchasePrice
         val i = intent

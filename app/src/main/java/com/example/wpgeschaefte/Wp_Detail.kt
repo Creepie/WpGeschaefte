@@ -35,7 +35,7 @@ class Wp_Detail : AppCompatActivity() {
                 startActivityForResult(Intent(this, neueDividende::class.java), 100)
                 true
             } else {
-                val toast = Toast.makeText(applicationContext, "Aktie bereits verkauft, divi hinzufügen nicht mehr möglich", Toast.LENGTH_LONG)
+                val toast = Toast.makeText(applicationContext, "Aktie bereits verkauft, Dividende hinzufügen nicht mehr möglich", Toast.LENGTH_LONG)
                 toast.show()
             }
         }
@@ -45,17 +45,17 @@ class Wp_Detail : AppCompatActivity() {
                 startActivityForResult(Intent(this,Wp_Verkauf::class.java), 200)
                 true
             } else {
-                val toast = Toast.makeText(applicationContext, "Aktie bereits verkauft, verkaufen nicht mehr möglich", Toast.LENGTH_LONG)
+                val toast = Toast.makeText(applicationContext, "Aktie ist bereits verkauft", Toast.LENGTH_LONG)
                 toast.show()
             }
         }
 
-        bT_wpDetail_spesenHinzufuegen.setOnClickListener {
+        bT_wpDetail_addExpense.setOnClickListener {
             if (share?.sold == false){
                 startActivityForResult(Intent(this, neueSpese::class.java), 300)
                 true
             } else {
-                val toast = Toast.makeText(applicationContext, "Aktie bereits verkauft, spese hinzufügen nicht mehr möglich", Toast.LENGTH_LONG)
+                val toast = Toast.makeText(applicationContext, "Aktie bereits verkauft, Spese hinzufügen nicht mehr möglich", Toast.LENGTH_LONG)
                 toast.show()
             }
         }
@@ -108,7 +108,7 @@ class Wp_Detail : AppCompatActivity() {
             val dividend = data?.getParcelableExtra<Dividends>("neueDivi")
             if (dividend != null) {
                 share?.dividends?.add(dividend)
-                Log.i("LOG", "neue divi hinzugefügt")
+                Log.i("LOG", "neue Dividende hinzugefügt")
                 rV_wpDetail_divis.adapter?.notifyDataSetChanged()
             }
             recreate()
@@ -118,7 +118,7 @@ class Wp_Detail : AppCompatActivity() {
             share?.sold = true
             share?.currentPrice = share?.soldData?.currentPrice!!
             recreate()
-            Log.i("LOG", "aktie wurde verkauft")
+            Log.i("LOG", "Aktie wurde verkauft")
             recreate()
         }
         else if (requestCode == 300 && resultCode == Activity.RESULT_OK){
@@ -139,9 +139,9 @@ class Wp_Detail : AppCompatActivity() {
 //Recycler Stuff
 class MyDiviViewHolder(view: View) : RecyclerView.ViewHolder(view){
 
-    val tV_amount = view.findViewById<TextView>(R.id.divi_recycleritem_stk)
-    val tV_credit = view.findViewById<TextView>(R.id.divi_recycleritem_gutschrift)
-    val tV_date = view.findViewById<TextView>(R.id.divi_recycleritem_datum)
+    val tV_amount = view.findViewById<TextView>(R.id.divi_recycleritem_amount)
+    val tV_credit = view.findViewById<TextView>(R.id.divi_recycleritem_credit)
+    val tV_date = view.findViewById<TextView>(R.id.divi_recycleritem_date)
     val tV_percent = view.findViewById<TextView>(R.id.divi_recycleritem_percent)
     val tV_perShare = view.findViewById<TextView>(R.id.divi_recycleritem_perShare)
 
@@ -181,9 +181,6 @@ class MyDiviRecyclerAdapter(val list: MutableList<Dividends>, val context: Conte
         holder.tV_perShare.text = "Ertrag: € ${item.profit.toString().toBigDecimal().setScale(2, RoundingMode.UP).toDouble()}"
 
 
-        //get a Toast message with the the country text > if you clicked on the item
-        holder.itemView.setOnClickListener{
-        }
     }
 
 }

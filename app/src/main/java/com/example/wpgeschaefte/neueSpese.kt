@@ -48,7 +48,7 @@ class neueSpese : AppCompatActivity(), View.OnClickListener {
                     getToast()
                 } else {
                     val date = eT_newSpese_date.text.toString()
-                    val profit = eT_newSpese_betrag.text.toString().toBigDecimal().setScale(2, RoundingMode.UP).toDouble()
+                    val profit = eT_newSpese_profit.text.toString().toBigDecimal().setScale(2, RoundingMode.UP).toDouble()
 
                     val i = intent
                     i.putExtra("neueSpese", Expense(
@@ -86,7 +86,7 @@ class neueSpese : AppCompatActivity(), View.OnClickListener {
     //check if every spinner is != default position and edit Text is not empty
     fun allFilled(): Boolean {
         return !(eT_newSpese_date.text.isNullOrEmpty() ||
-                eT_newSpese_betrag.text.isNullOrEmpty()
+                eT_newSpese_profit.text.isNullOrEmpty()
                 )
     }
 

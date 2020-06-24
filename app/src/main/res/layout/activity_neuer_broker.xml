@@ -109,7 +109,7 @@
                 android:text="Kosten Depot: " />
 
             <TextView
-                android:id="@+id/tV_newDivi_ertrag"
+                android:id="@+id/tV_newDivi_profit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.20"
@@ -141,7 +141,7 @@
                 android:inputType="textPersonName" />
 
             <EditText
-                android:id="@+id/eT_newDivi_ertrag"
+                android:id="@+id/eT_newDivi_profit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.25"
