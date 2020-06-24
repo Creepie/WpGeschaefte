@@ -46,21 +46,21 @@ class Wp_Verkauf : AppCompatActivity(), View.OnClickListener {
             if(!allFilled()){
                 getToast()
             }else {
-                val datum = eT_wpSell_date.text.toString()
-                val ertrag = eT_wpSell_earning.text.toString().toDouble()
-                val volumen = eT_wpSell_volume.text.toString().toDouble()
-                val steuern = eT_wpSell_taxes.text.toString().toDouble()
-                val spesen = eT_wpSell_expenses.text.toString().toDouble()
-                val gutschrift = eT_wpSell_credit.text.toString().toDouble()
+                val date = eT_wpSell_date.text.toString()
+                val profit = eT_wpSell_earning.text.toString().toDouble()
+                val volume = eT_wpSell_volume.text.toString().toDouble()
+                val taxes = eT_wpSell_taxes.text.toString().toDouble()
+                val expenses = eT_wpSell_expenses.text.toString().toDouble()
+                val credit = eT_wpSell_credit.text.toString().toDouble()
 
                 val i = intent
                 i.putExtra("aktieSell", ShareSell(
-                    datum,
-                    ertrag,
-                    volumen,
-                    steuern,
-                    spesen,
-                    gutschrift
+                    date,
+                    profit,
+                    volume,
+                    taxes,
+                    expenses,
+                    credit
                 ))
                 setResult(Activity.RESULT_OK, i)
                 finish()

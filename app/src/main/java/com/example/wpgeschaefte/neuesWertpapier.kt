@@ -133,22 +133,22 @@ private fun updateLabel(myCalendar: Calendar, dateEditText: EditText) {
     override fun available() {
         val name = eT_neues_Name.text.toString()
         val symbol = eT_neues_Symbol.text.toString()
-        val kaufPreis = eT_neues_Kaufpreis.text.toString().toBigDecimal().setScale(2, RoundingMode.UP).toDouble()
-        val kaufDatum = eT_neues_Datum.text.toString()
-        val spesen = eT_neues_Spesen.text.toString().toBigDecimal().setScale(2, RoundingMode.UP).toDouble()
-        val anzahl = eT_neues_Anzahl.text.toString().toInt()
-        val wert = 0.0
-        val kaufwert = anzahl*kaufPreis
+        val purchasePrice = eT_neues_Kaufpreis.text.toString().toBigDecimal().setScale(2, RoundingMode.UP).toDouble()
+        val purchaseDate = eT_neues_Datum.text.toString()
+        val expenses = eT_neues_Spesen.text.toString().toBigDecimal().setScale(2, RoundingMode.UP).toDouble()
+        val amount = eT_neues_Anzahl.text.toString().toInt()
+        val value = 0.0
+        val purchaseValue = amount*purchasePrice
         val i = intent
         var newShare =  Stockitem(
             name,
             symbol,
-            kaufPreis,
-            kaufDatum,
-            spesen,
-            anzahl,
-            wert,
-            kaufwert
+            purchasePrice,
+            purchaseDate,
+            expenses,
+            amount,
+            value,
+            purchaseValue
         )
         i.putExtra("neueAktie", newShare)
         setResult(Activity.RESULT_OK, i)

@@ -48,24 +48,24 @@ class neueDividende : AppCompatActivity(), View.OnClickListener {
 
                 if (!allFilled()) {
                     getToast()
-                } else {val datum = eT_newDivi_date.text.toString()
-                    val ertrag = eT_newDivi_ertrag.text.toString().toBigDecimal().setScale(2, RoundingMode.UP).toDouble()
-                    val volumen = eT_newDivi_volume.text.toString().toBigDecimal().setScale(2, RoundingMode.UP).toDouble()
-                    val steuern = eT_newDivi_taxes.text.toString().toBigDecimal().setScale(2, RoundingMode.UP).toDouble()
-                    val spesen = eT_newDivi_expenses.text.toString().toBigDecimal().setScale(2, RoundingMode.UP).toDouble()
-                    val gutschrift = eT_newDivi_credit.text.toString().toBigDecimal().setScale(2, RoundingMode.UP).toDouble()
-                    val stk = eT_newDivi_stk.text.toString().toInt()
+                } else {val date = eT_newDivi_date.text.toString()
+                    val profit = eT_newDivi_ertrag.text.toString().toBigDecimal().setScale(2, RoundingMode.UP).toDouble()
+                    val volume = eT_newDivi_volume.text.toString().toBigDecimal().setScale(2, RoundingMode.UP).toDouble()
+                    val taxes = eT_newDivi_taxes.text.toString().toBigDecimal().setScale(2, RoundingMode.UP).toDouble()
+                    val expenses = eT_newDivi_expenses.text.toString().toBigDecimal().setScale(2, RoundingMode.UP).toDouble()
+                    val credit = eT_newDivi_credit.text.toString().toBigDecimal().setScale(2, RoundingMode.UP).toDouble()
+                    val amount = eT_newDivi_stk.text.toString().toInt()
 
                     val i = intent
                     i.putExtra(
                         "neueDivi", Dividends(
-                            datum,
-                            ertrag,
-                            volumen,
-                            steuern,
-                            spesen,
-                            gutschrift,
-                            stk
+                            date,
+                            profit,
+                            volume,
+                            taxes,
+                            expenses,
+                            credit,
+                            amount
                         )
                     )
                     setResult(Activity.RESULT_OK, i)

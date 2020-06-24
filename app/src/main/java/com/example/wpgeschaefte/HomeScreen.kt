@@ -71,14 +71,14 @@ class HomeScreen : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         if(requestCode == 999 && resultCode == Activity.RESULT_OK){
 
-            val Aktie = data?.getParcelableExtra<Stockitem>("neueAktie")
-            if (ShareSingleton.validSymbol && Aktie != null) {
-                val neueAktie = Share(Aktie, arrayListOf<Dividends>(),arrayListOf<Expense>(), Aktie.purchasePrice, false, null)
-                ShareSingleton.shareList.add(neueAktie)
+            val share = data?.getParcelableExtra<Stockitem>("neueAktie")
+            if (ShareSingleton.validSymbol && share != null) {
+                val newShare = Share(share, arrayListOf<Dividends>(),arrayListOf<Expense>(), share.purchasePrice, false, null)
+                ShareSingleton.shareList.add(newShare)
                 Log.i("LOG", "neue Aktie hinzugefügt")
                 createJSONFromStocks("myStocks.json", this)
                 //calc data
-                calcAktie()
+                calcShare()
                 //notify recycler adapter
                 rV_aktien.adapter?.notifyDataSetChanged()
                 val sum = CalcHomeScreen().checkTotalSum().toString()
@@ -88,10 +88,10 @@ class HomeScreen : AppCompatActivity() {
     }
 
 
-    fun calcAktie(){
-        val currentAktie = ShareSingleton.shareList[ShareSingleton.shareList.size-1]
-        currentAktie.currentPrice = ShareSingleton.currentPrice
-        currentAktie.buyData.value = currentAktie.currentPrice * currentAktie.buyData.amount
+    fun calcShare(){
+        val currentShare = ShareSingleton.shareList[ShareSingleton.shareList.size-1]
+        currentShare.currentPrice = ShareSingleton.currentPrice
+        currentShare.buyData.value = currentShare.currentPrice * currentShare.buyData.amount
     }
 
     override fun onResume() {
@@ -155,9 +155,9 @@ class HomeScreen : AppCompatActivity() {
 class MyViewHolder(view: View) : RecyclerView.ViewHolder(view){
 
     val tV_name = view.findViewById<TextView>(R.id.home_recycleritem_Name)
-    val tv_bestand = view.findViewById<TextView>(R.id.home_recycleritem_bestand)
-    val tv_kaufPreis = view.findViewById<TextView>(R.id.home_recycleritem_Kaufkurs)
-    val tv_wert = view.findViewById<TextView>(R.id.home_recycleritem_WertAktuell)
+    val tv_stock = view.findViewById<TextView>(R.id.home_recycleritem_bestand)
+    val tv_purchasePrice = view.findViewById<TextView>(R.id.home_recycleritem_Kaufkurs)
+    val tv_value = view.findViewById<TextView>(R.id.home_recycleritem_WertAktuell)
     val tv_currentPrice = view.findViewById<TextView>(R.id.home_recycleritem_KursAktuell)
     init {
 
@@ -191,9 +191,9 @@ class MyRecyclerAdapter(val list: MutableList<Share>, val context: Context) : Re
             soldtext = "nein"
         }
         holder.tV_name.text = "${item.buyData.name} (${item.buyData.symbol})"
-        holder.tv_bestand.text = "Bestand: ${soldtext}"
-        holder.tv_kaufPreis.text = "Preis: € ${item.buyData.purchasePrice.toString().toBigDecimal().setScale(2, RoundingMode.UP).toDouble()}"
-        holder.tv_wert.text = "Wert: € ${item.buyData.value.toString().toBigDecimal().setScale(2, RoundingMode.UP).toDouble()}"
+        holder.tv_stock.text = "Bestand: ${soldtext}"
+        holder.tv_purchasePrice.text = "Preis: € ${item.buyData.purchasePrice.toString().toBigDecimal().setScale(2, RoundingMode.UP).toDouble()}"
+        holder.tv_value.text = "Wert: € ${item.buyData.value.toString().toBigDecimal().setScale(2, RoundingMode.UP).toDouble()}"
         holder.tv_currentPrice.text = "Aktuell: € ${item.currentPrice.toString().toBigDecimal().setScale(2, RoundingMode.UP).toDouble()}"
 
         //get a Toast message with the the country text > if you clicked on the item

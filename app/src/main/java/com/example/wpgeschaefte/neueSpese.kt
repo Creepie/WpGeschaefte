@@ -47,13 +47,13 @@ class neueSpese : AppCompatActivity(), View.OnClickListener {
                 if (!allFilled()) {
                     getToast()
                 } else {
-                    val datum = eT_newSpese_date.text.toString()
-                    val betrag = eT_newSpese_betrag.text.toString().toBigDecimal().setScale(2, RoundingMode.UP).toDouble()
+                    val date = eT_newSpese_date.text.toString()
+                    val profit = eT_newSpese_betrag.text.toString().toBigDecimal().setScale(2, RoundingMode.UP).toDouble()
 
                     val i = intent
                     i.putExtra("neueSpese", Expense(
-                        datum,
-                        betrag
+                        date,
+                        profit
                     ))
                     setResult(Activity.RESULT_OK, i)
                     finish()
