@@ -51,12 +51,12 @@ class CalcDetailScreen {
 
     fun getAverageDivi(): Double {
         var average: Double = 0.0
-        if (AktieSingleton.selectedAktie?.dividenden !=null) {
+        if (AktieSingleton.selectedAktie?.dividenden!!.size !=0) {
             for (Divi in AktieSingleton.selectedAktie?.dividenden!!) {
-                average += Divi.gutschrift
+                average += Divi.ertrag
             }
 
-            average = average / AktieSingleton.selectedAktie!!.kauf.anzahl
+            average = average / AktieSingleton.selectedAktie!!.dividenden.size
 
             average = average.toBigDecimal().setScale(2, RoundingMode.UP).toDouble()
         }
