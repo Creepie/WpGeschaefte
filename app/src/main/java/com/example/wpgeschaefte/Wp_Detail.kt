@@ -129,9 +129,9 @@ class Wp_Detail : AppCompatActivity() {
                 aktie?.spesen?.add(spese)
 
             }
-            //save in Json
-            HomeScreen.createJSONFromStocks("myStocks.json", this)
         }
+        //save in Json
+        HomeScreen.createJSONFromStocks("myStocks.json", this)
     }
 }
 
