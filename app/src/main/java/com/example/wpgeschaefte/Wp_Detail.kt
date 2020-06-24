@@ -130,7 +130,7 @@ class Wp_Detail : AppCompatActivity() {
 
             }
             //save in Json
-            recreate()
+            HomeScreen.createJSONFromStocks("myStocks.json", this)
         }
     }
 }

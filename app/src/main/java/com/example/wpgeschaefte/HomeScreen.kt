@@ -37,7 +37,7 @@ class HomeScreen : AppCompatActivity() {
         Log.i("LOG", "onCreate")
         //returns '[]' if the file contains no JSON-Objects
         //returns "" (empty string) if file  has not been created yet -> gets returned by FileNotFoundException
-        val jsonString = readStocksFromJSON ( "myStocks.json")
+        val jsonString = readStocksFromJSON ( "myStocks.json", this)
         var gson = Gson()
         val listType: Type = object : TypeToken<ArrayList<Aktie?>?>() {}.type
 
@@ -76,7 +76,7 @@ class HomeScreen : AppCompatActivity() {
                 val neueAktie = Aktie(Aktie, arrayListOf<Dividende>(),arrayListOf<Spese>(), Aktie.kaufpreis, false, null)
                 AktieSingleton.aktieListe.add(neueAktie)
                 Log.i("LOG", "neue Aktie hinzugefügt")
-                createJSONFromStocks("myStocks.json")
+                createJSONFromStocks("myStocks.json", this)
                 //calc data
                 calcAktie()
                 //notify recycler adapter
@@ -84,46 +84,9 @@ class HomeScreen : AppCompatActivity() {
                 val sum = CalcHomeScreen().checkTotalSum().toString()
                 tV_gesamt.text = "Derzeitiger Wert deines Portfilios: € ${sum}"
             }
-            recreate()
         }
     }
 
-    private fun readStocksFromJSON(fileName: String): String? {
-        return try {
-            val fis = openFileInput(fileName)
-            val isr = InputStreamReader(fis)
-            val bufferedReader = BufferedReader(isr)
-            val sb = StringBuilder()
-            var line: String?
-            while (bufferedReader.readLine().also { line = it } != null) {
-                sb.append(line)
-            }
-             sb.toString()
-        } catch (fileNotFound: FileNotFoundException) {
-            ""
-        } catch (ioException: IOException) {
-            null
-        }
-    }
-
-     private fun createJSONFromStocks(fileName: String): Boolean {
-         var g = Gson()
-         var jsonString = g.toJson(AktieSingleton.aktieListe)
-         var file = File(filesDir,fileName)
-         var fos = file.outputStream()
-
-        return try {
-            if (jsonString != null) {
-                fos.write(jsonString.toByteArray())
-            }
-            fos.close()
-            true
-        } catch (fileNotFound: FileNotFoundException) {
-            false
-        } catch (ioException: IOException) {
-            false
-        }
-    }
 
     fun calcAktie(){
         val currentAktie = AktieSingleton.aktieListe[AktieSingleton.aktieListe.size-1]
@@ -139,7 +102,47 @@ class HomeScreen : AppCompatActivity() {
         val sum = CalcHomeScreen().checkTotalSum().toString()
         tV_gesamt.text = "Derzeitiger Wert deines Portfolios: € ${sum}"
         tV_purchaseValue.text = "Kaufwert deines Portfolios: € ${purchaseValue}"
-        createJSONFromStocks("myStocks.json")
+        createJSONFromStocks("myStocks.json", this)
+    }
+
+    companion object{
+
+         fun readStocksFromJSON(fileName: String, context:Context): String? {
+            return try {
+                val fis = context.openFileInput(fileName)
+                val isr = InputStreamReader(fis)
+                val bufferedReader = BufferedReader(isr)
+                val sb = StringBuilder()
+                var line: String?
+                while (bufferedReader.readLine().also { line = it } != null) {
+                    sb.append(line)
+                }
+                sb.toString()
+            } catch (fileNotFound: FileNotFoundException) {
+                ""
+            } catch (ioException: IOException) {
+                null
+            }
+        }
+
+         fun createJSONFromStocks(fileName: String, context:Context): Boolean {
+            var g = Gson()
+            var jsonString = g.toJson(AktieSingleton.aktieListe)
+            var file = File(context.filesDir,fileName)
+            var fos = file.outputStream()
+
+            return try {
+                if (jsonString != null) {
+                    fos.write(jsonString.toByteArray())
+                }
+                fos.close()
+                true
+            } catch (fileNotFound: FileNotFoundException) {
+                false
+            } catch (ioException: IOException) {
+                false
+            }
+        }
     }
 }
 
