@@ -69,7 +69,7 @@ class CalcDetailScreen {
             return averagePercent
         }
             for (Divi in AktieSingleton.selectedAktie?.dividenden!!) {
-                var percent = Divi.gutschrift / AktieSingleton.selectedAktie!!.kauf.kaufWert
+                var percent = (Divi.gutschrift / AktieSingleton.selectedAktie!!.kauf.kaufWert)*100
                 averagePercent += percent
             }
             averagePercent = averagePercent / AktieSingleton.selectedAktie!!.dividenden.size
