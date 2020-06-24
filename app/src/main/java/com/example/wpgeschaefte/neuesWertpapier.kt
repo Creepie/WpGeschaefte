@@ -82,7 +82,7 @@ class neuesWertpapier : AppCompatActivity(), View.OnClickListener {
                         val spesen = eT_neues_Spesen.text.toString().toBigDecimal().setScale(2, RoundingMode.UP).toDouble()
                         val anzahl = eT_neues_Anzahl.text.toString().toInt()
                         val wert = 0.0
-                        val kaufwert = anzahl*kaufPreis-spesen
+                        val kaufwert = anzahl*kaufPreis
                         val i = intent
                         var neueAktie =  Aktiepos(
                         name,
