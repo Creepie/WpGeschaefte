@@ -17,10 +17,8 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.activity_homescreen.*
 import kotlinx.android.synthetic.main.activity_wp__detail.*
 import java.math.RoundingMode
-import kotlin.math.roundToInt
 
 class Wp_Detail : AppCompatActivity() {
     var aktie = AktieSingleton.selectedAktie

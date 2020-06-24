@@ -1,8 +1,7 @@
 package com.example.wpgeschaefte
 
-import androidx.appcompat.app.AppCompatActivity
 import java.math.RoundingMode
-import kotlin.math.roundToInt
+
 class CalcHomeScreen {
 
     //check value of the whole portfolio
@@ -79,8 +78,12 @@ class CalcHomeScreen {
     fun getProfitPercent():Double {
         var percent: Double = 0.0
         var diff: Double = getProfit()
+        val purchaseValue = getPurchaseValue()
 
-        percent = (diff/getPurchaseValue())*100
+        if(purchaseValue!=0.0){
+            percent = (diff/getPurchaseValue())*100
+        }
+
         percent = percent.toString().toBigDecimal().setScale(2, RoundingMode.UP).toDouble()
 
         return percent
