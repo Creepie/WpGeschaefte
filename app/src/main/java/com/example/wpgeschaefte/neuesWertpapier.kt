@@ -39,22 +39,7 @@ class neuesWertpapier : AppCompatActivity(), View.OnClickListener {
         eT_neues_Datum.setOnClickListener(this)
 
         eT_neues_Symbol.setFilters(eT_neues_Symbol.getFilters() + InputFilter.AllCaps())
-        eT_neues_Symbol.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(p0: Editable?) {
-                  //  API().getValues(eT_neues_Symbol.text.toString())
 
-            }
-
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-
-            }
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-
-            }
-        }
-
-        )
     }
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
        menuInflater.inflate(R.menu.menu_neueswertpapier, menu)
