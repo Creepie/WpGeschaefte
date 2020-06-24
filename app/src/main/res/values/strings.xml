@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">WpGeschaefte</string>
+    <string name="app_name">MyBuffet</string>
 
     <string-array name="sP_list_homescreen">
         <item>Alle</item>
