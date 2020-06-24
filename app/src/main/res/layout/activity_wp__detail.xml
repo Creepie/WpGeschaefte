@@ -10,7 +10,8 @@
         android:id="@+id/view"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
-        android:background="#03A9F4"
+        android:background="@color/colorPrimary"
+
         app:layout_constraintBottom_toBottomOf="@+id/linearLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -20,8 +21,8 @@
         android:id="@+id/view2"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
-        android:background="#DCD4D4"
         app:layout_constraintBottom_toBottomOf="@+id/linearLayout3"
+        android:background="@color/details_lighterGrey"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/view" />
@@ -31,8 +32,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:background="#E403A9F4"
         android:orientation="vertical"
+        android:background="@color/details_lightGrey"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tV_wpDetail_wpName">
@@ -355,6 +356,7 @@
         android:layout_marginEnd="8dp"
         android:text="Voestalpine AG"
         android:textAlignment="viewStart"
+        android:textColor="@color/colorWhite"
         android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/bT_wpDetail_aktieLöschen"
