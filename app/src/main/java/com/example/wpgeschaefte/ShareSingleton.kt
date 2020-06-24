@@ -1,8 +1,8 @@
 package com.example.wpgeschaefte
 
-object AktieSingleton{
-     var aktieListe: ArrayList<Aktie> = arrayListOf<Aktie>()
-     var selectedAktie: Aktie? = null
+object ShareSingleton{
+     var shareList: ArrayList<Share> = arrayListOf<Share>()
+     var selectedShare: Share? = null
      var currentIndex: Int = 0
 
      //API CALL

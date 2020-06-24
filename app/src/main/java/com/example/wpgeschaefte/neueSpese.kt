@@ -16,7 +16,6 @@ import android.view.View
 import android.widget.EditText
 import android.widget.Toast
 import androidx.annotation.RequiresApi
-import kotlinx.android.synthetic.main.activity_neue_dividende.*
 import kotlinx.android.synthetic.main.activity_neue_spese.*
 import java.math.RoundingMode
 import java.util.*
@@ -52,7 +51,7 @@ class neueSpese : AppCompatActivity(), View.OnClickListener {
                     val betrag = eT_newSpese_betrag.text.toString().toBigDecimal().setScale(2, RoundingMode.UP).toDouble()
 
                     val i = intent
-                    i.putExtra("neueSpese", Spese(
+                    i.putExtra("neueSpese", Expense(
                         datum,
                         betrag
                     ))
@@ -106,7 +105,7 @@ class neueSpese : AppCompatActivity(), View.OnClickListener {
 }
 
 
-data class Spese(val datum: String?, val betrag: Double):Parcelable {
+data class Expense(val date: String?, val amount: Double):Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readString(),
         parcel.readDouble()
@@ -114,20 +113,20 @@ data class Spese(val datum: String?, val betrag: Double):Parcelable {
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
-        parcel.writeString(datum)
-        parcel.writeDouble(betrag)
+        parcel.writeString(date)
+        parcel.writeDouble(amount)
     }
 
     override fun describeContents(): Int {
         return 0
     }
 
-    companion object CREATOR : Parcelable.Creator<Spese> {
-        override fun createFromParcel(parcel: Parcel): Spese {
-            return Spese(parcel)
+    companion object CREATOR : Parcelable.Creator<Expense> {
+        override fun createFromParcel(parcel: Parcel): Expense {
+            return Expense(parcel)
         }
 
-        override fun newArray(size: Int): Array<Spese?> {
+        override fun newArray(size: Int): Array<Expense?> {
             return arrayOfNulls(size)
         }
     }

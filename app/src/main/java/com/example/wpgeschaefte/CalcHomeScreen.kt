@@ -8,22 +8,22 @@ class CalcHomeScreen {
     fun checkTotalSum(): Double {
         var sum: Double = 0.0
 
-        for (Aktie in AktieSingleton.aktieListe) {
+        for (Aktie in ShareSingleton.shareList) {
 
             //count the total value from the current stock
-            sum += (Aktie.currentPrice * Aktie.kauf.anzahl) - Aktie.kauf.spesen
+            sum += (Aktie.currentPrice * Aktie.buyData.amount) - Aktie.buyData.expenses
 
             //if there are any divi -> add them to the sum
-            if (Aktie.dividenden != null) {
-                for (Dividende in Aktie.dividenden) {
-                    sum += Dividende.gutschrift
+            if (Aktie.dividends != null) {
+                for (Dividende in Aktie.dividends) {
+                    sum += Dividende.credit
                 }
             }
 
             //if there are any expanses -> calculate minus from the sum
-            if (Aktie.spesen != null) {
-                for (Spesen in Aktie.spesen) {
-                    sum -= Spesen.betrag
+            if (Aktie.expenses != null) {
+                for (Spesen in Aktie.expenses) {
+                    sum -= Spesen.amount
                 }
             }
 
@@ -39,8 +39,8 @@ class CalcHomeScreen {
     fun getPurchaseValue(): Double{
         var value = 0.0
 
-        for (Aktie in AktieSingleton.aktieListe){
-            value += (Aktie.kauf.kaufpreis*Aktie.kauf.anzahl)-Aktie.kauf.spesen
+        for (Aktie in ShareSingleton.shareList){
+            value += (Aktie.buyData.purchasePrice*Aktie.buyData.amount)-Aktie.buyData.expenses
         }
         value = value.toString().toBigDecimal().setScale(2, RoundingMode.UP).toDouble()
         return value
@@ -49,10 +49,10 @@ class CalcHomeScreen {
     fun gettotalDivi(): Double {
         var total: Double = 0.0
 
-        for (Aktie in AktieSingleton.aktieListe){
-            if(Aktie.dividenden.size!=0){
-                for(Divi in Aktie.dividenden){
-                    total +=Divi.gutschrift
+        for (Aktie in ShareSingleton.shareList){
+            if(Aktie.dividends.size!=0){
+                for(Divi in Aktie.dividends){
+                    total +=Divi.credit
                 }
             }
         }

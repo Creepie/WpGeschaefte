@@ -21,7 +21,7 @@ import kotlinx.android.synthetic.main.activity_wp__detail.*
 import java.math.RoundingMode
 
 class Wp_Detail : AppCompatActivity() {
-    var aktie = AktieSingleton.selectedAktie
+    var aktie = ShareSingleton.selectedShare
 
     @RequiresApi(Build.VERSION_CODES.O)
     @SuppressLint("SourceLockedOrientationActivity")
@@ -61,39 +61,39 @@ class Wp_Detail : AppCompatActivity() {
         }
 
         bT_wpDetail_aktieLöschen.setOnClickListener {
-            AktieSingleton.aktieListe.removeAt(AktieSingleton.currentIndex)
+            ShareSingleton.shareList.removeAt(ShareSingleton.currentIndex)
             finish()
         }
 
         rV_wpDetail_divis.layoutManager = LinearLayoutManager(this)
 
         if (aktie != null) {
-            rV_wpDetail_divis.adapter = aktie!!.dividenden?.let { MyDiviRecyclerAdapter(it, this) }
+            rV_wpDetail_divis.adapter = aktie!!.dividends?.let { MyDiviRecyclerAdapter(it, this) }
         };
 
         //add data to textviews
-        tV_wpDetail_wpName.text = aktie?.kauf?.name
-        tV_wpDetail_symbol.text = aktie?.kauf?.symbol
-        tV_wpDetail_buyDate.text = aktie?.kauf?.kaufDatum
+        tV_wpDetail_wpName.text = aktie?.buyData?.name
+        tV_wpDetail_symbol.text = aktie?.buyData?.symbol
+        tV_wpDetail_buyDate.text = aktie?.buyData?.purchaseDate
         tv_wpDetail_perShareCurrentPrice.text = "€ ${aktie?.currentPrice.toString().toBigDecimal().setScale(2, RoundingMode.UP).toDouble()}"
-        tv_wpDetail_perShareBuyPrice.text = "€ ${aktie?.kauf?.kaufpreis.toString().toBigDecimal().setScale(2, RoundingMode.UP).toDouble()}"
-        tv_wpDetail_currentPrice.text = "€ ${aktie?.kauf?.wert.toString().toBigDecimal().setScale(2, RoundingMode.UP).toDouble()}"
-        tV_wpDetail_pieces.text = "${aktie?.kauf?.anzahl.toString()} Stk"
-        tV_wpDetail_taxes.text = "Steuern: ${CalcDetailScreen().totalTaxes()} €"
+        tv_wpDetail_perShareBuyPrice.text = "€ ${aktie?.buyData?.purchasePrice.toString().toBigDecimal().setScale(2, RoundingMode.UP).toDouble()}"
+        tv_wpDetail_currentPrice.text = "€ ${aktie?.buyData?.value.toString().toBigDecimal().setScale(2, RoundingMode.UP).toDouble()}"
+        tV_wpDetail_pieces.text = "${aktie?.buyData?.amount.toString()} Stk"
+        tV_wpDetail_taxes.text = "Steuern: ${CalcDetailScreen().getTotalTaxes()} €"
         tV_wpDetail_expenses.text = "Spesen: ${CalcDetailScreen().getTotalExpanses()} €"
-        tV_wpDetail_averageDivi.text = "€ ${CalcDetailScreen().getAverageDivi()}"
+        tV_wpDetail_averageDivi.text = "€ ${CalcDetailScreen().getAverageDividends()}"
         tV_wpDetail_totalCredits.text = "€ ${CalcDetailScreen().getTotalCredit()}"
         tV_wpDetail_profit.text ="Gewinn: ${CalcDetailScreen().getProfit()}% ( p.A.: ${CalcDetailScreen().getProfitpA()}% )"
-        tV_wpDetail_buyPrice.text = "€ ${aktie?.kauf?.kaufpreis?.times(aktie?.kauf?.anzahl!!)}"
+        tV_wpDetail_buyPrice.text = "€ ${aktie?.buyData?.purchasePrice?.times(aktie?.buyData?.amount!!)}"
         tv_wpDetail_holdingTime.text ="Jahre ${CalcDetailScreen().getHoldyears()}"
-        tV_wpDetail_averagePercent.text = "${CalcDetailScreen().getAverageDiviPercent()} %"
+        tV_wpDetail_averagePercent.text = "${CalcDetailScreen().getAverageDividendsPercent()} %"
 
 
 
-        val currentPrice = aktie?.kauf?.spesen?.let {
-            aktie?.kauf?.kaufpreis.let { it1 ->
+        val currentPrice = aktie?.buyData?.expenses?.let {
+            aktie?.buyData?.purchasePrice.let { it1 ->
                 if (it1 != null) {
-                    aktie?.kauf?.anzahl?.times(it1)
+                    aktie?.buyData?.amount?.times(it1)
                         ?.minus(it)
                 }
             }
@@ -105,9 +105,9 @@ class Wp_Detail : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == 100 && resultCode == Activity.RESULT_OK) {
-            val dividende = data?.getParcelableExtra<Dividende>("neueDivi")
+            val dividende = data?.getParcelableExtra<Dividends>("neueDivi")
             if (dividende != null) {
-                aktie?.dividenden?.add(dividende)
+                aktie?.dividends?.add(dividende)
                 Log.i("LOG", "neue divi hinzugefügt")
                 rV_wpDetail_divis.adapter?.notifyDataSetChanged()
             }
@@ -122,11 +122,12 @@ class Wp_Detail : AppCompatActivity() {
             recreate()
         }
         else if (requestCode == 300 && resultCode == Activity.RESULT_OK){
-            val spese = data?.getParcelableExtra<Spese>("neueSpese")
-            if (spese != null) {
-                aktie?.spesen?.add(spese)
+            val expense = data?.getParcelableExtra<Expense>("neueSpese")
+            if (expense != null) {
+                aktie?.expenses?.add(expense)
 
             }
+            recreate()
         }
         //save in Json
         HomeScreen.createJSONFromStocks("myStocks.json", this)
@@ -149,7 +150,7 @@ class MyDiviViewHolder(view: View) : RecyclerView.ViewHolder(view){
     }
 }
 
-class MyDiviRecyclerAdapter(val list: MutableList<Dividende>, val context: Context) : RecyclerView.Adapter<MyDiviViewHolder>() {
+class MyDiviRecyclerAdapter(val list: MutableList<Dividends>, val context: Context) : RecyclerView.Adapter<MyDiviViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyDiviViewHolder {
 
@@ -170,14 +171,14 @@ class MyDiviRecyclerAdapter(val list: MutableList<Dividende>, val context: Conte
     override fun onBindViewHolder(holder: MyDiviViewHolder, position: Int) {
 
         val item = list[position]
-        holder.tV_gutschrift.text = "Gutschrift: € ${item.gutschrift.toString().toBigDecimal().setScale(2, RoundingMode.UP).toDouble()}"
-        holder.tV_datum.text = "Datum: ${item.datum}"
-        holder.tV_stk.text = "STK: ${item.stk}"
+        holder.tV_gutschrift.text = "Gutschrift: € ${item.credit.toString().toBigDecimal().setScale(2, RoundingMode.UP).toDouble()}"
+        holder.tV_datum.text = "Datum: ${item.date}"
+        holder.tV_stk.text = "STK: ${item.amount}"
 
-        val percent = AktieSingleton.selectedAktie?.kauf?.kaufWert?.let { item.gutschrift?.div(it)?.times(100) }
+        val percent = ShareSingleton.selectedShare?.buyData?.purchaseValue?.let { item.credit?.div(it)?.times(100) }
         holder.tV_percent.text = "% (netto): ${percent?.toString()?.toBigDecimal()
             ?.setScale(2, RoundingMode.UP)?.toDouble()}"
-        holder.tV_perShare.text = "Ertrag: € ${item.ertrag.toString().toBigDecimal().setScale(2, RoundingMode.UP).toDouble()}"
+        holder.tV_perShare.text = "Ertrag: € ${item.profit.toString().toBigDecimal().setScale(2, RoundingMode.UP).toDouble()}"
 
 
         //get a Toast message with the the country text > if you clicked on the item

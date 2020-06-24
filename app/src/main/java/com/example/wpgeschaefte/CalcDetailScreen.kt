@@ -15,14 +15,14 @@ class CalcDetailScreen {
 
     //count of all taxes(active, sold and divi) 25% taxes
 //
-    fun totalTaxes(): Double {
+    fun getTotalTaxes(): Double {
         var totalTax: Double = 0.0
 
-        for (Aktie in AktieSingleton.selectedAktie?.dividenden!!){
-            totalTax += Aktie.steuern
+        for (Share in ShareSingleton.selectedShare?.dividends!!){
+            totalTax += Share.taxes
         }
-        if(AktieSingleton.selectedAktie!!.soldData!=null){
-            totalTax += AktieSingleton.selectedAktie!!.soldData?.steuern!!
+        if(ShareSingleton.selectedShare!!.soldData!=null){
+            totalTax += ShareSingleton.selectedShare!!.soldData?.steuern!!
         }
         totalTax = totalTax.toString().toBigDecimal().setScale(2, RoundingMode.UP).toDouble()
         return totalTax
@@ -30,49 +30,49 @@ class CalcDetailScreen {
 
     // count of all taxes plus yearly expenses
     fun getTotalExpanses(): Double {
-        var totalExpanses: Double = 0.0
+        var totalExpenses: Double = 0.0
 
-        totalExpanses += AktieSingleton.selectedAktie?.kauf?.spesen!!
-        if(AktieSingleton.selectedAktie!!.soldData!=null){
-            totalExpanses += AktieSingleton.selectedAktie!!.soldData?.spesen!!
+        totalExpenses += ShareSingleton.selectedShare?.buyData?.expenses!!
+        if(ShareSingleton.selectedShare!!.soldData!=null){
+            totalExpenses += ShareSingleton.selectedShare!!.soldData?.spesen!!
         }
 
 
-        for (Spese in AktieSingleton.selectedAktie!!.spesen){
-            totalExpanses += Spese.betrag
+        for (expense in ShareSingleton.selectedShare!!.expenses){
+            totalExpenses += expense.amount
         }
-        for (DiviSpese in AktieSingleton.selectedAktie!!.dividenden){
-            totalExpanses += DiviSpese.spesen
+        for (dividend_expense in ShareSingleton.selectedShare!!.dividends){
+            totalExpenses += dividend_expense.expenses
         }
 
-        totalExpanses = totalExpanses.toString().toBigDecimal().setScale(2, RoundingMode.UP).toDouble()
-        return totalExpanses
+        totalExpenses = totalExpenses.toString().toBigDecimal().setScale(2, RoundingMode.UP).toDouble()
+        return totalExpenses
     }
 
-    fun getAverageDivi(): Double {
+    fun getAverageDividends(): Double {
         var average: Double = 0.0
-        if (AktieSingleton.selectedAktie?.dividenden!!.size !=0) {
-            for (Divi in AktieSingleton.selectedAktie?.dividenden!!) {
-                average += Divi.ertrag
+        if (ShareSingleton.selectedShare?.dividends!!.size !=0) {
+            for (Divi in ShareSingleton.selectedShare?.dividends!!) {
+                average += Divi.profit
             }
 
-            average = average / AktieSingleton.selectedAktie!!.dividenden.size
+            average = average / ShareSingleton.selectedShare!!.dividends.size
 
             average = average.toBigDecimal().setScale(2, RoundingMode.UP).toDouble()
         }
         return average
     }
 
-    fun getAverageDiviPercent(): Double {
+    fun getAverageDividendsPercent(): Double {
         var averagePercent: Double = 0.0
-        if (AktieSingleton.selectedAktie!!.dividenden.size==0) {
+        if (ShareSingleton.selectedShare!!.dividends.size==0) {
             return averagePercent
         }
-            for (Divi in AktieSingleton.selectedAktie?.dividenden!!) {
-                var percent = (Divi.gutschrift / AktieSingleton.selectedAktie!!.kauf.kaufWert)*100
+            for (dividend in ShareSingleton.selectedShare?.dividends!!) {
+                var percent = (dividend.credit / ShareSingleton.selectedShare!!.buyData.purchaseValue)*100
                 averagePercent += percent
             }
-            averagePercent = averagePercent / AktieSingleton.selectedAktie!!.dividenden.size
+            averagePercent = averagePercent / ShareSingleton.selectedShare!!.dividends.size
             averagePercent =
                 averagePercent.toString().toBigDecimal().setScale(2, RoundingMode.UP).toDouble()
 
@@ -82,8 +82,8 @@ class CalcDetailScreen {
     fun getTotalCredit(): Double {
         var credit: Double = 0.0
 
-        for (Divi in AktieSingleton.selectedAktie?.dividenden!!){
-            credit += Divi.gutschrift
+        for (dividend in ShareSingleton.selectedShare?.dividends!!){
+            credit += dividend.credit
         }
 
         credit = credit.toString().toBigDecimal().setScale(2, RoundingMode.UP).toDouble()
@@ -93,27 +93,27 @@ class CalcDetailScreen {
     fun getProfit() : Double {
         var profit: Double = 0.0
 
-        profit += AktieSingleton.selectedAktie?.currentPrice!!*AktieSingleton.selectedAktie!!.kauf.anzahl
+        profit += ShareSingleton.selectedShare?.currentPrice!!*ShareSingleton.selectedShare!!.buyData.amount
 
 
-        if (AktieSingleton.selectedAktie!!.dividenden!=null){
-            for (Divi in AktieSingleton.selectedAktie!!.dividenden){
-                profit += Divi.gutschrift
+        if (ShareSingleton.selectedShare!!.dividends!=null){
+            for (dividend in ShareSingleton.selectedShare!!.dividends){
+                profit += dividend.credit
             }
         }
-        if (AktieSingleton.selectedAktie!!.spesen!=null){
-            for (Spesen in AktieSingleton.selectedAktie!!.spesen){
-                profit -= Spesen.betrag
+        if (ShareSingleton.selectedShare!!.expenses!=null){
+            for (expense in ShareSingleton.selectedShare!!.expenses){
+                profit -= expense.amount
             }
         }
 
-        if (AktieSingleton.selectedAktie!!.sold){
-            profit -= AktieSingleton.selectedAktie!!.soldData?.spesen!!
-            profit -= AktieSingleton.selectedAktie!!.soldData?.steuern!!
+        if (ShareSingleton.selectedShare!!.sold){
+            profit -= ShareSingleton.selectedShare!!.soldData?.spesen!!
+            profit -= ShareSingleton.selectedShare!!.soldData?.steuern!!
         }
 
-        val diff = profit-(AktieSingleton.selectedAktie!!.kauf.kaufWert + AktieSingleton.selectedAktie!!.kauf.spesen)
-        profit = (diff / (AktieSingleton.selectedAktie!!.kauf.kaufWert))*100
+        val diff = profit-(ShareSingleton.selectedShare!!.buyData.purchaseValue + ShareSingleton.selectedShare!!.buyData.expenses)
+        profit = (diff / (ShareSingleton.selectedShare!!.buyData.purchaseValue))*100
         profit = profit.toString().toBigDecimal().setScale(2, RoundingMode.UP).toDouble()
         return profit
     }
@@ -123,11 +123,11 @@ class CalcDetailScreen {
         var years:Double
 //"dd-MMM-yyyy"
         val formatter = DateTimeFormatter.ofPattern("dd-MMM-yyyy", Locale.ENGLISH)
-        val string = AktieSingleton.selectedAktie?.kauf?.kaufDatum
+        val string = ShareSingleton.selectedShare?.buyData?.purchaseDate
         val buyDate: LocalDate? = LocalDate.parse(string, formatter)
 
-        if (AktieSingleton.selectedAktie?.sold!!){
-            val string2 = AktieSingleton.selectedAktie!!.soldData?.datum
+        if (ShareSingleton.selectedShare?.sold!!){
+            val string2 = ShareSingleton.selectedShare!!.soldData?.datum
             val soldDate: LocalDate? = LocalDate.parse(string2, formatter)
             val period: Period = Period.between(buyDate, soldDate)
             val diff: Int = period.getDays() + (period.months*30) + (period.years*365)

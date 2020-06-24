@@ -17,7 +17,6 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_neue_dividende.*
-import kotlinx.android.synthetic.main.activity_neues_wertpapier.*
 import java.math.RoundingMode
 import java.util.*
 
@@ -59,7 +58,7 @@ class neueDividende : AppCompatActivity(), View.OnClickListener {
 
                     val i = intent
                     i.putExtra(
-                        "neueDivi", Dividende(
+                        "neueDivi", Dividends(
                             datum,
                             ertrag,
                             volumen,
@@ -124,7 +123,7 @@ class neueDividende : AppCompatActivity(), View.OnClickListener {
     }
 }
 //data stuff
-data class Dividende(val datum:String?, val ertrag:Double, val volumen:Double, val steuern:Double, val spesen:Double, val gutschrift:Double , val stk: Int) :
+data class Dividends(val date:String?, val profit:Double, val volume:Double, val taxes:Double, val expenses:Double, val credit:Double, val amount: Int) :
     Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readString(),
@@ -138,25 +137,25 @@ data class Dividende(val datum:String?, val ertrag:Double, val volumen:Double, v
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
-        parcel.writeString(datum)
-        parcel.writeDouble(ertrag)
-        parcel.writeDouble(volumen)
-        parcel.writeDouble(steuern)
-        parcel.writeDouble(spesen)
-        parcel.writeDouble(gutschrift)
-        parcel.writeInt(stk)
+        parcel.writeString(date)
+        parcel.writeDouble(profit)
+        parcel.writeDouble(volume)
+        parcel.writeDouble(taxes)
+        parcel.writeDouble(expenses)
+        parcel.writeDouble(credit)
+        parcel.writeInt(amount)
     }
 
     override fun describeContents(): Int {
         return 0
     }
 
-    companion object CREATOR : Parcelable.Creator<Dividende> {
-        override fun createFromParcel(parcel: Parcel): Dividende {
-            return Dividende(parcel)
+    companion object CREATOR : Parcelable.Creator<Dividends> {
+        override fun createFromParcel(parcel: Parcel): Dividends {
+            return Dividends(parcel)
         }
 
-        override fun newArray(size: Int): Array<Dividende?> {
+        override fun newArray(size: Int): Array<Dividends?> {
             return arrayOfNulls(size)
         }
     }

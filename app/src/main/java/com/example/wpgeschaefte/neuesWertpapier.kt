@@ -140,7 +140,7 @@ private fun updateLabel(myCalendar: Calendar, dateEditText: EditText) {
         val wert = 0.0
         val kaufwert = anzahl*kaufPreis
         val i = intent
-        var neueAktie =  Aktiepos(
+        var newShare =  Stockitem(
             name,
             symbol,
             kaufPreis,
@@ -150,7 +150,7 @@ private fun updateLabel(myCalendar: Calendar, dateEditText: EditText) {
             wert,
             kaufwert
         )
-        i.putExtra("neueAktie", neueAktie)
+        i.putExtra("neueAktie", newShare)
         setResult(Activity.RESULT_OK, i)
         finish()
     }
@@ -162,7 +162,7 @@ private fun updateLabel(myCalendar: Calendar, dateEditText: EditText) {
 
 //---------------------------------------------------
 //data stuff
-data class Aktiepos(val name: String?, val symbol: String?, val kaufpreis: Double, val kaufDatum: String?, val spesen: Double, val anzahl: Int, var wert: Double, var kaufWert: Double) :
+data class Stockitem(val name: String?, val symbol: String?, val purchasePrice: Double, val purchaseDate: String?, val expenses: Double, val amount: Int, var value: Double, var purchaseValue: Double) :
     Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readString(),
@@ -179,24 +179,24 @@ data class Aktiepos(val name: String?, val symbol: String?, val kaufpreis: Doubl
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(name)
         parcel.writeString(symbol)
-        parcel.writeDouble(kaufpreis)
-        parcel.writeString(kaufDatum)
-        parcel.writeDouble(spesen)
-        parcel.writeInt(anzahl)
-        parcel.writeDouble(wert)
-        parcel.writeDouble(kaufWert)
+        parcel.writeDouble(purchasePrice)
+        parcel.writeString(purchaseDate)
+        parcel.writeDouble(expenses)
+        parcel.writeInt(amount)
+        parcel.writeDouble(value)
+        parcel.writeDouble(purchaseValue)
     }
 
     override fun describeContents(): Int {
         return 0
     }
 
-    companion object CREATOR : Parcelable.Creator<Aktiepos> {
-        override fun createFromParcel(parcel: Parcel): Aktiepos {
-            return Aktiepos(parcel)
+    companion object CREATOR : Parcelable.Creator<Stockitem> {
+        override fun createFromParcel(parcel: Parcel): Stockitem {
+            return Stockitem(parcel)
         }
 
-        override fun newArray(size: Int): Array<Aktiepos?> {
+        override fun newArray(size: Int): Array<Stockitem?> {
             return arrayOfNulls(size)
         }
     }

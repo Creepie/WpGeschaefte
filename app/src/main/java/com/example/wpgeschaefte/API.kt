@@ -16,12 +16,12 @@ class API : AppCompatActivity() {
     //APIKey = "brf4e9nrh5rah2kpe7k0"
     private var BASE_URL = "https://finnhub.io/api/v1/"
 
-    var liste = AktieSingleton.aktieListe
+    var liste = ShareSingleton.shareList
 
     fun getValues(symbol: String, listener: SymbolAvailable) {
         var url = "quote?symbol=${symbol}&token=brf4e9nrh5rah2kpe7k0"
 
-        AktieSingleton.validSymbol = false
+        ShareSingleton.validSymbol = false
         if (symbol.length >= 3){
             val retrofit = Retrofit.Builder().baseUrl(BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
@@ -37,9 +37,9 @@ class API : AppCompatActivity() {
                         Log.e("Tag", "alles gucci")
                         val data = response.body()
                         if (data?.currentPrice  != null) {
-                            AktieSingleton.validSymbol = true
+                            ShareSingleton.validSymbol = true
                             listener.available()
-                            AktieSingleton.currentPrice = data.currentPrice.toBigDecimal().setScale(2, RoundingMode.UP).toDouble()
+                            ShareSingleton.currentPrice = data.currentPrice.toBigDecimal().setScale(2, RoundingMode.UP).toDouble()
                         } else {
                             listener.notAvailable()
                         }
@@ -57,8 +57,8 @@ class API : AppCompatActivity() {
     companion object {
         fun getValuesOnRefresh(adapter:MyRecyclerAdapter){
             val baseURL = "https://finnhub.io/api/v1/"
-            for(a in AktieSingleton.aktieListe){
-                var url = "quote?symbol=${a.kauf.symbol}&token=brf4e9nrh5rah2kpe7k0"
+            for(a in ShareSingleton.shareList){
+                var url = "quote?symbol=${a.buyData.symbol}&token=brf4e9nrh5rah2kpe7k0"
                 //Refresh data if stock hasn't been sold yet
                 if(!a.sold){
                     val retrofit = Retrofit.Builder().baseUrl(baseURL)
