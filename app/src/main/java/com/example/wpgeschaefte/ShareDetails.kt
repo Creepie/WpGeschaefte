@@ -20,7 +20,7 @@ import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.activity_wp__detail.*
 import java.math.RoundingMode
 
-class Wp_Detail : AppCompatActivity() {
+class ShareDetails : AppCompatActivity() {
     var share = ShareSingleton.selectedShare
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -28,11 +28,13 @@ class Wp_Detail : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_wp__detail)
-        //forces activity to stay in portrait mode
+        /**
+         * forces activity to stay in portrait mode
+         */
         requestedOrientation =  ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
         bT_wpDetail_neueDivi.setOnClickListener {
             if (share?.sold == false){
-                startActivityForResult(Intent(this, neueDividende::class.java), 100)
+                startActivityForResult(Intent(this, NewDividend::class.java), 100)
                 true
             } else {
                 val toast = Toast.makeText(applicationContext, "Aktie bereits verkauft, Dividende hinzufügen nicht mehr möglich", Toast.LENGTH_LONG)
@@ -42,7 +44,7 @@ class Wp_Detail : AppCompatActivity() {
 
         bT_wpDetail_sell.setOnClickListener {
             if (share?.sold == false){
-                startActivityForResult(Intent(this,Wp_Verkauf::class.java), 200)
+                startActivityForResult(Intent(this,ShareSellActivity::class.java), 200)
                 true
             } else {
                 val toast = Toast.makeText(applicationContext, "Aktie ist bereits verkauft", Toast.LENGTH_LONG)
@@ -52,7 +54,7 @@ class Wp_Detail : AppCompatActivity() {
 
         bT_wpDetail_addExpense.setOnClickListener {
             if (share?.sold == false){
-                startActivityForResult(Intent(this, neueSpese::class.java), 300)
+                startActivityForResult(Intent(this, NewExpense::class.java), 300)
                 true
             } else {
                 val toast = Toast.makeText(applicationContext, "Aktie bereits verkauft, Spese hinzufügen nicht mehr möglich", Toast.LENGTH_LONG)
@@ -87,19 +89,6 @@ class Wp_Detail : AppCompatActivity() {
         tV_wpDetail_buyPrice.text = "€ ${share?.buyData?.purchasePrice?.times(share?.buyData?.amount!!)}"
         tv_wpDetail_holdingTime.text ="Jahre ${CalcDetailScreen().getHoldyears()}"
         tV_wpDetail_averagePercent.text = "${CalcDetailScreen().getAverageDividendsPercent()} %"
-
-
-
-        val currentPrice = share?.buyData?.expenses?.let {
-            share?.buyData?.purchasePrice.let { it1 ->
-                if (it1 != null) {
-                    share?.buyData?.amount?.times(it1)
-                        ?.minus(it)
-                }
-            }
-        }
-
-
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -119,8 +108,6 @@ class Wp_Detail : AppCompatActivity() {
             share?.currentPrice = share?.soldData?.currentPrice!!
             share?.buyData?.value = share?.currentPrice!! * share?.buyData?.amount!!
             recreate()
-            Log.i("LOG", "Aktie wurde verkauft")
-            recreate()
         }
         else if (requestCode == 300 && resultCode == Activity.RESULT_OK){
             val expense = data?.getParcelableExtra<Expense>("neueSpese")
@@ -130,27 +117,26 @@ class Wp_Detail : AppCompatActivity() {
             }
             recreate()
         }
-        //save in Json
-        HomeScreen.createJSONFromStocks("myStocks.json", this)
+        //save share-list to JSON
+        HomeScreen.createJSONFromStocks(HomeScreen.FILENAME, this)
     }
 }
 
 
-//----------------------------------------------------------------
-//Recycler Stuff
+/**
+ * Custom view holder for dividend-items
+ */
 class MyDiviViewHolder(view: View) : RecyclerView.ViewHolder(view){
-
     val tV_amount = view.findViewById<TextView>(R.id.divi_recycleritem_amount)
     val tV_credit = view.findViewById<TextView>(R.id.divi_recycleritem_credit)
     val tV_date = view.findViewById<TextView>(R.id.divi_recycleritem_date)
     val tV_percent = view.findViewById<TextView>(R.id.divi_recycleritem_percent)
     val tV_perShare = view.findViewById<TextView>(R.id.divi_recycleritem_perShare)
-
-    init {
-
-    }
 }
 
+/**
+ * Custom recycler adapter for dividend -items
+ */
 class MyDiviRecyclerAdapter(val list: MutableList<Dividends>, val context: Context) : RecyclerView.Adapter<MyDiviViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyDiviViewHolder {

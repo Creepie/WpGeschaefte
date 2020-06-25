@@ -11,7 +11,6 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Parcel
 import android.os.Parcelable
-import android.util.Log
 import android.view.View
 import android.widget.EditText
 import android.widget.Toast
@@ -19,13 +18,15 @@ import androidx.annotation.RequiresApi
 import kotlinx.android.synthetic.main.activity_wp__verkauf.*
 import java.util.*
 
-class Wp_Verkauf : AppCompatActivity(), View.OnClickListener {
+class ShareSellActivity : AppCompatActivity(), View.OnClickListener {
 
     @SuppressLint("SourceLockedOrientationActivity")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_wp__verkauf)
-        //forces activity to stay in portrait mode
+        /**
+         *forces activity to stay in portrait mode
+         */
         requestedOrientation =  ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
         bT_wpSell_cancel.setOnClickListener(this)
         bT_wpSell_save.setOnClickListener(this)
@@ -35,14 +36,10 @@ class Wp_Verkauf : AppCompatActivity(), View.OnClickListener {
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onClick(v: View?) {
         when(v?.id){
-
             R.id.bT_wpSell_cancel -> {
-                Log.i("LOG", "bT_wpSell_cancel was clicked")
                 finish()
             }
             R.id.bT_wpSell_save -> {
-                Log.i("LOG", "bT_wpSell_save was clicked")
-
             if(!allFilled()){
                 getToast()
             }else {
@@ -67,10 +64,10 @@ class Wp_Verkauf : AppCompatActivity(), View.OnClickListener {
             }
             }
             R.id.eT_wpSell_date -> {
-                //create Calendar
+                //creates Calendar
                 val myCalendar = Calendar.getInstance()
 
-                //create date Picker to set day, month and year in the edit Text
+                //creates date Picker to set day, month and year in the edit Text
                 val datePickerOnDataSetListener = DatePickerDialog.OnDateSetListener { _, year, monthOfYear, dayOfMonth ->
                     myCalendar.set(Calendar.YEAR, year)
                     myCalendar.set(Calendar.MONTH, monthOfYear)
@@ -89,13 +86,17 @@ class Wp_Verkauf : AppCompatActivity(), View.OnClickListener {
         }
     }
 
-    //Toast Message
+    /**
+     * Shows toast if edit text input is invalid
+     */
     fun getToast() {
         val toast = Toast.makeText(applicationContext, "Bitte alle Felder korrekt ausfüllen", Toast.LENGTH_LONG)
         toast.show()
     }
 
-    //check if every spinner is != default position and edit Text is not empty
+    /**
+     * check if every spinner is != default position and edit Text is not empty
+     */
     fun allFilled(): Boolean {
         return !(eT_wpSell_date.text.isNullOrEmpty() ||
                 eT_wpSell_earning.text.isNullOrEmpty() ||
@@ -105,7 +106,9 @@ class Wp_Verkauf : AppCompatActivity(), View.OnClickListener {
                 eT_wpSell_credit.text.isNullOrEmpty()
                 )
     }
-
+    /**
+     * Updates edit text with selected date
+     */
     @RequiresApi(Build.VERSION_CODES.N)
     private fun updateLabel(myCalendar: Calendar, dateEditText: EditText) {
         val myFormat: String = "dd-MMM-yyyy"
@@ -114,7 +117,9 @@ class Wp_Verkauf : AppCompatActivity(), View.OnClickListener {
     }
 }
 
-
+/**
+ * ShareSell data class which implements Parcelable in order to pass objects via Intent
+ */
 data class ShareSell(val date:String?, val currentPrice:Double, val volume:Double, val taxes:Double, val expenses:Double, val credit:Double): Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readString(),
@@ -123,9 +128,7 @@ data class ShareSell(val date:String?, val currentPrice:Double, val volume:Doubl
         parcel.readDouble(),
         parcel.readDouble(),
         parcel.readDouble()
-    ) {
-    }
-
+    )
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(date)
         parcel.writeDouble(currentPrice)

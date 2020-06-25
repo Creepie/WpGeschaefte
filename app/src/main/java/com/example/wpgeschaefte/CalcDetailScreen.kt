@@ -13,8 +13,6 @@ import kotlin.math.abs
 
 class CalcDetailScreen {
 
-    //count of all taxes(active, sold and divi) 25% taxes
-//
     fun getTotalTaxes(): Double {
         var totalTax: Double = 0.0
 
@@ -28,7 +26,6 @@ class CalcDetailScreen {
         return totalTax
     }
 
-    // count of all taxes plus yearly expenses
     fun getTotalExpanses(): Double {
         var totalExpenses: Double = 0.0
 
@@ -121,7 +118,6 @@ class CalcDetailScreen {
     @RequiresApi(Build.VERSION_CODES.O)
     fun getHoldyears():Double {
         var years:Double
-//"dd-MMM-yyyy"
         val formatter = DateTimeFormatter.ofPattern("dd-MMM-yyyy", Locale.ENGLISH)
         val string = ShareSingleton.selectedShare?.buyData?.purchaseDate
         val buyDate: LocalDate? = LocalDate.parse(string, formatter)

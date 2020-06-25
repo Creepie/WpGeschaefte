@@ -20,16 +20,16 @@ import kotlinx.android.synthetic.main.activity_neue_dividende.*
 import java.math.RoundingMode
 import java.util.*
 
-class neueDividende : AppCompatActivity(), View.OnClickListener {
+class NewDividend : AppCompatActivity(), View.OnClickListener {
 
     @SuppressLint("SourceLockedOrientationActivity")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_neue_dividende)
-
-        //forces activity to stay in portrait mode
+        /**
+         * forces activity to stay in portrait mode
+         */
         requestedOrientation =  ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
-        //set Click Listeners
         bT_newDivi_save.setOnClickListener(this)
         bT_newDivi_cancel.setOnClickListener(this)
         eT_newDivi_date.setOnClickListener(this)
@@ -38,14 +38,10 @@ class neueDividende : AppCompatActivity(), View.OnClickListener {
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onClick(v: View?) {
         when(v?.id){
-
             R.id.bT_newDivi_cancel -> {
-                    Log.i("LOG", "bT_newDivi_cancel was clicked")
                     finish()
             }
             R.id.bT_newDivi_save -> {
-                Log.i("LOG", "bT_nWertpapier_speichern was clicked")
-
                 if (!allFilled()) {
                     getToast()
                 } else {val date = eT_newDivi_date.text.toString()
@@ -74,15 +70,15 @@ class neueDividende : AppCompatActivity(), View.OnClickListener {
 
             }
             R.id.eT_newDivi_date -> {
-                //create Calendar
+                //creates Calendar
                 val myCalendar = Calendar.getInstance()
 
-                //create date Picker to set day, month and year in the edit Text
+                //creates date Picker to set day, month and year in the edit Text
                 val datePickerOnDataSetListener = DatePickerDialog.OnDateSetListener { _, year, monthOfYear, dayOfMonth ->
                     myCalendar.set(Calendar.YEAR, year)
                     myCalendar.set(Calendar.MONTH, monthOfYear)
                     myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth)
-                    updateLabel(myCalendar, eT_newDivi_date)
+                    updateLabel(myCalendar)
                 }
                 //show calendar with current date
                 val DatePickerDialog = DatePickerDialog(this, datePickerOnDataSetListener, myCalendar
@@ -96,13 +92,17 @@ class neueDividende : AppCompatActivity(), View.OnClickListener {
         }
     }
 
-    //Toast Message
+    /**
+     * Shows toast if edit text input is invalid
+     */
     fun getToast() {
         val toast = Toast.makeText(applicationContext, "Bitte alle Felder korrekt ausfüllen", Toast.LENGTH_LONG)
         toast.show()
     }
 
-    //check if every spinner is != default position and edit Text is not empty
+    /**
+     * check if every spinner is != default position and edit Text is not empty
+     */
     fun allFilled(): Boolean {
         return !(eT_newDivi_date.text.isNullOrEmpty() ||
                 eT_newDivi_profit.text.isNullOrEmpty() ||
@@ -115,14 +115,20 @@ class neueDividende : AppCompatActivity(), View.OnClickListener {
                 )
     }
 
+    /**
+     * Updates edit text with selected date
+     */
     @RequiresApi(Build.VERSION_CODES.N)
-    private fun updateLabel(myCalendar: Calendar, dateEditText: EditText) {
+    private fun updateLabel(myCalendar: Calendar) {
         val myFormat: String = "dd-MMM-yyyy"
         val sdf = SimpleDateFormat(myFormat, Locale.UK)
         eT_newDivi_date.setText(sdf.format(myCalendar.time))
     }
 }
-//data stuff
+
+/**
+ * Dividends data class which implements Parcelable in order to pass objects via Intent
+ */
 data class Dividends(val date:String?, val profit:Double, val volume:Double, val taxes:Double, val expenses:Double, val credit:Double, val amount: Int) :
     Parcelable {
     constructor(parcel: Parcel) : this(
@@ -133,8 +139,7 @@ data class Dividends(val date:String?, val profit:Double, val volume:Double, val
         parcel.readDouble(),
         parcel.readDouble(),
         parcel.readInt()
-    ) {
-    }
+    )
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(date)

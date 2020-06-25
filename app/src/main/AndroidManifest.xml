@@ -11,13 +11,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-            <activity android:name=".MainActivity"/>
             <activity android:name=".NewBroker"/>
-            <activity android:name=".neueSpese" />
-            <activity android:name=".neuesWertpapier" />
-            <activity android:name=".Wp_Verkauf" />
-            <activity android:name=".neueDividende" />
-            <activity android:name=".Wp_Detail"/>
+            <activity android:name=".NewExpense" />
+            <activity android:name=".NewShare" />
+            <activity android:name=".ShareSellActivity" />
+            <activity android:name=".NewDividend" />
+            <activity android:name=".ShareDetails"/>
             <activity android:name=".HomeScreen">
                 <intent-filter>
                     <action android:name="android.intent.action.MAIN" />

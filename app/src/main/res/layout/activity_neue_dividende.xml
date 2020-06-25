@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".neueDividende">
+    tools:context=".NewDividend">
 
     <TextView
         android:id="@+id/tV_newDivi_header"

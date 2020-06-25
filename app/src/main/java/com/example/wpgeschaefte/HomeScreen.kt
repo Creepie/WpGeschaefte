@@ -16,28 +16,32 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import kotlinx.android.synthetic.main.activity_homescreen.*
-import org.w3c.dom.Text
 import java.io.*
 import java.lang.reflect.Type
 import java.math.RoundingMode
 
-
-class HomeScreen : AppCompatActivity() ,SymbolAvailable {
+/**
+ * This is the main activity of 'MyBuffet'. At the top the summarized values like the current value of your portfolio gets displayes.
+ * The owned shares in the Recycler View below.
+ */
+class HomeScreen : AppCompatActivity() , SymbolAvailable {
 
     @SuppressLint("SourceLockedOrientationActivity")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_homescreen)
         setSupportActionBar(toolbar_homescreen)
-        //forces activity to stay in portrait mode
+        /**
+         * forces activity to stay in portrait mode (for now)
+         */
         requestedOrientation =  ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
         rV_share.layoutManager = LinearLayoutManager(this)
 
-
-        Log.i("LOG", "onCreate")
-        //returns '[]' if the file contains no JSON-Objects
-        //returns "" (empty string) if file  has not been created yet -> gets returned by FileNotFoundException
-        val jsonString = readStocksFromJSON ( "myStocks.json", this)
+        /**
+         * returns '[]' if the file contains no JSON-Objects
+         * returns "" (empty string) if file  has not been created yet -> gets returned by FileNotFoundException
+         */
+        val jsonString = readStocksFromJSON (FILENAME, this)
         var gson = Gson()
         val listType: Type = object : TypeToken<ArrayList<Share?>?>() {}.type
 
@@ -49,7 +53,6 @@ class HomeScreen : AppCompatActivity() ,SymbolAvailable {
         }
     }
 
-
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_homescreen, menu)
         return true
@@ -58,16 +61,19 @@ class HomeScreen : AppCompatActivity() ,SymbolAvailable {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when(item.itemId){
             R.id.addAktie_item ->{
-                startActivityForResult(Intent(this, neuesWertpapier::class.java),999)
+                startActivityForResult(Intent(this, NewShare::class.java),999)
                 true}
-             R.id.refresh_item -> {Toast.makeText(this, "Daten wurde aktualisiert!", Toast.LENGTH_SHORT).show()
-                API.getValuesOnRefresh(rV_share.adapter as MyRecyclerAdapter, this, this)
+             R.id.refresh_item -> {
+                 API.getValuesOnRefresh(rV_share.adapter as MyRecyclerAdapter, this, this)
+                 Toast.makeText(this, "Daten wurde aktualisiert!", Toast.LENGTH_SHORT).show()
                 true}
             else -> super.onOptionsItemSelected(item)
         }
     }
 
-    //check the Result of the activity (neuer Fehler)
+    /**
+     * Gets called if the user added a new share to his Portfolio in NewShare.kt
+     */
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         refreshSummarizingTextViews(this)
         super.onActivityResult(requestCode, resultCode, data)
@@ -77,11 +83,9 @@ class HomeScreen : AppCompatActivity() ,SymbolAvailable {
             if (ShareSingleton.validSymbol && share != null) {
                 val newShare = Share(share, arrayListOf<Dividends>(),arrayListOf<Expense>(), share.purchasePrice, false, null)
                 ShareSingleton.shareList.add(newShare)
-                Log.i("LOG", "neue Aktie hinzugefügt")
-                createJSONFromStocks("myStocks.json", this)
+                createJSONFromStocks(FILENAME, this)
                 //calc data
                 calcShare()
-                //notify recycler adapter
                 rV_share.adapter?.notifyDataSetChanged()
                 val sum = CalcHomeScreen().checkTotalSum().toString()
                 tV_total.text = "Derzeitiger Wert deines Portfilios: € ${sum}"
@@ -90,7 +94,9 @@ class HomeScreen : AppCompatActivity() ,SymbolAvailable {
         }
     }
 
-
+    /**
+     * Helper method to calculate the actual share
+     */
     fun calcShare(){
         val currentShare = ShareSingleton.shareList[ShareSingleton.shareList.size-1]
         currentShare.currentPrice = ShareSingleton.currentPrice
@@ -102,11 +108,18 @@ class HomeScreen : AppCompatActivity() ,SymbolAvailable {
         Log.i("LOG", "onResume")
         rV_share.adapter?.notifyDataSetChanged()
         refreshSummarizingTextViews(this)
-        createJSONFromStocks("myStocks.json", this)
+        createJSONFromStocks(FILENAME, this)
     }
 
     companion object{
+        /**
+         * Provides the filename of the JSON-file where all the shares are stored internally
+         */
+        const val FILENAME:String = "myStocks.json"
 
+        /**
+         * Opens the JSON-file and returns it as JSON-string. Returns  an empty string "" if the FileNotFoundException is thrown
+         */
          fun readStocksFromJSON(fileName: String, context:Context): String? {
             return try {
                 val fis = context.openFileInput(fileName)
@@ -124,7 +137,9 @@ class HomeScreen : AppCompatActivity() ,SymbolAvailable {
                 null
             }
         }
-
+        /**
+         * Creates a new JSON-File and saves the current share-list in it.
+         */
          fun createJSONFromStocks(fileName: String, context:Context): Boolean {
             var g = Gson()
             var jsonString = g.toJson(ShareSingleton.shareList)
@@ -144,6 +159,10 @@ class HomeScreen : AppCompatActivity() ,SymbolAvailable {
             }
         }
 
+        /**
+         * Refreshes manually the top Textviews during runtime.
+         * Gets called if user adds a new share or refreshes his share-list
+         */
         fun refreshSummarizingTextViews(context: Context){
             val purchaseValue = CalcHomeScreen().getPurchaseValue().toString()
             val sum = CalcHomeScreen().checkTotalSum().toString()
@@ -154,20 +173,24 @@ class HomeScreen : AppCompatActivity() ,SymbolAvailable {
         }
     }
 
+    /**
+     * Asynchronus API-call signals that data has changed and views have to be refreshed
+     */
     override fun available() {
         refreshSummarizingTextViews(this)
     }
 
+    /**
+     * Gets called if the HTTP-Connection failes
+     */
     override fun notAvailable() {
-
-        return
+        Toast.makeText(applicationContext, "Ups, da ist was schief gelaufen!", Toast.LENGTH_LONG).show()
     }
 }
 
-
-
-//----------------------------------------------------------------
-//Recycler Stuff
+/**
+ * Custom Viewholder which present the share in the Rcycler View
+ */
 class MyViewHolder(view: View) : RecyclerView.ViewHolder(view){
 
     val tV_name = view.findViewById<TextView>(R.id.home_recycleritem_name)
@@ -175,11 +198,11 @@ class MyViewHolder(view: View) : RecyclerView.ViewHolder(view){
     val tv_purchasePrice = view.findViewById<TextView>(R.id.home_recycleritem_purchasePrice)
     val tv_value = view.findViewById<TextView>(R.id.home_recycleritem_currentValue)
     val tv_currentPrice = view.findViewById<TextView>(R.id.home_recycleritem_currentPrice)
-    init {
-
-    }
 }
 
+/**
+ * Custom Recycler Adapter in order to bind  data to every item dynamically
+ */
 class MyRecyclerAdapter(val list: MutableList<Share>, val context: Context) : RecyclerView.Adapter<MyViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
@@ -213,7 +236,7 @@ class MyRecyclerAdapter(val list: MutableList<Share>, val context: Context) : Re
         holder.tv_currentPrice.text = "Aktuell: € ${item.currentPrice.toString().toBigDecimal().setScale(2, RoundingMode.UP).toDouble()}"
 
         holder.itemView.setOnClickListener{
-            val intent = Intent(context, Wp_Detail::class.java)
+            val intent = Intent(context, ShareDetails::class.java)
             ShareSingleton.selectedShare = item
             ShareSingleton.currentIndex = position
             context.startActivity(intent)
@@ -222,6 +245,5 @@ class MyRecyclerAdapter(val list: MutableList<Share>, val context: Context) : Re
         }
     }
 
-//data stuff
 data class Share (val buyData: Stockitem, val dividends: MutableList<Dividends>, var expenses: MutableList<Expense>, var currentPrice: Double, var sold: Boolean, var soldData: ShareSell?): Serializable
 

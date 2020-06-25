@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="#E403A9F4"
     android:padding="8dp"
-    tools:context=".neueSpese">
+    tools:context=".NewExpense">
 
     <LinearLayout
         android:id="@+id/linearLayout5"

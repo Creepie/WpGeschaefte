@@ -14,12 +14,16 @@ import retrofit2.http.GET
 import retrofit2.http.Url
 import java.math.RoundingMode
 
-class API : AppCompatActivity() {
-    //APIKey = "brf4e9nrh5rah2kpe7k0"
-    private var BASE_URL = "https://finnhub.io/api/v1/"
+class API{
+    /**
+     * Base URL of Share-API which all requests are sent to
+     */
+    private val BASE_URL = "https://finnhub.io/api/v1/"
 
-    var liste = ShareSingleton.shareList
-
+    /**
+     * Gets all data of a share depending of its symbol.
+     * Invokes a toast if the Symbol is incorrect or the HTTP-connection failes
+     */
     fun getValues(symbol: String, listener: SymbolAvailable) {
         var url = "quote?symbol=${symbol}&token=brf4e9nrh5rah2kpe7k0"
 
@@ -28,15 +32,11 @@ class API : AppCompatActivity() {
             val retrofit = Retrofit.Builder().baseUrl(BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
-
             val service = retrofit.create(PaperAPI::class.java)
 
-            //request
             service.loadPapers(url).enqueue(object: Callback<Paper> {
                 override fun onResponse(call: Call<Paper>, response: Response<Paper>) {
-
                     if(response.isSuccessful){
-                        Log.e("Tag", "alles gucci")
                         val data = response.body()
                         if (data?.currentPrice  != null) {
                             ShareSingleton.validSymbol = true
@@ -49,14 +49,17 @@ class API : AppCompatActivity() {
                     }
                 }
                 override fun onFailure(call: Call<Paper>, t: Throwable) {
-                    Log.e("Tag", "error")
                     listener.notAvailable()
                 }
             })
         }
 
     }
+
     companion object {
+        /**
+         * static method to refresh all shares via HTTP. Invokes a toast if HTTP-Connection failes
+         */
         fun getValuesOnRefresh(adapter:MyRecyclerAdapter, context:Context, listener: SymbolAvailable){
             val baseURL = "https://finnhub.io/api/v1/"
             for(aktie in ShareSingleton.shareList){
@@ -68,14 +71,11 @@ class API : AppCompatActivity() {
                         .build()
 
                     val service = retrofit.create(PaperAPI::class.java)
-
-                    //request
                     service.loadPapers(url).enqueue(object: Callback<Paper> {
                         override fun onResponse(call: Call<Paper>, response: Response<Paper>) {
                             if(response.isSuccessful){
-                                Log.e("Tag", "alles gucci")
                                 val data = response.body()
-                                //if current has changed -> refresh stock in list and notify the adapter & and save new JSON File
+                                //if current has changed -> refresh share in list and notify the adapter & and create a new JSON File
                                 if( data != null && aktie.currentPrice != data.currentPrice.toDouble()){
                                     aktie.currentPrice = data.currentPrice.toBigDecimal().setScale(2, RoundingMode.UP).toDouble()
                                     aktie.buyData.value = aktie.currentPrice * aktie.buyData.amount
@@ -97,9 +97,10 @@ class API : AppCompatActivity() {
 
 }
 
-class PaperResponse(@SerializedName("request") val papers: Paper)
-
-//response data
+/**
+ * Represents the response class for the HTTP-Request via Retrofit2-library.
+ * Changes the parameter name of the HTTP-Response to custom names
+ */
 class Paper(
     @SerializedName("c")
     val currentPrice: String,
@@ -114,7 +115,10 @@ class Paper(
     @SerializedName("t")
     val targetMedian: Double
 )
-//API
+
+/**
+ * Functional Interface which provides method-construct to the Retrofit builder in order to create a service for the actual request
+ */
 interface PaperAPI {
     @GET()
     fun loadPapers(@Url url: String): Call<Paper>

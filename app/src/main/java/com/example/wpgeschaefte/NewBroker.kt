@@ -9,7 +9,9 @@ class NewBroker : AppCompatActivity() {
 
     @SuppressLint("SourceLockedOrientationActivity")
     override fun onCreate(savedInstanceState: Bundle?) {
-        //forces activity to stay in portrait mode
+        /**
+         * forces activity to stay in portrait mode
+         */
         requestedOrientation =  ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_neuer_broker)

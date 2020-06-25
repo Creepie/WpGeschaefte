@@ -20,18 +20,18 @@ import java.math.RoundingMode
 import java.util.*
 
 
-class neuesWertpapier : AppCompatActivity(), View.OnClickListener , SymbolAvailable{
+class NewShare : AppCompatActivity(), View.OnClickListener , SymbolAvailable{
     @SuppressLint("SourceLockedOrientationActivity")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        //forces activity to stay in portrait mode
+        /**
+         * forces activity to stay in portrait mode
+         */
         requestedOrientation =  ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
         setContentView(R.layout.activity_neues_wertpapier)
         setSupportActionBar(toolbar_neues)
 
-        //add Listeners
         eT_new_buyDate.setOnClickListener(this)
-
         eT_new_symbol.setFilters(eT_new_symbol.getFilters() + InputFilter.AllCaps())
 
     }
@@ -52,17 +52,17 @@ class neuesWertpapier : AppCompatActivity(), View.OnClickListener , SymbolAvaila
                 }
             }
             R.id.eT_new_buyDate -> {
-                //create Calendar
+                //creates Calendar
                 val myCalendar = Calendar.getInstance()
 
-                //create date Picker to set day, month and year in the edit Text
+                //creates date Picker to set day, month and year in the edit Text
                 val datePickerOnDataSetListener = DatePickerDialog.OnDateSetListener { _, year, monthOfYear, dayOfMonth ->
                     myCalendar.set(Calendar.YEAR, year)
                     myCalendar.set(Calendar.MONTH, monthOfYear)
                     myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth)
                     updateLabel(myCalendar, eT_new_buyDate)
                 }
-                //show calendar with current date
+                //shows calendar with current date
                 val DatePickerDialog = DatePickerDialog(this, datePickerOnDataSetListener, myCalendar
                     .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
                     myCalendar.get(Calendar.DAY_OF_MONTH))
@@ -79,16 +79,16 @@ class neuesWertpapier : AppCompatActivity(), View.OnClickListener , SymbolAvaila
     override fun onClick(v: View?) {
         when(v?.id){
             R.id.eT_new_buyDate -> {
-                //create Calendar
+                //creates Calendar
                 val myCalendar = Calendar.getInstance()
-                //create date Picker to set day, month and year in the edit Text
+                //creates date Picker to set day, month and year in the edit Text
                 val datePickerOnDataSetListener = DatePickerDialog.OnDateSetListener { _, year, monthOfYear, dayOfMonth ->
                     myCalendar.set(Calendar.YEAR, year)
                     myCalendar.set(Calendar.MONTH, monthOfYear)
                     myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth)
                     updateLabel(myCalendar, eT_new_buyDate)
                 }
-                    //show calendar with current date
+                    //shows calendar with current date
                    val DatePickerDialog = DatePickerDialog(this, datePickerOnDataSetListener, myCalendar
                         .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
                         myCalendar.get(Calendar.DAY_OF_MONTH))
@@ -99,19 +99,14 @@ class neuesWertpapier : AppCompatActivity(), View.OnClickListener , SymbolAvaila
             }
         }
 
-
-    //Toast Message
-    fun getToast() {
-        val toast = Toast.makeText(applicationContext, "Bitte alle Felder korrekt ausfüllen", Toast.LENGTH_LONG)
-        toast.show()
-    }
-
     fun getInvalidSymbolToast() {
         val toast = Toast.makeText(applicationContext, "Ungültiges Symbol!", Toast.LENGTH_LONG)
         toast.show()
     }
 
-    //check if every spinner is != default position and edit Text is not empty
+    /**
+     * check if every spinner is != default position and edit Text is not empty
+     */
     fun allFilled(): Boolean {
         return !(eT_new_symbol.text.isNullOrEmpty() ||
                 eT_new_name.text.isNullOrEmpty() ||
@@ -123,13 +118,19 @@ class neuesWertpapier : AppCompatActivity(), View.OnClickListener , SymbolAvaila
                 )
     }
 
-@RequiresApi(Build.VERSION_CODES.N)
-private fun updateLabel(myCalendar: Calendar, dateEditText: EditText) {
-    val myFormat: String = "dd-MMM-yyyy"
-    val sdf = SimpleDateFormat(myFormat, Locale.UK)
-    dateEditText.setText(sdf.format(myCalendar.time))
-}
+    /**
+     * Updates edit text with selected date
+     */
+    @RequiresApi(Build.VERSION_CODES.N)
+    private fun updateLabel(myCalendar: Calendar, dateEditText: EditText) {
+        val myFormat: String = "dd-MMM-yyyy"
+        val sdf = SimpleDateFormat(myFormat, Locale.UK)
+        dateEditText.setText(sdf.format(myCalendar.time))
+    }
 
+    /**
+     *Gets called if the user entered a correct symbol. Sends all the entered data via Intent to HomeScreen activity
+     */
     override fun available() {
         val name = eT_new_name.text.toString()
         val symbol = eT_new_symbol.text.toString()
@@ -155,13 +156,17 @@ private fun updateLabel(myCalendar: Calendar, dateEditText: EditText) {
         finish()
     }
 
+    /**
+     * Gets called if entered symbol is wrong
+     */
     override fun notAvailable() {
         getInvalidSymbolToast()
     }
 }
 
-//---------------------------------------------------
-//data stuff
+/**
+ * Stockitem data class which implements Parcelable in order to pass objects via Intent
+ */
 data class Stockitem(val name: String?, val symbol: String?, val purchasePrice: Double, val purchaseDate: String?, val expenses: Double, val amount: Int, var value: Double, var purchaseValue: Double) :
     Parcelable {
     constructor(parcel: Parcel) : this(
@@ -173,9 +178,7 @@ data class Stockitem(val name: String?, val symbol: String?, val purchasePrice: 
         parcel.readInt(),
         parcel.readDouble(),
         parcel.readDouble()
-    ) {
-    }
-
+    )
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(name)
         parcel.writeString(symbol)
@@ -203,6 +206,12 @@ data class Stockitem(val name: String?, val symbol: String?, val purchasePrice: 
 
 }
 
+/**
+ * Is used as asynchronous Listener in order to update Views dynamically and always gets called if data is "available" or "not Available".
+ * If data is "available" the listener gets called in the onRespone()-method of the Retrofit service.
+ * Not Available gets called if the HTTP-Connection failes or the entered symbol is wrong.
+ * It
+ */
 interface SymbolAvailable{
     fun available()
     fun notAvailable()
