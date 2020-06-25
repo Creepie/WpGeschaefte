@@ -79,9 +79,10 @@ class API : AppCompatActivity() {
                                     a.currentPrice = data.currentPrice.toBigDecimal().setScale(2, RoundingMode.UP).toDouble()
                                     a.buyData.value = a.currentPrice * a.buyData.amount
                                     adapter.notifyDataSetChanged()
+                                    activity.recreate()
                                 }
                             }
-                            activity.recreate()
+
                         }
                         override fun onFailure(call: Call<Paper>, t: Throwable) {
                             Log.e("Tag", "error")
