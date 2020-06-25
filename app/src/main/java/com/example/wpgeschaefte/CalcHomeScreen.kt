@@ -30,6 +30,7 @@ class CalcHomeScreen {
             //if the stock is sold -> calculate expanses from sold minus from the sum
             if (Share.sold && Share.soldData != null) {
                 sum -= Share.soldData!!.expenses
+                sum -= Share.soldData!!.taxes
             }
         }
         sum=sum.toString().toBigDecimal().setScale(2, RoundingMode.UP).toDouble()
@@ -40,7 +41,7 @@ class CalcHomeScreen {
         var value = 0.0
 
         for (Share in ShareSingleton.shareList){
-            value += (Share.buyData.purchasePrice*Share.buyData.amount)-Share.buyData.expenses
+            value += (Share.buyData.purchasePrice*Share.buyData.amount)
         }
         value = value.toString().toBigDecimal().setScale(2, RoundingMode.UP).toDouble()
         return value
