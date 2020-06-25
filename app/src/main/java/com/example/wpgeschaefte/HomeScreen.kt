@@ -194,7 +194,7 @@ class MyRecyclerAdapter(val list: MutableList<Share>, val context: Context) : Re
         holder.tV_name.text = "${item.buyData.name} (${item.buyData.symbol})"
         holder.tv_stock.text = "Bestand: ${soldtext}"
         holder.tv_purchasePrice.text = "Preis: € ${item.buyData.purchasePrice.toString().toBigDecimal().setScale(2, RoundingMode.UP).toDouble()}"
-        holder.tv_value.text = "Wert: € ${item.buyData.value.toString().toBigDecimal().setScale(2, RoundingMode.UP).toDouble()}"
+        holder.tv_value.text = "Wert: € ${CalcHomeScreen().getRecyclerItemValue(item)}"
         holder.tv_currentPrice.text = "Aktuell: € ${item.currentPrice.toString().toBigDecimal().setScale(2, RoundingMode.UP).toDouble()}"
 
         holder.itemView.setOnClickListener{

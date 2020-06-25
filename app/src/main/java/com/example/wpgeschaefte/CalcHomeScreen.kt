@@ -89,6 +89,36 @@ class CalcHomeScreen {
 
         return percent
     }
+
+    fun getRecyclerItemValue(item: Share): Double {
+        var sum: Double = 0.0
+
+            //count the total value from the current stock
+            sum += (item.currentPrice * item.buyData.amount) - item.buyData.expenses
+
+            //if there are any divi -> add them to the sum
+            if (item.dividends != null) {
+                for (Dividende in item.dividends) {
+                    sum += Dividende.credit
+                }
+            }
+
+            //if there are any expanses -> calculate minus from the sum
+            if (item.expenses != null) {
+                for (Expense in item.expenses) {
+                    sum -= Expense.amount
+                }
+            }
+
+            //if the stock is sold -> calculate expanses from sold minus from the sum
+            if (item.sold && item.soldData != null) {
+                sum -= item.soldData!!.expenses
+                sum -= item.soldData!!.taxes
+            }
+
+        sum=sum.toString().toBigDecimal().setScale(2, RoundingMode.UP).toDouble()
+        return sum
+    }
 }
 
 //profit € and %
