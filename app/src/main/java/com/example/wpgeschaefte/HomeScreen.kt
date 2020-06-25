@@ -16,12 +16,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import kotlinx.android.synthetic.main.activity_homescreen.*
+import org.w3c.dom.Text
 import java.io.*
 import java.lang.reflect.Type
 import java.math.RoundingMode
 
 
-class HomeScreen : AppCompatActivity() {
+class HomeScreen : AppCompatActivity() ,SymbolAvailable {
 
     @SuppressLint("SourceLockedOrientationActivity")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -60,7 +61,7 @@ class HomeScreen : AppCompatActivity() {
                 startActivityForResult(Intent(this, neuesWertpapier::class.java),999)
                 true}
              R.id.refresh_item -> {Toast.makeText(this, "Daten wurde aktualisiert!", Toast.LENGTH_SHORT).show()
-                API.getValuesOnRefresh(rV_share.adapter as MyRecyclerAdapter)
+                API.getValuesOnRefresh(rV_share.adapter as MyRecyclerAdapter, this, this)
                 true}
             else -> super.onOptionsItemSelected(item)
         }
@@ -68,6 +69,7 @@ class HomeScreen : AppCompatActivity() {
 
     //check the Result of the activity (neuer Fehler)
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        refreshSummarizingTextViews(this)
         super.onActivityResult(requestCode, resultCode, data)
         if(requestCode == 999 && resultCode == Activity.RESULT_OK){
 
@@ -99,12 +101,7 @@ class HomeScreen : AppCompatActivity() {
         super.onResume()
         Log.i("LOG", "onResume")
         rV_share.adapter?.notifyDataSetChanged()
-        val purchaseValue = CalcHomeScreen().getPurchaseValue().toString()
-        val sum = CalcHomeScreen().checkTotalSum().toString()
-        tV_total.text = "Derzeitiger Wert deines Portfolios: € ${sum}"
-        tV_purchaseValue.text = "Kaufwert deines Portfolios: € ${purchaseValue}"
-        tV_totalProfit.text = "Gewinn/Verlust: € ${CalcHomeScreen().getProfit()} / ${CalcHomeScreen().getProfitPercent()}%"
-        tV_totalDivi.text = "Dividenden gesamt: € ${CalcHomeScreen().gettotalDivi()}"
+        refreshSummarizingTextViews(this)
         createJSONFromStocks("myStocks.json", this)
     }
 
@@ -146,6 +143,24 @@ class HomeScreen : AppCompatActivity() {
                 false
             }
         }
+
+        fun refreshSummarizingTextViews(context: Context){
+            val purchaseValue = CalcHomeScreen().getPurchaseValue().toString()
+            val sum = CalcHomeScreen().checkTotalSum().toString()
+            (context as Activity).findViewById<TextView>(R.id.tV_total).text = "Derzeitiger Wert deines Portfolios: € ${sum}"
+            context.findViewById<TextView>(R.id.tV_purchaseValue).text = "Kaufwert deines Portfolios: € ${purchaseValue}"
+            context.findViewById<TextView>(R.id.tV_totalProfit).text = "Gewinn/Verlust: € ${CalcHomeScreen().getProfit()} / ${CalcHomeScreen().getProfitPercent()}%"
+            context.findViewById<TextView>(R.id.tV_totalDivi).text = "Dividenden gesamt: € ${CalcHomeScreen().gettotalDivi()}"
+        }
+    }
+
+    override fun available() {
+        refreshSummarizingTextViews(this)
+    }
+
+    override fun notAvailable() {
+
+        return
     }
 }
 

@@ -1,5 +1,6 @@
 package com.example.wpgeschaefte
 
+import android.content.Context
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat.recreate
@@ -56,12 +57,12 @@ class API : AppCompatActivity() {
 
     }
     companion object {
-        fun getValuesOnRefresh(adapter:MyRecyclerAdapter){
+        fun getValuesOnRefresh(adapter:MyRecyclerAdapter, context:Context, listener: SymbolAvailable){
             val baseURL = "https://finnhub.io/api/v1/"
-            for(a in ShareSingleton.shareList){
-                var url = "quote?symbol=${a.buyData.symbol}&token=brf4e9nrh5rah2kpe7k0"
+            for(aktie in ShareSingleton.shareList){
+                var url = "quote?symbol=${aktie.buyData.symbol}&token=brf4e9nrh5rah2kpe7k0"
                 //Refresh data if stock hasn't been sold yet
-                if(!a.sold){
+                if(!aktie.sold){
                     val retrofit = Retrofit.Builder().baseUrl(baseURL)
                         .addConverterFactory(GsonConverterFactory.create())
                         .build()
@@ -74,21 +75,23 @@ class API : AppCompatActivity() {
                             if(response.isSuccessful){
                                 Log.e("Tag", "alles gucci")
                                 val data = response.body()
-                                //if current has changed -> refresh stock in list and notify the adapter
-                                if( data != null && a.currentPrice != data.currentPrice.toDouble()){
-                                    a.currentPrice = data.currentPrice.toBigDecimal().setScale(2, RoundingMode.UP).toDouble()
-                                    a.buyData.value = a.currentPrice * a.buyData.amount
+                                //if current has changed -> refresh stock in list and notify the adapter & and save new JSON File
+                                if( data != null && aktie.currentPrice != data.currentPrice.toDouble()){
+                                    aktie.currentPrice = data.currentPrice.toBigDecimal().setScale(2, RoundingMode.UP).toDouble()
+                                    aktie.buyData.value = aktie.currentPrice * aktie.buyData.amount
                                     adapter.notifyDataSetChanged()
+                                    listener.available()
+                                    HomeScreen.createJSONFromStocks("myStocks.json", context)
                                 }
                             }
-
                         }
                         override fun onFailure(call: Call<Paper>, t: Throwable) {
-                            Log.e("Tag", "error")
+                            listener.notAvailable()
                         }
                     })
                 }
             }
+
         }
     }
 
