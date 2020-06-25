@@ -60,7 +60,7 @@ class HomeScreen : AppCompatActivity() {
                 startActivityForResult(Intent(this, neuesWertpapier::class.java),999)
                 true}
              R.id.refresh_item -> {Toast.makeText(this, "Daten wurde aktualisiert!", Toast.LENGTH_SHORT).show()
-                API.getValuesOnRefresh(rV_share.adapter as MyRecyclerAdapter, this)
+                API.getValuesOnRefresh(rV_share.adapter as MyRecyclerAdapter)
                 true}
             else -> super.onOptionsItemSelected(item)
         }

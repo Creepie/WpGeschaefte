@@ -56,7 +56,7 @@ class API : AppCompatActivity() {
 
     }
     companion object {
-        fun getValuesOnRefresh(adapter:MyRecyclerAdapter, activity: HomeScreen){
+        fun getValuesOnRefresh(adapter:MyRecyclerAdapter){
             val baseURL = "https://finnhub.io/api/v1/"
             for(a in ShareSingleton.shareList){
                 var url = "quote?symbol=${a.buyData.symbol}&token=brf4e9nrh5rah2kpe7k0"
@@ -79,7 +79,6 @@ class API : AppCompatActivity() {
                                     a.currentPrice = data.currentPrice.toBigDecimal().setScale(2, RoundingMode.UP).toDouble()
                                     a.buyData.value = a.currentPrice * a.buyData.amount
                                     adapter.notifyDataSetChanged()
-                                    activity.recreate()
                                 }
                             }
 
