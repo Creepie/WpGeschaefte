@@ -56,7 +56,7 @@ class API : AppCompatActivity() {
 
     }
     companion object {
-        fun getValuesOnRefresh(adapter:MyRecyclerAdapter){
+        fun getValuesOnRefresh(adapter:MyRecyclerAdapter, activity: HomeScreen){
             val baseURL = "https://finnhub.io/api/v1/"
             for(a in ShareSingleton.shareList){
                 var url = "quote?symbol=${a.buyData.symbol}&token=brf4e9nrh5rah2kpe7k0"
@@ -81,6 +81,7 @@ class API : AppCompatActivity() {
                                     adapter.notifyDataSetChanged()
                                 }
                             }
+                            activity.recreate()
                         }
                         override fun onFailure(call: Call<Paper>, t: Throwable) {
                             Log.e("Tag", "error")
