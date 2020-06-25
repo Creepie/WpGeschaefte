@@ -117,6 +117,7 @@ class Wp_Detail : AppCompatActivity() {
             share?.soldData = soldAktie
             share?.sold = true
             share?.currentPrice = share?.soldData?.currentPrice!!
+            share?.buyData?.value = share?.currentPrice!! * share?.buyData?.amount!!
             recreate()
             Log.i("LOG", "Aktie wurde verkauft")
             recreate()

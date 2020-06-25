@@ -212,7 +212,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="0.33"
                 android:paddingLeft="8dp"
-                android:text="Wert:" />
+                android:text="Kurswert:" />
 
             <TextView
                 android:id="@+id/tV_wpDetail_buyPrice"
