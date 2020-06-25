@@ -2,6 +2,7 @@ package com.example.wpgeschaefte
 
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat.recreate
 import com.google.gson.annotations.SerializedName
 import retrofit2.Call
 import retrofit2.Callback
@@ -76,6 +77,7 @@ class API : AppCompatActivity() {
                                 //if current has changed -> refresh stock in list and notify the adapter
                                 if( data != null && a.currentPrice != data.currentPrice.toDouble()){
                                     a.currentPrice = data.currentPrice.toBigDecimal().setScale(2, RoundingMode.UP).toDouble()
+                                    a.buyData.value = a.currentPrice * a.buyData.amount
                                     adapter.notifyDataSetChanged()
                                 }
                             }
